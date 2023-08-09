@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="static/js/index.js"></script>
+    <title>charts.br</title>
+</head>
+<body class="main-grid-body" id="main-grid-body">
+    <!-- -->
+    <aside class="disclaimer-register">
+        <div class="disclaimer-text">
+            <div class="disclaimer-upper-text">
+                <span>Oi! 👋 Sejam bem-vindos!</span>
+                <span>Este é o charts.br, site que tem como objetivo armazenar dados dos usuários para que possam ser feitos diversos tipos de diagramas, gráficos sobre temas diversos.</span>
+                <span>Quer saber quantas pessoas ruivas gostam de Rock no Brasil? Aqui você pode achar esta informação.</span>
+            </div>
+            <div class="disclaimer-lower-text">
+                <span>Sobre as suas informações no site:</span>
+                <span>O charts não tem pretenção de cobrar por nenhum de seus serviços e nem de pedir algum tipo de informação pessoal comprometedora do usuários (RG, CPF, Número de cartão)</span>
+                <span>Todas as informações que os usuários preencherem no site irão ser anexadas ao seu perfil e usadas para os gráficos acerca de cada tópico</span>
+            </div>
+        </div>
+        <div class="disclaimer-source-text">
+            <span class="GitHub">Nosso código é OpenSource e <a href="#">disponível no GitHub.</a></span>
+        </div>
+    </aside>
+    <main class="main-start">
+        <div class="start">
+            <div class="div-start-button">
+                <input value="Começar!" type="button" id="btn">
+            </div>
+
+            <div class="login-portal">
+                <a id="btn-login" href="#">Já tenho uma conta.</a>
+            </div>
+        </div>
+
+        <div class="registration-div">
+            <form action="/registrar" method="POST">
+                <div class="registration-page">
+
+                    <div class="input-group-left">
+                        <div class="div-input 1">
+                            <span>Usuário</span>
+                            <input name="txtusuario" required="" type="text">
+                        </div>
+                        <div class="div-input 2">
+                            <span>Nome inteiro</span>
+                            <input name="txtnome" required="" type="text">
+                        </div>
+                        <div class="div-input 3">
+                            <span>E-mail</span>
+                            <input name="txtemail" required="" type="text">
+                        </div>
+                        <div class="div-input 4">
+                            <span>Senha</span>
+                            <input name="txtsenha" required="" type="password">
+                        </div>
+                        <div class="div-input 5">
+                            <span>Confirmar senha</span>
+                            <input name="txtsenhaconf" required="" type="password">
+                        </div>
+                    </div>
+                    
+                    <div class="input-group-right">
+                        <div class="div-input 6">
+                            <span>País</span>
+                            <input name="txtpais" required="" type="text">
+                        </div>
+                        <div class="div-input 7">
+                            <span>Estado</span>
+                            <input name="txtestado" required="" type="text">
+                        </div>
+                        <div class="div-input 8">
+                            <span>Cidade</span>
+                            <input name="txtcidade" required="" type="text">
+                        </div>
+                        <div class="div-input 9">
+                            <span>Cor do cabelo</span>
+                            <input name="txtcorcabelo" required="" type="text">
+                        </div>
+                        <div class="div-input 10">
+                            <span>Calçado</span>
+                            <input name="txtcalcado" required="" type="text">
+                        </div>
+
+                    </div>
+                    <div class="btn-div">
+                        <input value="Confirmar" type="submit" id="btn">
+                    </div>
+
+                </div>
+            </form>
+           
+        </div>
+    </main>
+
+</body>
+</html>
