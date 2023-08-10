@@ -7,7 +7,7 @@ $(document).ready(function() {
 
 $(document).ready(function() {
    $("#btn-login").click(function() {
-      $(".registration-div").addClass("entry")
+      $(".login-div").addClass("entry")
    })
 }
 )

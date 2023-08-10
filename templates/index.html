@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="static/css/style-global.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="static/js/index.js"></script>
     <title>charts.br</title>
@@ -88,6 +88,28 @@
                             <input name="txtcalcado" required="" type="text">
                         </div>
 
+                    </div>
+                    <div class="btn-div">
+                        <input value="Confirmar" type="submit" id="btn">
+                    </div>
+
+                </div>
+            </form>
+           
+        </div>
+        <div class="login-div">
+            <form action="/logar" method="POST">
+                <div class="registration-page">
+
+                    <div class="input-group-left">
+                        <div class="div-input 1">
+                            <span>Usuário</span>
+                            <input name="txtusuariologin" required="" type="text">
+                        </div>
+                        <div class="div-input 4">
+                            <span>Senha</span>
+                            <input name="txtsenhalogin" required="" type="password">
+                        </div>
                     </div>
                     <div class="btn-div">
                         <input value="Confirmar" type="submit" id="btn">

@@ -47,6 +47,32 @@ class user_obj:
             'shoe': self.shoe
         }
 
+# Function to retrieve user information based on specified field
+def get_your_info(info_want,session):
+    # Search the 'users' collection in the database for a user with the specified session (username)
+    personal_info = col_users.find({'user':session})
+    # Iterate over the search results (usually just one user document)
+    for info in personal_info:
+        aux_name = info['name']
+        aux_country = info['cnt']
+        aux_state = info['stt']
+        aux_city = info['cty']
+        aux_hair = info['hair']
+        aux_shoe = info['shoe']
+    # Use a switch-case structure to determine which information to return based on 'info_want'
+    match(info_want):
+        case "name":
+            return aux_name
+        case "country":
+            return aux_country
+        case "state":
+            return aux_state
+        case "city":
+            return aux_city
+        case "hair":
+            return aux_hair
+        case "shoe":
+            return aux_shoe
 # Clear console screen for better visualisation
 os.system("cls")
 
@@ -58,6 +84,19 @@ charts.secret_key = 'enzo'
 @charts.route('/')
 def index():
     return render_template('index.html')
+
+@charts.route('/land')
+def land():
+    if 'user_logged' not in session or session['user_logged'] == None:
+        return redirect('/')
+    name = get_your_info('name',session['user_logged'])
+    country = get_your_info('country',session['user_logged'])
+    state = get_your_info('state',session['user_logged'])
+    city = get_your_info('city',session['user_logged'])
+    hair = get_your_info('hair',session['user_logged'])
+    shoe = get_your_info('shoe',session['user_logged'])
+    return render_template('land.html', name = name, country = country,state = state,city = city,hair=hair,shoe=shoe)
+
 
 # Define route for registration form submission
 @charts.route('/registrar', methods=['POST',])
@@ -79,7 +118,34 @@ def regis():
     col_users.insert_one(new_user.__dict__())
     
     # Render the index.html template after registration
-    return render_template('index.html')
+    return redirect('/')
 
+# Define route for authentication of user
+@charts.route('/logar',methods=['POST',])
 # Run the Flask app
+def logar():
+    # Retrieve the username and password submitted in the login form
+    username = request.form['txtusuariologin']
+    password = request.form['txtsenhalogin']
+    # Search the 'users' collection in the database for a user with the specified username
+    usercheck = col_users.find({"user":username})
+    # Iterate over the search results (usually just one user document)
+    for info in usercheck:
+        aux_user = info['user']
+        aux_pass = info['pwrd']
+    # Check if the submitted username matches any user in the database
+    if username == aux_user:
+        # If the username matches, check if the submitted password matches the stored password
+        if password == aux_pass:
+            # If both username and password match, store the username in the session
+            # Redirect the user to the '/land' page (landing page after successful login)
+            session['user_logged'] = aux_user
+            return redirect('/land')
+        else:
+             # If the submitted password doesn't match, redirect to the index page (login page)
+            return redirect('/')
+    else:
+        # If the submitted username doesn't match any user in the database, redirect to the index page
+        return redirect('/')
+
 charts.run()

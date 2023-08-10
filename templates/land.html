@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="static/css/style-land.css">
+    <link rel="stylesheet" href="static/css/style-global.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="static/js/index.js"></script>
     <title>charts.br</title>
@@ -14,11 +15,41 @@
     <div class="title-charts">
         <h1>Charts BR</h1>
     </div>
-    <button class="title-exit-button">
+    <button class="div-start-button">
         Sair
     </button>
 </nav>
-
 <hr>
+
+<body>
+    <div class="disclaimer-register">
+        <div class="disclaimer-text">
+            <div class="disclaimer-upper-text">
+                <span>Oi! 👋 Sejam bem-vindos!</span>
+                <span>Este é o charts.br, site que tem como objetivo armazenar dados dos usuários para que possam ser feitos diversos tipos de diagramas, gráficos sobre temas diversos.</span>
+                <span>Quer saber quantas pessoas ruivas gostam de Rock no Brasil? Aqui você pode achar esta informação.</span>
+            </div>
+            <div class="disclaimer-lower-text">
+                <span>Sobre as suas informações no site:</span>
+                <span>O charts não tem pretenção de cobrar por nenhum de seus serviços e nem de pedir algum tipo de informação pessoal comprometedora do usuários (RG, CPF, Número de cartão)</span>
+                <span>Todas as informações que os usuários preencherem no site irão ser anexadas ao seu perfil e usadas para os gráficos acerca de cada tópico</span>
+            </div>
+        </div>
+    </div>
+    <div class="disclaimer-register">
+        <div class="disclaimer-text">
+            <div class="disclaimer-upper-text">
+                <span>Agora vamos ver os seus dados??</span>
+                <span>Seu nome: {{name}} </span>
+                <span>Seu país: {{country}}</span>
+                <span>Seu estado: {{state}}</span>
+                <span>Sua cidade: {{city}}</span>
+                <span>Sua cor de cabelo: {{hair}}</span>
+                <span>O tamanho que você calça: {{shoe}}</span>
+            </div>
+        </div>      
+    </div>
+</body>
+
 
 
