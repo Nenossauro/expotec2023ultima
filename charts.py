@@ -7,7 +7,6 @@ import os
 
 # MongoDB connection URL
 url = "mongodb+srv://admin:admin@cluster0.blievi7.mongodb.net/?retryWrites=true&w=majority"
-
 # Create a MongoClient instance with the specified URL and ServerApi version
 client = MongoClient(url, server_api=ServerApi('1'))
 
@@ -89,13 +88,7 @@ def index():
 def land():
     if 'user_logged' not in session or session['user_logged'] == None:
         return redirect('/')
-    name = get_your_info('name',session['user_logged'])
-    country = get_your_info('country',session['user_logged'])
-    state = get_your_info('state',session['user_logged'])
-    city = get_your_info('city',session['user_logged'])
-    hair = get_your_info('hair',session['user_logged'])
-    shoe = get_your_info('shoe',session['user_logged'])
-    return render_template('land.html', name = name, country = country,state = state,city = city,hair=hair,shoe=shoe)
+    return render_template('land.html')
 
 
 # Define route for registration form submission

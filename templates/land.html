@@ -2,54 +2,111 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/css/style-land.css">
-    <link rel="stylesheet" href="static/css/style-global.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="static/js/index.js"></script>
-    <title>charts.br</title>
+    <link rel="stylesheet" href="../static/css/style-land.css"> 
+    <link rel="stylesheet" href="../static/css/style-global.css">    
+    <title>Charts.Home</title>
 </head>
-
-<nav>
-    <div class="title-charts">
-        <h1>Charts BR</h1>
-    </div>
-    <button class="div-start-button">
-        Sair
-    </button>
-</nav>
-<hr>
-
 <body>
-    <div class="disclaimer-register">
-        <div class="disclaimer-text">
-            <div class="disclaimer-upper-text">
-                <span>Oi! 👋 Sejam bem-vindos!</span>
-                <span>Este é o charts.br, site que tem como objetivo armazenar dados dos usuários para que possam ser feitos diversos tipos de diagramas, gráficos sobre temas diversos.</span>
-                <span>Quer saber quantas pessoas ruivas gostam de Rock no Brasil? Aqui você pode achar esta informação.</span>
+    <!--   N A V    B A R    -->
+    <nav>
+        <div class="logo">
+            <img src="../static/charts.logo.png">
+        </div>  
+        <div class="end-navbar-div">
+            <div class="username">
+                Nome de Usuário
             </div>
-            <div class="disclaimer-lower-text">
-                <span>Sobre as suas informações no site:</span>
-                <span>O charts não tem pretenção de cobrar por nenhum de seus serviços e nem de pedir algum tipo de informação pessoal comprometedora do usuários (RG, CPF, Número de cartão)</span>
-                <span>Todas as informações que os usuários preencherem no site irão ser anexadas ao seu perfil e usadas para os gráficos acerca de cada tópico</span>
+            <div class="logout-btn">
+                <input type="button" id="btn" value="Sair">
+            </div>
+            
+            <div class="user-img">  
             </div>
         </div>
-    </div>
-    <div class="disclaimer-register">
-        <div class="disclaimer-text">
-            <div class="disclaimer-upper-text">
-                <span>Agora vamos ver os seus dados??</span>
-                <span>Seu nome: {{name}} </span>
-                <span>Seu país: {{country}}</span>
-                <span>Seu estado: {{state}}</span>
-                <span>Sua cidade: {{city}}</span>
-                <span>Sua cor de cabelo: {{hair}}</span>
-                <span>O tamanho que você calça: {{shoe}}</span>
+    </nav>
+
+
+
+    <!--   N A V    B A R      H R   -->
+    <div class="navbar-divide-hr"></div>
+
+
+
+    <!--   M A I N   -->
+    <main>
+        
+        <!--   BUTTON SECTION    -->
+        <section class="main-btn-section">
+
+            <!--   CREATE CHART BUTTON    -->
+            <div class="new-chart">
+                <div class="new-chart-btn">
+                    <span>CRIE SUA CHART</span>
+                </div>
             </div>
-        </div>      
-    </div>
+
+            <!--   ADD INFO BUTTON    -->
+            <div class="answer-chart">
+                <div class="answer-chart-btn">
+                    <span>ADICIONE<br>INFORMAÇÕES</span>
+                </div>
+            </div>
+        </section>
+
+
+
+        <!--   CHART LINKS SECTION    -->
+        <section class="main-charts-section">
+            <!--   LEFT    -->
+            <div class="left-charts-links">
+                <div>
+                    <span>Charts mais relevantes da semana</span>
+                </div>
+                <div class="link-left-div">
+                    <a href="#">titulo da chart</a>
+                    <a href="#">titulo da chart</a>
+                    <a href="#">titulo da chart</a>
+                    <a href="#">titulo da chart</a>
+                    <a href="#">titulo da chart</a>
+                </div>
+            </div>
+
+            <!--   MIDDLE    -->
+            <div class="middle-charts-links">
+                <div>
+                    <span>Charts mais recentes</span>
+                </div>
+                <div class="link-middle-div">
+                    <a href="#">titulo da chart</a>
+                    <a href="#">titulo da chart</a>
+                    <a href="#">titulo da chart</a>
+                    <a href="#">titulo da chart</a>
+                    <a href="#">titulo da chart</a>
+                </div>
+            </div>
+
+            <!--   RIGHT    -->
+            <div class="right-charts-links">
+                <div>
+                    <span>Charts preferidas dos ADMs</span>
+                </div>
+                <div class="link-right-div">
+                    <a href="#">titulo da chart</a>
+                    <a href="#">titulo da chart</a>
+                    <a href="#">titulo da chart</a>
+                    <a href="#">titulo da chart</a>
+                    <a href="#">titulo da chart</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!--   F O O T E R   -->
+    <footer>
+        <span>
+            Todos os direitos reservados ao TIN3A &copy;.
+        </span>
+    </footer>
 </body>
-
-
-
+</html>
