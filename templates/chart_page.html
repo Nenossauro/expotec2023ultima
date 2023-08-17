@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/style-land.css"> 
+    <link rel="stylesheet" href="../static/css/style-global.css">    
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    <title>{{ chart_tittle }}</title>
+</head>
+<body>
+    <!--   N A V    B A R    -->
+    <nav>
+        <div class="logo">
+            <img src="../static/charts.logo.png">
+        </div>  
+        <div class="end-navbar-div">
+            <div class="username">
+                {{user_name}}
+            </div>
+            <div class="logout-btn">
+                <form action="/logout" method="POST">
+                    <input type="submit" id="btn" value="Sair">
+                </form>
+            </div>
+            
+            <div class="user-img">  
+            </div>
+        </div>
+    </nav>
+
+
+
+    <!--   N A V    B A R      H R   -->
+    <div class="navbar-divide-hr"></div>
+
+
+
+    <!--   M A I N   -->
+    <main>
+    
+
+        <!--   CHART LINKS SECTION    -->
+        <section class="main-charts-section">
+            
+
+            <!--   MIDDLE    -->
+            <div class="middle-charts-links">
+                <div>
+                    <span>{{ chart_tittle }}</span>
+                </div>
+                <div class="chart" id="chart">
+                    <script>
+                        // Obter as visualizações JSON dos gráficos do Flask
+                        var chart = {{ pie_chart_json | safe }};
+               
+                       // Renderizar os gráficos usando Vega-Embed
+                       vegaEmbed('#chart', chart).catch(console.error);
+                   </script>  
+                </div>
+                
+            </div>
+
+           
+        </section>
+    </main>
+
+    <!--   F O O T E R   -->
+    <footer>
+        <span>
+            Todos os direitos reservados ao TIN3A &copy;.
+        </span>
+    </footer>
+</body>
+</html>

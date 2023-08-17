@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, redirect, session, flash
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 import pymongo as mongo
-import os
+import os, datetime, altair, pandas
 
 # MongoDB connection URL
 url = "mongodb+srv://admin:admin@cluster0.blievi7.mongodb.net/?retryWrites=true&w=majority"
@@ -13,7 +13,7 @@ client = MongoClient(url, server_api=ServerApi('1'))
 # Access the 'expotec' database and its collections
 db = client["expotec"]
 col_users = db["users"]
-col_users_info = db["users_info"]
+col_charts = db["charts"]
 
 # Define a user object class to represent user data
 class user_obj:
@@ -32,18 +32,19 @@ class user_obj:
     # Define methods to convert user object to dictionary (JSON) format
     def __dict_user__(self):
         return {
-             'email': self.email,
-             'user_name': self.user,
-             'password': self.pwrd
-        }
-    def __dict__(self):
-        return {
+            'email': self.email,
+            'user': self.user,
+            'password': self.pwrd,
             'name': self.name,
             'cnt': self.cnt,
             'stt': self.stt,
             'cty': self.cty,
             'hair': self.hair,
             'shoe': self.shoe
+        }
+    def __dict__(self):
+        return {
+            
         }
 
 # Function to retrieve user information based on specified field
@@ -88,9 +89,74 @@ def index():
 def land():
     if 'user_logged' not in session or session['user_logged'] == None:
         return redirect('/')
-    return render_template('land.html')
+    os.system("cls")
+    charts_data = col_charts.find()
+    titles = []
+    types = []
+    for aux_charts in charts_data:
+        titles.append(aux_charts['title'])
+        types.append(aux_charts['type'])
+    return render_template('land.html', user_name = session['user_logged'], titles = titles, types = types)
 
+@charts.route('/land/<title>')
+def chart_page(title):
+    if 'user_logged' not in session or session['user_logged'] == None:
+        return redirect('/')
+    chart_data = col_charts.find_one({"title": title})
+    aux_title = chart_data['title']
+    aux_type = chart_data['type']
+    if aux_type=="simple":
+        os.system("cls")
+        aux_topic = chart_data['topic1']
+        user_topics = []
+        user_data = col_users.find({aux_topic: {'$ne': ''}})
+        user_topics = [each[aux_topic] for each in user_data]
+        df = pandas.DataFrame({'category': user_topics})
+        counts = df['category'].value_counts().sort_index()
+        chart_df = pandas.DataFrame({'Topic': counts.index, 'Frequency': counts.values})
+        chart_df['ratio'] = round((chart_df['Frequency']/len(user_topics)*100))
+        pie_chart = altair.Chart(chart_df).mark_arc(size=100).encode(
+            theta='ratio:Q',
+            color='Topic:N',
+            tooltip='Frequency:N'
+            
+        ).properties(
+        width=400,
+        height=400,
+        title=title
+        )
+        pie_chart_json = pie_chart.to_json()
+        return render_template('chart_page.html', chart_tittle=aux_title,chart_topics = aux_topic, user_name = session['user_logged'], pie_chart_json = pie_chart_json )
+    else:
+        os.system("cls")
+        aux_topic = chart_data['topic1']
+        aux_topic2 = chart_data['topic2']
+        aux_subtopic = chart_data['subtopic2']
+        user_topics = []
+        user_data = col_users.find({
+            '$and': [
+                { aux_topic: { '$ne': '' } },
+                { aux_topic2: aux_subtopic }
+            ]
+        })
+        user_topics = [each[aux_topic] for each in user_data]
+        df = pandas.DataFrame({'category': user_topics})
+        counts = df['category'].value_counts().sort_index()
+        chart_df = pandas.DataFrame({'Topic': counts.index, 'Frequency': counts.values})
+        chart_df['ratio'] = round((chart_df['Frequency']/len(user_topics)*100))
+        pie_chart = altair.Chart(chart_df).mark_arc(size=100).encode(
+            theta='ratio:Q',
+            color='Topic:N',
+            tooltip='Frequency:N'
+            
+        ).properties(
+        width=400,
+        height=400,
+        title=title
+        )
 
+        pie_chart_json = pie_chart.to_json()
+        return render_template('chart_page.html', chart_tittle=aux_title,chart_topics = aux_topic, user_name = session['user_logged'], pie_chart_json = pie_chart_json )
 # Define route for registration form submission
 @charts.route('/registrar', methods=['POST',])
 def regis():
@@ -108,8 +174,7 @@ def regis():
         shoe = request.form['txtcalcado']
         )
     # Insert user data as a dictionary (JSON file) into the 'users' collection
-    col_users.insert_one(new_user.__dict__())
-    
+    col_users.insert_one(new_user.__dict_user__())
     # Render the index.html template after registration
     return redirect('/')
 
@@ -125,7 +190,7 @@ def logar():
     # Iterate over the search results (usually just one user document)
     for info in usercheck:
         aux_user = info['user']
-        aux_pass = info['pwrd']
+        aux_pass = info['password']
     # Check if the submitted username matches any user in the database
     if username == aux_user:
         # If the username matches, check if the submitted password matches the stored password
@@ -141,4 +206,10 @@ def logar():
         # If the submitted username doesn't match any user in the database, redirect to the index page
         return redirect('/')
 
+@charts.route('/logout',methods=['POST',])
+def logout():
+   if 'user_logged' not in session or session['user_logged'] == None:
+        return redirect('/') 
+   session['user_logged'] = None
+   return redirect('/')
 charts.run()
