@@ -1,0 +1,277 @@
+/* fonts */
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Inter+Tight&family=Jaldi&family=Krub:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+:root{
+    font-size: 62.5%;
+
+	
+}
+
+html{
+	/* setting HMTL viewports */
+	width: 100%;
+	height: 100%;
+	font-family: Krub, Inter Tight, Jaldi, sans-serif;
+}
+body{
+	background-color: #e6e6e6;
+	/* rem equivalency */
+    font-size: 1.6rem;
+
+	/* overflow: hidden;
+	/* inherit html proportions*/
+	width: 100%;
+	height: 100%;
+}
+
+/*   N A V    B A R    */
+nav{
+	width: 100%;
+	height: 8%;
+
+	display: flex;
+    justify-content: space-between;
+}
+
+	/*   LOGO    */
+	.logo{
+		padding-left: 2.5rem;
+		display: flex;
+		align-items: flex-end;
+		margin-bottom: 0.5rem;
+		cursor: pointer;
+	}
+
+	/*   NAVBAR END DIV    */
+	.end-navbar-div{
+		display: flex;
+		align-items: center;
+	}
+
+	/*   LOG OUT BUTTON    */
+	.logout-btn #btn{
+		width: 9rem;
+		height: 5rem;
+		margin: 2rem;
+
+		border-radius: 4rem;
+		background: #ff67f9;
+		box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+		transition: transform ease 0.5s, box-shadow ease 0.5s;
+
+		border: none;
+		font-size: 1.7rem;
+		font-weight: 600;
+		color: #fff;
+		cursor: pointer;
+
+		font-family: Inter Tight;
+		font-weight: 400;
+	}
+		.logout-btn #btn:hover{
+			transform: translateY(-5px);
+			box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
+		}
+
+	/*   USER IMAGE    */
+	.user-img{
+		width: 8rem;
+		height: 100%;
+		background-image: url(../default-user-img.svg);
+		background-repeat: no-repeat;
+		cursor: pointer;
+	}
+
+
+/*   N A V B A R   D I V I D E   */
+.navbar-divide-hr{
+	position: sticky;
+	height: 0.5rem;
+	width: 100%;
+	background-color: black;
+}
+
+/*   U S E R   P O P - U P   */
+.config-popup{
+	visibility: hidden;
+
+	width: 20%;
+	height: 35%;
+
+	position: absolute;
+	right: 0;
+	background-color: #9E9E9E;
+
+	display: flex;
+	flex-direction: column;
+
+	box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+}
+	.config-popup a{
+		margin: 2rem;
+		color: #000;
+		font-family: Inter Tight;
+		font-weight: 500;
+		font-size: 2.5rem;
+	}
+	.config-popup a:hover{
+		font-weight: 600;
+	}
+.config-popup.visible{
+	visibility: visible;
+}
+
+/*   M A I N   */
+main{
+	width: 100%;
+	height: calc(100vh - calc(8% + 0.5rem));
+	display: flex;
+}
+
+/*   S E C T I O N   */
+	section{
+		width: 65%;
+		height: auto;
+		margin: 5rem;
+
+		display: flex;
+		flex-direction: column;
+	}
+		.inner-span-section-div{
+			display: flex;
+			padding: 0 5rem 5rem 5rem;
+
+			color: #FF67F9;
+			font-family: Fira Code;
+			font-size: 6rem;
+			font-style: normal;
+			font-weight: 600;
+		}
+		.inner-content-section-div{
+			display: flex;
+			flex-direction: column;
+			width: auto;
+			height: auto;
+			margin-bottom: 5rem;
+		}
+	.main-charts-section{
+		border-style: dotted;
+		border: 10px black;
+		border-radius: 3rem;
+		background-color: white;
+		width: fit-content;
+		height: auto;
+	}
+
+/*   A S I D E   */
+	aside{
+		width: 35%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+	}
+		.inner-span-aside-div{
+			height: auto;
+			margin: 5rem;
+
+			color: #000;
+			text-align: center;
+			font-family: Krub;
+			font-size: 4rem;
+			font-weight: 600;
+			line-height: normal;
+		}
+		.inner-info-aside-div{
+			margin: 0 5rem 5rem 5rem;
+			height: 100%;
+		}
+			.info-aside-div{
+				width: auto;
+				height: auto;
+				border-radius: 3rem;
+				border: 0.5rem solid #000;
+				background: transparent;
+				padding: 3rem 5rem 3rem 5rem;
+
+				display: flex;
+				flex-direction: column;
+			}
+				.topic-div{
+					width: 100%;
+					height: 35%;
+				}
+				.topic-div-content, .desc-div-content{
+					color: #000;
+					font-family: Krub;
+					font-size: 2.5rem;
+					font-style: normal;
+					font-weight: 700;
+				}
+					.topic-div li{
+						margin: 1rem;
+						list-style:disc;
+					}
+					.topic-div-span, .desc-div-span{
+						width: auto;
+						height: auto;
+						margin-bottom: 3rem;
+
+						color: #F90;
+						text-align: center;
+						font-family: Krub;
+						font-size: 4rem;
+						font-weight: 700;
+					}
+				.desc-div{
+					width: 100%;
+					height: auto;
+					margin-top: 4rem;
+				}

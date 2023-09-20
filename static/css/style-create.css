@@ -1,0 +1,362 @@
+/* fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight&family=Jaldi&family=Krub:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+:root{
+    font-size: 62.5%;
+
+	
+}
+
+html{
+	/* setting HMTL viewports */
+	width: 100%;
+	height: 100%;
+	font-family: Krub, Inter Tight, Jaldi, sans-serif;
+}
+body{
+	background-color: #e6e6e6;
+	/* rem equivalency */
+    font-size: 1.6rem;
+
+	/* overflow: hidden;
+	/* inherit html proportions*/
+	width: 100%;
+	height: 100%;
+}
+
+/*   N A V    B A R    */
+nav{
+	width: 100%;
+	height: 8%;
+
+	display: flex;
+    justify-content: space-between;
+}
+
+	/*   LOGO    */
+	.logo{
+		padding-left: 2.5rem;
+		display: flex;
+		align-items: flex-end;
+		margin-bottom: 0.5rem;
+		cursor: pointer;
+	}
+
+	/*   NAVBAR END DIV    */
+	.end-navbar-div{
+		display: flex;
+		align-items: center;
+	}
+
+	/*   LOG OUT BUTTON    */
+	.logout-btn #btn{
+		width: 9rem;
+		height: 5rem;
+		margin: 2rem;
+
+		border-radius: 4rem;
+		background: #ff67f9;
+		box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+		transition: transform ease 0.5s, box-shadow ease 0.5s;
+
+		border: none;
+		font-size: 1.7rem;
+		font-weight: 600;
+		color: #fff;
+		cursor: pointer;
+
+		font-family: Inter Tight;
+		font-weight: 400;
+	}
+		.logout-btn #btn:hover{
+			transform: translateY(-5px);
+			box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
+		}
+
+	/*   USER IMAGE    */
+	.user-img{
+		width: 8rem;
+		height: 100%;
+		background-image: url(../default-user-img.svg);
+		background-repeat: no-repeat;
+		cursor: pointer;
+	}
+
+
+/*   N A V B A R   D I V I D E   */
+.navbar-divide-hr{
+	position: sticky;
+	height: 0.5rem;
+	width: 100%;
+	background-color: black;
+}
+
+/*   U S E R   P O P - U P   */
+.config-popup{
+	visibility: hidden;
+
+	width: 20%;
+	height: 35%;
+
+	position: absolute;
+	right: 0;
+	background-color: #9E9E9E;
+
+	display: flex;
+	flex-direction: column;
+
+	box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+}
+	.config-popup a{
+		margin: 2rem;
+		color: #000;
+		font-family: Inter Tight;
+		font-weight: 500;
+		font-size: 2.5rem;
+	}
+	.config-popup a:hover{
+		font-weight: 600;
+	}
+.config-popup.visible{
+	visibility: visible;
+}
+
+/*   M A I N   */
+main{
+	width: 100%;
+	height: calc(100vh - calc(8% + 0.5rem));
+	display: flex;
+}
+
+/*   S E C T I O N   */
+section{
+	background-color: #ff67f9;
+	width: inherit;
+	margin: 5rem 5rem 0rem 5rem;
+	padding: 5rem;
+	border-radius: 8rem 8rem 0rem 0rem;
+	box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
+
+	display: grid;
+	grid-template-columns: 35% 65%;
+}
+	/*   L E F T   S E C T I O N   D I V   */
+	.left-inner-section-div{
+		display: flex;
+		flex-direction: column;
+	}
+	.left-inner-section-div, .input-title, .input-date, .input-description{
+		display: flex;
+		flex-direction: column;
+		border-radius: 1rem;
+	}
+		/*   N E W   C H A R T   S P A N   */
+		.left-inner-section-div-span{
+			font-family: Krub;
+			font-size: 5rem;
+			text-align: center;
+			font-weight: 700;
+			margin-bottom: 3rem;
+		}
+		.input-title span, .input-date-span, .input-description span{
+			font-family: Jaldi;
+			font-size: 4rem;
+			font-weight: 600;
+			margin-top: 2rem;
+			margin-bottom: 0.5rem;
+		}
+
+		/*   N E W   C H A R T   (INPUT   &   T E X T   A R E A)   */
+		.left-inner-section-div input, .left-inner-section-div textarea, select{
+			border: none;
+			border-radius: 1rem;
+			font-size: 3rem;
+			padding: 1rem;
+			font-family: Inter Tight;
+			font-weight: lighter;
+			resize: none;
+			border: 1px solid #000;
+			background: #D9D9D9;
+		}
+			.input-description textarea{
+				height: 30rem;
+			}
+
+		
+		.today-date-checkbox{ 	
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			font-size: 2rem;
+			font-family: Jaldi;
+			font-weight: 400;
+			margin: 1rem 1rem 1rem 0rem;
+		}
+
+
+	
+
+	/*   R I G H T   S E C T I O N   D I V   */
+	.right-inner-section-div{
+		margin-left: 10rem;
+		display: flex;
+		flex-direction: column;
+	}
+	.right-inner-section-div-span{
+		display: flex;
+		justify-content: space-between;
+	}
+
+		.right-inner-section-div-span span{
+			font-family: Krub;
+			font-size: 2.4rem;
+			font-weight: 700;
+			margin-bottom: 3rem;
+			align-items: center;
+			padding-right: 2rem;
+		}
+
+		.create-btn #btn{
+			width: 12rem;
+			height: 8rem;
+
+			border-radius: 4rem;
+			background: #FF7A00;
+			box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+			transition: transform ease 0.5s, box-shadow ease 0.5s;
+
+			border: none;
+			font-size: 2rem;
+			font-weight: 600;
+			color: #fff;
+			cursor: pointer;
+
+			font-family: Inter Tight;
+			font-weight: 500;
+		}
+			.create-btn #btn:hover{
+				transform: translateY(-5px);
+				box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
+			}
+
+	/*   S E L E C T S   (C O M B O   B O X)   */
+	.select-div{
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+		.input-first, .input-second, .input-third, .input-fourth{
+			display: flex;
+			flex-direction: column;
+			margin: 1rem 1rem 1rem 0rem;
+		}
+				.input-third, .input-fourth{
+					visibility: hidden;
+				}
+				.input-third.show, .input-fourth.show{
+					visibility: visible;
+				}
+
+
+
+
+		.right-inner-section-div select{
+			    width: 90%;
+				border: none;
+				border-radius: 1rem;
+				font-size: 3rem;
+				padding: 1rem;
+				font-family: Inter Tight;
+				font-weight: lighter;
+				resize: none;
+				border: 1px solid #000;
+		}
+		.select-div span{
+			font-family: Jaldi;
+			font-size: 4rem;
+			font-weight: 600;
+			margin-top: 2rem;
+			margin-bottom: 0.5rem;
+		}
+			.select-btn-group{
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				align-items: center;
+			}
+				.select-btn-group button{
+					font-size: 5rem;
+					border: 0;
+					outline: 0;
+					padding: 0;
+					background-color: transparent;
+					cursor: pointer;
+					color: #fff;
+				}
+
+				.icon{
+					text-align: center;
+					box-sizing: border-box;
+					transition: .5s all ease-out;
+				}
+					.fa-plus {
+						transform: rotate(90deg);
+						transition: ease-in-out 0.3s;
+					}
+					.fa-minus::before {
+						transform: rotate(0deg);
+						transition: ease-in-out 0.3s;
+					}
+						.fa-minus {
+							transform: rotate(0deg);
+							transition: ease-in-out 0.3s;
+						}	

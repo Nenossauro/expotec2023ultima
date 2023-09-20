@@ -14,10 +14,34 @@ client = MongoClient(url, server_api=ServerApi('1'))
 db = client["expotec"]
 col_users = db["users"]
 col_charts = db["charts"]
+col_topics = db["topics"]
+col_questions = db["questions"]
 
+def desimplify_topics(info):
+    if info == "stt":
+        return "Estado onde mora"
+    elif info == "hair":
+        return "Cor do Cabelo"
+    elif info == "shoe":
+        return "Numero do Calçado"
+    elif info == "cty":
+        return "Cidade onde mora"
+    else:
+        return info
+def simplify_topics(info):
+    if info == "Estado onde mora":
+        return "stt"
+    elif info == "Cor de cabelo":
+        return "hair"
+    elif info == "Numero do calçado":
+        return "shoe"
+    elif info == "Cidade onde mora":
+        return "cty"
+    else:
+        return info
 # Define a user object class to represent user data
 class user_obj:
-    def __init__(self,user,name,email,pwrd,pwrdconf,cnt,stt,cty,hair,shoe):
+    def __init__(self,user,name,email,pwrd,pwrdconf,cnt,stt,cty,hair,shoe,ava_topics):
         self.user = user
         self.name = name
         self.email = email
@@ -28,6 +52,7 @@ class user_obj:
         self.cty = cty
         self.hair = hair        
         self.shoe = shoe
+        self.ava_topics = ava_topics
 
     # Define methods to convert user object to dictionary (JSON) format
     def __dict_user__(self):
@@ -40,12 +65,16 @@ class user_obj:
             'stt': self.stt,
             'cty': self.cty,
             'hair': self.hair,
-            'shoe': self.shoe
+            'shoe': self.shoe,
+            'ava_topic': self.ava_topics
         }
     def __dict__(self):
         return {
             
         }
+
+
+
 
 # Function to retrieve user information based on specified field
 def get_your_info(info_want,session):
@@ -80,6 +109,10 @@ os.system("cls")
 charts = Flask(__name__)
 charts.secret_key = 'enzo'
 
+
+user_questions_l = ['Qual seu animal favorito?','Qual sua musica favorita?']
+user_questions_r = ['Você já saiu do país?','Qual sua idade?']
+
 # Define route to render index.html template
 @charts.route('/')
 def index():
@@ -105,6 +138,7 @@ def chart_page(title):
     chart_data = col_charts.find_one({"title": title})
     aux_title = chart_data['title']
     aux_type = chart_data['type']
+    aux_desc = chart_data['description']
     if aux_type=="simple":
         os.system("cls")
         aux_topic = chart_data['topic1']
@@ -121,12 +155,12 @@ def chart_page(title):
             tooltip='Frequency:N'
             
         ).properties(
-        width=400,
-        height=400,
+       width=400,
+         height=400,
         title=title
         )
         pie_chart_json = pie_chart.to_json()
-        return render_template('chart_page.html', chart_tittle=aux_title,chart_topics = aux_topic, user_name = session['user_logged'], pie_chart_json = pie_chart_json )
+        return render_template('chart_page.html',chart_description = aux_desc, chart_tittle=aux_title,chart_topics = desimplify_topics(aux_topic), user_name = session['user_logged'], pie_chart_json = pie_chart_json )
     else:
         os.system("cls")
         aux_topic = chart_data['topic1']
@@ -150,13 +184,63 @@ def chart_page(title):
             tooltip='Frequency:N'
             
         ).properties(
-        width=400,
-        height=400,
+        width=500,
+        height=500,
         title=title
         )
 
         pie_chart_json = pie_chart.to_json()
-        return render_template('chart_page.html', chart_tittle=aux_title,chart_topics = aux_topic, user_name = session['user_logged'], pie_chart_json = pie_chart_json )
+        return render_template('chart_page.html',chart_description = aux_desc, chart_tittle=aux_title,chart_topic = desimplify_topics(aux_topic),chart_topic2 = desimplify_topics(aux_topic2), user_name = session['user_logged'], pie_chart_json = pie_chart_json )
+
+@charts.route('/criar-chart')
+def create_chart():
+    combo_topics = col_users.find_one({'user':session['user_logged']})
+    sub_topics = col_topics.find()
+    sub_array = []
+    for info in sub_topics:
+        sub_array.append(info['sub_topic'])
+
+    return render_template('create_chart.html',user_name = session['user_logged'],topics = combo_topics["ava_topic"], sub_topic = sub_array)
+
+
+
+
+
+
+@charts.route('/inserir-chart',methods=['POST',])
+def insert_chart():
+    
+    chart_tittle = request.form['txttitulo']
+    chart_date = request.form['txtdata']
+    chart_description = request.form['txtdescricao']
+    chart_topic1 = simplify_topics(request.form['first-select'])
+    chart_topic2 = simplify_topics(request.form['second-select'])
+    chart_subtopic2 = request.form['third-select']
+    if chart_topic2 == "simple":
+        col_charts.insert_one({"title":chart_tittle,"creation_date":chart_date,"description":chart_description,
+                          "topic1":chart_topic1,"type":"simple"})
+    else:
+        col_charts.insert_one({"title":chart_tittle,"creation_date":chart_date,"description":chart_description,
+                          "topic1":chart_topic1,"topic2":chart_topic2,"subtopic2":chart_subtopic2,"type":"complex"})
+    return redirect('/land')
+  
+    
+
+
+@charts.route('/adicionar-informações')
+def add_info():
+   
+    return render_template('add_info.html', questions_r = user_questions_r, questions_l = user_questions_l)
+
+
+@charts.route('/inserir-info',methods=['POST',])  
+def insert_info():
+        question_1=request.form['animal']
+        print(question_1)
+        col_users.update_one({'user_name':session['user_logged']},{"$set":{'anm':question_1}})
+        col_users.update_one({'user_name':session['user_logged']},{"$set":{'anm':question_1}})
+
+        return redirect('/land')
 # Define route for registration form submission
 @charts.route('/registrar', methods=['POST',])
 def regis():
@@ -171,7 +255,8 @@ def regis():
         stt = request.form['txtestado'],
         cty = request.form['txtcidade'],
         hair = request.form['txtcorcabelo'],
-        shoe = request.form['txtcalcado']
+        shoe = request.form['txtcalcado'],
+        ava_topics = ["País onde mora","Estado onde mora","Cidade onde mora","Cor de cabelo","Numero do calçado"]
         )
     # Insert user data as a dictionary (JSON file) into the 'users' collection
     col_users.insert_one(new_user.__dict_user__())
