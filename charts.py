@@ -17,6 +17,19 @@ col_charts = db["charts"]
 col_topics = db["topics"]
 col_questions = db["questions"]
 
+def new_simplify_topics(info):
+   
+    # add first letter
+    oupt = info[0]
+     
+    # iterate over string
+    for i in range(1, len(info)):
+        if info[i-1] == ' ':
+           
+            # add letter next to space
+            oupt += info[i]
+    oupt = oupt.lower()
+    return oupt
 def desimplify_topics(info):
     if info == "stt":
         return "Estado onde mora"
@@ -29,30 +42,25 @@ def desimplify_topics(info):
     else:
         return info
 def simplify_topics(info):
-    if info == "Estado onde mora":
-        return "stt"
-    elif info == "Cor de cabelo":
-        return "hair"
-    elif info == "Numero do calçado":
-        return "shoe"
-    elif info == "Cidade onde mora":
-        return "cty"
-    else:
-        return info
+    # add first letter
+    oupt = info[0]
+     
+    # iterate over string
+    for i in range(1, len(info)):
+        if info[i-1] == ' ':
+           
+            # add letter next to space
+            oupt += info[i]
+    oupt = oupt.lower()
+    return oupt
 # Define a user object class to represent user data
 class user_obj:
-    def __init__(self,user,name,email,pwrd,pwrdconf,cnt,stt,cty,hair,shoe,ava_topics):
+    def __init__(self,user,name,email,pwrd,pwrdconf):
         self.user = user
         self.name = name
         self.email = email
         self.pwrd = pwrd
         self.pwrdconf = pwrdconf
-        self.cnt = cnt
-        self.stt = stt
-        self.cty = cty
-        self.hair = hair        
-        self.shoe = shoe
-        self.ava_topics = ava_topics
 
     # Define methods to convert user object to dictionary (JSON) format
     def __dict_user__(self):
@@ -60,13 +68,8 @@ class user_obj:
             'email': self.email,
             'user': self.user,
             'password': self.pwrd,
-            'name': self.name,
-            'cnt': self.cnt,
-            'stt': self.stt,
-            'cty': self.cty,
-            'hair': self.hair,
-            'shoe': self.shoe,
-            'ava_topic': self.ava_topics
+            'name': self.name
+
         }
     def __dict__(self):
         return {
@@ -235,10 +238,127 @@ def add_info():
 
 @charts.route('/inserir-info',methods=['POST',])  
 def insert_info():
-        question_1=request.form['animal']
-        print(question_1)
-        col_users.update_one({'user_name':session['user_logged']},{"$set":{'anm':question_1}})
-        col_users.update_one({'user_name':session['user_logged']},{"$set":{'anm':question_1}})
+        
+        question_1 = "Animal Favorito"
+        question_1_awn=request.form['animal']
+        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
+        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
+        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+
+        question_1 = "Cor Favorita"
+        question_1_awn=request.form['cor']
+        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
+        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
+        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+        
+        question_1 = "Idade"
+        question_1_awn=request.form['idade']
+        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
+        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
+        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+
+        question_1 = "Como veio"
+        question_1_awn=request.form['transporte']
+        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
+        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
+        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+
+        question_1 = "Tem pet"
+        question_1_awn=request.form['pet']
+        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
+        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
+        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+
+        question_1 = "Musica Favorita"
+        question_1_awn=request.form['musica']
+        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
+        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
+        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+
+        question_1 = "Já saiu do país"
+        question_1_awn=request.form['pais']
+        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
+        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
+        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+
+        question_1 = "Metros de Altura"
+        question_1_awn=request.form['altura']
+        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
+        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
+        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+
+        question_1 = "Quantidade de livros lidos esse ano"
+        question_1_awn=request.form['livro_ano']
+        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
+        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
+        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+
+        question_1 = "Já saiu do estado"
+        question_1_awn=request.form['estado']
+        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
+        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
+        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+
+        question_1 = "Está trabalhando"
+        question_1_awn=request.form['trabalha']
+        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
+        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
+        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+
+        question_1 = "Filme Favorito"
+        question_1_awn=request.form['filme']
+        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
+        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
+        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+
+        question_1 = "Genero de Musica"
+        question_1_awn=request.form['musica_genero']
+        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
+        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
+        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+
+        question_1 = "Genero de Filme"
+        question_1_awn=request.form['filme_genero']
+        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
+        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
+        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+
+        question_1 = "Cor dos olhos"
+        question_1_awn=request.form['olhos']
+        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
+        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
+        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+
+        question_1 = "Relacionamento romantico"
+        question_1_awn=request.form['relacionamento']
+        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
+        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
+        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+
+        question_1 = "Melhor animal de estimação"
+        question_1_awn=request.form['melhor_pet']
+        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
+        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
+        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+
+        question_1 = "Achou o site interessante"
+        question_1_awn=request.form['interessante']
+        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
+        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
+        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+
+        question_1 = "Quantidade de refeições no dia"
+        question_1_awn=request.form['refeicoes']
+        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
+        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
+        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+
+        question_1 = "Quantidade de quartos em casa"
+        question_1_awn=request.form['quartos']
+        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
+        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
+        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+    
 
         return redirect('/land')
 # Define route for registration form submission
@@ -251,15 +371,40 @@ def regis():
         email = request.form['txtemail'],
         pwrd = request.form['txtsenha'],
         pwrdconf = request.form['txtsenhaconf'],
-        cnt = request.form['txtpais'],
-        stt = request.form['txtestado'],
-        cty = request.form['txtcidade'],
-        hair = request.form['txtcorcabelo'],
-        shoe = request.form['txtcalcado'],
-        ava_topics = ["País onde mora","Estado onde mora","Cidade onde mora","Cor de cabelo","Numero do calçado"]
         )
     # Insert user data as a dictionary (JSON file) into the 'users' collection
     col_users.insert_one(new_user.__dict_user__())
+    sessao = request.form['txtusuario']
+    question_1 = "País em que mora"
+    question_1_awn=request.form['txtpais']
+    col_users.update_one({'user':sessao},{"$set":{new_simplify_topics(question_1):question_1_awn}})
+    col_users.update_one({'user':sessao,'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
+    col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+
+    question_1 = "Estado em que mora"
+    question_1_awn=request.form['txtestado']
+    col_users.update_one({'user':sessao},{"$set":{new_simplify_topics(question_1):question_1_awn}})
+    col_users.update_one({'user':sessao,'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
+    col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+
+    question_1 = "Cidade em que mora"
+    question_1_awn=request.form['txtcidade']
+    col_users.update_one({'user':sessao},{"$set":{new_simplify_topics(question_1):question_1_awn}})
+    col_users.update_one({'user':sessao,'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
+    col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+
+    question_1 = "Cor do Cabelo"
+    question_1_awn=request.form['txtcorcabelo']
+    col_users.update_one({'user':sessao},{"$set":{new_simplify_topics(question_1):question_1_awn}})
+    col_users.update_one({'user':sessao,'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
+    col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+
+    question_1 = "Numero do calçado"
+    question_1_awn=request.form['txtcalcado']
+    col_users.update_one({'user':sessao},{"$set":{new_simplify_topics(question_1):question_1_awn}})
+    col_users.update_one({'user':sessao,'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
+    col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+
     # Render the index.html template after registration
     return redirect('/')
 

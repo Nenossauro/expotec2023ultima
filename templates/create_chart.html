@@ -165,54 +165,185 @@
         thirdSelect.empty();
 
         // Com base na seleção do segundo select, atualiza as opções do terceiro select
-        if (selectedValue === "Cor de cabelo") {
+        if (selectedValue === "Numero do calçado") {
                 // Se "cor de cabelo" estiver selecionado, adicione as opções correspondentes
-                thirdSelect.append('<option value="{{sub_topic[1][0]}}">{{sub_topic[1][0]}}</option>');
-                thirdSelect.append('<option value="{{sub_topic[1][1]}}">{{sub_topic[1][1]}}</option>');
-                thirdSelect.append('<option value="{{sub_topic[1][2]}}">{{sub_topic[1][2]}}</option>');
-                thirdSelect.append('<option value="{{sub_topic[1][3]}}">{{sub_topic[1][3]}}</option>');
-        } else if (selectedValue === "Estado onde mora") {
-                // Se "estado" estiver selecionado, adicione as opções correspondentes
-            thirdSelect.append('<option value="{{sub_topic[2][0]}}">{{sub_topic[2][0]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[2][1]}}">{{sub_topic[2][1]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[2][2]}}">{{sub_topic[2][2]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[2][3]}}">{{sub_topic[2][3]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[2][4]}}">{{sub_topic[2][4]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[2][5]}}">{{sub_topic[2][5]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[2][6]}}">{{sub_topic[2][6]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[2][7]}}">{{sub_topic[2][7]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[2][8]}}">{{sub_topic[2][8]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[2][9]}}">{{sub_topic[2][9]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[2][10]}}">{{sub_topic[2][10]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[2][11]}}">{{sub_topic[2][11]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[2][12]}}">{{sub_topic[2][12]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[2][13]}}">{{sub_topic[2][13]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[2][14]}}">{{sub_topic[2][14]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[2][15]}}">{{sub_topic[2][15]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[2][16]}}">{{sub_topic[2][16]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[2][17]}}">{{sub_topic[2][17]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[2][18]}}">{{sub_topic[2][18]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[2][19]}}">{{sub_topic[2][19]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[2][20]}}">{{sub_topic[2][20]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[2][21]}}">{{sub_topic[2][21]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[2][22]}}">{{sub_topic[2][22]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[2][23]}}">{{sub_topic[2][23]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[2][24]}}">{{sub_topic[2][24]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[2][25]}}">{{sub_topic[2][25]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[2][26]}}">{{sub_topic[2][26]}}</option>');
-        } else if (selectedValue === "Numero do calçado"){
-            // Se nenhuma opção válida estiver selecionada, exiba uma opção padrão
-            thirdSelect.append('<option value="{{sub_topic[0][0]}}">{{sub_topic[0][0]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[0][1]}}">{{sub_topic[0][1]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[0][2]}}">{{sub_topic[0][2]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[0][3]}}">{{sub_topic[0][3]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[0][4]}}">{{sub_topic[0][4]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[0][5]}}">{{sub_topic[0][5]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[0][6]}}">{{sub_topic[0][6]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[0][7]}}">{{sub_topic[0][7]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[0][8]}}">{{sub_topic[0][8]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[0][9]}}">{{sub_topic[0][9]}}</option>');
-            thirdSelect.append('<option value="{{sub_topic[0][10]}}">{{sub_topic[0][10]}}</option>');
+            {%for topic in sub_topic[0]%}
+                
+                thirdSelect.append('<option value="{{topic}}">{{topic}}</option>');
+
+            {%endfor%}
+        } else if (selectedValue === "Animal Favorito") {
+            {%for topic in sub_topic[1]%}
+                
+                thirdSelect.append('<option value="{{topic}}">{{topic}}</option>');
+
+            {%endfor%}
+        } else if (selectedValue === "Estado onde mora"){
+           {%for topic in sub_topic[2]%}
+                
+                thirdSelect.append('<option value="{{topic}}">{{topic}}</option>');
+
+            {%endfor%}
+
+        } 
+        else if (selectedValue === "Cor Favorita"){
+           {%for topic in sub_topic[3]%}
+                
+                thirdSelect.append('<option value="{{topic}}">{{topic}}</option>');
+
+            {%endfor%}
+
+        } 
+        else if (selectedValue === "Idade"){
+           {%for topic in sub_topic[4]%}
+                
+                thirdSelect.append('<option value="{{topic}}">{{topic}}</option>');
+
+            {%endfor%}
+
+        } 
+        else if (selectedValue === "Como veio"){
+           {%for topic in sub_topic[5]%}
+                
+                thirdSelect.append('<option value="{{topic}}">{{topic}}</option>');
+
+            {%endfor%}
+
+        } 
+        else if (selectedValue === "Tem pet"){
+           {%for topic in sub_topic[6]%}
+                
+                thirdSelect.append('<option value="{{topic}}">{{topic}}</option>');
+
+            {%endfor%}
+
+        } 
+        else if (selectedValue === "Musica Favorita"){
+           {%for topic in sub_topic[7]%}
+                
+                thirdSelect.append('<option value="{{topic}}">{{topic}}</option>');
+
+            {%endfor%}
+
+        } 
+        else if (selectedValue === "Já saiu do país"){
+           {%for topic in sub_topic[8]%}
+                
+                thirdSelect.append('<option value="{{topic}}">{{topic}}</option>');
+
+            {%endfor%}
+
+        } 
+        else if (selectedValue === "Metros de Altura"){
+           {%for topic in sub_topic[9]%}
+                
+                thirdSelect.append('<option value="{{topic}}">{{topic}}</option>');
+
+            {%endfor%}
+
+        } 
+        else if (selectedValue === "Quantidade de livros lidos esse ano"){
+           {%for topic in sub_topic[10]%}
+                
+                thirdSelect.append('<option value="{{topic}}">{{topic}}</option>');
+
+            {%endfor%}
+
+        }
+        else if (selectedValue === "Cor do Cabelo"){
+           {%for topic in sub_topic[11]%}
+                
+                thirdSelect.append('<option value="{{topic}}">{{topic}}</option>');
+
+            {%endfor%}
+
+        } 
+        else if (selectedValue === "Já saiu do estado"){
+           {%for topic in sub_topic[12]%}
+                
+                thirdSelect.append('<option value="{{topic}}">{{topic}}</option>');
+
+            {%endfor%}
+
+        } 
+        else if (selectedValue === "Está trabalhando"){
+           {%for topic in sub_topic[13]%}
+                
+                thirdSelect.append('<option value="{{topic}}">{{topic}}</option>');
+
+            {%endfor%}
+
+        } 
+        else if (selectedValue === "Filme Favorito"){
+           {%for topic in sub_topic[14]%}
+                
+                thirdSelect.append('<option value="{{topic}}">{{topic}}</option>');
+
+            {%endfor%}
+
+        } 
+        else if (selectedValue === "Genero de Musica"){
+           {%for topic in sub_topic[15]%}
+                
+                thirdSelect.append('<option value="{{topic}}">{{topic}}</option>');
+
+            {%endfor%}
+
+        } 
+        else if (selectedValue === "Genero de Filme"){
+           {%for topic in sub_topic[16]%}
+                
+                thirdSelect.append('<option value="{{topic}}">{{topic}}</option>');
+
+            {%endfor%}
+
+        } 
+        else if (selectedValue === "Cor dos olhos"){
+           {%for topic in sub_topic[17]%}
+                
+                thirdSelect.append('<option value="{{topic}}">{{topic}}</option>');
+
+            {%endfor%}
+
+        } 
+        else if (selectedValue === "Relacionamento romantico"){
+           {%for topic in sub_topic[18]%}
+                
+                thirdSelect.append('<option value="{{topic}}">{{topic}}</option>');
+
+            {%endfor%}
+
+        } 
+        else if (selectedValue === "Melhor animal de estimação"){
+           {%for topic in sub_topic[19]%}
+                
+                thirdSelect.append('<option value="{{topic}}">{{topic}}</option>');
+
+            {%endfor%}
+
+        }  
+        else if (selectedValue === "Achou o site interessante"){
+           {%for topic in sub_topic[20]%}
+                
+                thirdSelect.append('<option value="{{topic}}">{{topic}}</option>');
+
+            {%endfor%}
+
+        } 
+        else if (selectedValue === "Quantidade de quartos em casa"){
+           {%for topic in sub_topic[21]%}
+                
+                thirdSelect.append('<option value="{{topic}}">{{topic}}</option>');
+
+            {%endfor%}
+
+        } 
+        else if (selectedValue === "Quantidade de refeições no dia"){
+           {%for topic in sub_topic[22]%}
+                
+                thirdSelect.append('<option value="{{topic}}">{{topic}}</option>');
+
+            {%endfor%}
 
         } 
         else {
