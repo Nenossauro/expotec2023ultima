@@ -1,48 +1,11 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/css/style-chart-page.css">    
+{% extends 'base.html' %}
+{% block content %}
     <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
-    <title>{{ chart_tittle }}</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet"/>
-    <script src="../static/js/other.js"></script>
-    <title>Charts.create</title>
-</head>
-<body>
-    <!--   N A V    B A R    -->
-    <nav>
-        <div class="logo">
-            <img src="../static/charts.logo.png">
-        </div>  
-        <div class="end-navbar-div">
-            <div class="logout-btn">
-                <input type="button" id="btn" value="Sair">
-            </div>
-            <div class="user-img" id="">  
-            </div>
-        </div>
-    </nav>
-    
-    <!--   N A V    B A R      H R   -->
-    <div class="navbar-divide-hr"></div>
-
-    <!--   P O P - U P   D O   P E R F I L   -->
-    <div class="config-popup">
-        <a href="/land">Home</a>
-        <a href="#">Meu perfil</a>
-        <a href="#">Minhas charts</a>
-        <a href="#">Responder perguntas</a>
-        <a href="#">Modo escuro</a>
-    </div>
-
     <!--   M A I N   -->
     <main>
-        <section>
+        <section class="chart-section">
             <div class="inner-span-section-div">
                 <span>
                     {{chart_tittle}}! 🤗
@@ -63,7 +26,7 @@
         </section>
 
 
-        <aside>
+        <aside class="chart-aside">
             <div class="inner-span-aside-div">
                 <span>Sobre "{{chart_tittle}}":</span>
             </div>
@@ -96,5 +59,4 @@
         
     </main>
 
-</body>
-</html>
+{%endblock%}

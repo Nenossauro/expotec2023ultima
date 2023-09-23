@@ -1,47 +1,8 @@
-<!DOCTYPE html>
-<html class="html" lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="../static/css/style-create.css">
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet"/>
-    <script src="../static/js/other.js"></script>
-    <title>Charts.create</title>
-</head>
-<body>
-    <!--   N A V    B A R    -->
-    <nav>
-        <div class="logo">
-            <img src="../static/charts.logo.png">
-        </div>  
-        <div class="end-navbar-div">
-            <div class="logout-btn">
-            <form action="/logout" method="POST">
-                    <input type="submit" id="btn" value="Sair">
-                </form>
-            </div>
-            <div class="user-img" id="">  
-            </div>
-        </div>
-    </nav>
-    
-    <!--   N A V    B A R      H R   -->
-    <div class="navbar-divide-hr"></div>
-
-    <!--   P O P - U P   D O   P E R F I L   -->
-    <div class="config-popup">
-        <a href="/home/home.html">Home</a>
-        <a href="/editarperfil/editarperfil.html">Meu perfil</a>
-        <a href="#">Minhas charts</a>
-        <a href="/adicionarinfo/adicionarinfo.html">Responder perguntas</a>
-        <a href="#">Modo escuro</a>
-    </div>
-
+{% extends 'base.html' %}
+{%block content%}
     <!--   M A I N   -->
     <main>
-            <section>
+            <section class="create-chart-section">
             
             <!--   P A R T E   E S Q U E R D A   D O   F O R M U L Á R I O   -->
             <div class="left-inner-section-div">
@@ -114,6 +75,13 @@
                             <span class="icon"><i class="fa fa-plus"></i></span>
                         </div>
                         </div>
+                        <div class="if-select">
+                            <select name="second-if-select" id="second-if-select">
+                                <option value="">Teste 1</option>
+                                <option value="">Teste 2</option>
+                                <option value="">Teste 3</option>
+                            </select>
+                        </div>
                     </div>
 
                     <!--   T E R C E I R O   I N P U T   -->
@@ -159,7 +127,7 @@
             // Event listener para mudanças no segundo select
         $("#second-select").on("change", function () {
         var selectedValue = $(this).val();
-        var thirdSelect = $("#third-select");
+        var thirdSelect = $("#second-if-select");
 
         // Limpa as opções anteriores do terceiro select
         thirdSelect.empty();
@@ -353,4 +321,4 @@
         });
     });
 </script>
-</html>
+{%endblock%}

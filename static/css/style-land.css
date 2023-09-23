@@ -84,6 +84,36 @@ nav{
 		align-items: flex-end;
 		margin-bottom: 0.5rem;
 	}
+	/*   U S E R   P O P - U P   */
+.config-popup{
+	visibility: hidden;
+
+	width: 20%;
+	height: 35%;
+
+	position: absolute;
+	right: 0;
+	background-color: #9E9E9E;
+
+	display: flex;
+	flex-direction: column;
+
+	box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+}
+	.config-popup a{
+		margin: 2rem;
+		color: #000;
+		font-family: Inter Tight;
+		font-weight: 500;
+		font-size: 2.5rem;
+	}
+	.config-popup a:hover{
+		font-weight: 600;
+	}
+.config-popup.visible{
+	visibility: visible;
+}
+
 
 	/*   NAVBAR END DIV    */
 	.end-navbar-div{

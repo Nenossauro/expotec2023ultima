@@ -74,16 +74,26 @@ $(document).ready(function() {
  
       //IR PARA A HOME
       $('.logo').on('click', function() {
-        window.location.href = '/home/home.html';
+        window.location.href = '/land';
       });
- 
-      //IR PARA CRIE SUA CHART
-      $('.new-chart').on('click', function(){
-        window.location.href = '/createchart/createchart.html';
-      })
- 
-      //IR PARA RESPONDER PERGUNTAS
-      $('.answer-chart').on('click', function(){
-        window.location.href = '/adicionarinfo/adicionarinfo.html';
-      })
+      //TOGGLE DARK MODE
+      $('#toggle-dark-mode').click(function(){
+
+        $('body').toggleClass('dark-mode');
+
+        // Opcional: Armazenar a preferência do usuário no localStorage para lembrar sua escolha
+        if ($('body').hasClass('dark-mode')) {
+          localStorage.setItem('dark-mode', 'enabled');
+          $('#logo').attr("src", "../charts.logoDARK.png");
+        } else {
+          localStorage.setItem('dark-mode', 'disabled');
+          $('#logo').attr("src", "../charts.logo.png");
+        }
+      });
+
+      const darkModePreference = localStorage.getItem('dark-mode');
+      if (darkModePreference === 'enabled') {
+        $('#logo').attr("src", "../charts.logoDARK.png");
+        $('body').addClass('dark-mode');
+      }
  });

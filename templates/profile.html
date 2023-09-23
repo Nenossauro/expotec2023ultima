@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{%block content%}
+
+<!--   M A I N   -->
+<main class="editprofile-main">
+    
+
+    <section class="editprofile-section">
+        
+        <aside class="alter-profile-image">
+            <form method="post" action="/profile/change_pic" enctype="multipart/form-data">
+            <div class="btn-div">
+                <input id="files" name="img" type="file" accept="image/x-png,image/jpeg">
+            </div>
+            <div class="btn-div">
+                <input type="submit" value="💾">
+            </div>
+            </form>
+        </aside>
+
+
+        <article class="editprofile-article">
+
+
+            <div class="top-inner-article-div">
+                <div class="profile-pic-div">
+                    
+                       <img src="{{profile_pic}}" alt="" style="height:100%, width: 100%;"> 
+                        
+                    
+                    
+                </div>
+                <div class="left-group">
+                    <div class="user-name-div">
+                        {{name}}
+                    </div>
+                    <div class="user-username-div">
+                        %{{user}}
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="low-inner-article-div">
+                <div class="input-div">
+                    <div class="input-div-span">
+                        <span>
+                            Username:
+                        </span>
+                    </div>
+                    <div class="input-inner-div">
+                        <input type="text" disabled="true">
+                    </div>
+                </div>
+
+                <div class="input-div">
+                    <div class="input-div-span">
+                        <span>
+                            E-mail:
+                        </span>
+                    </div>
+                    <div class="input-inner-div">
+                        <input type="text" disabled="true">
+                        <a href="/profile/change_email">Alterar e-mail</a>
+                    </div>
+                </div>
+
+                <div class="input-div">
+                    <div class="input-div-span">
+                        <span>
+                            Senha:
+                        </span>
+                    </div>
+                    <div class="input-inner-div">
+                        <input text="Anjo21Aichi" type="password" disabled="true">
+                        <a href="/profile/change_password">Alterar senha</a>
+                    </div>
+                </div>
+            </div>
+
+
+        </article>
+    </section>
+</main>
+{%endblock%}

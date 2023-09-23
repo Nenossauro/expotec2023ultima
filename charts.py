@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, redirect, session, flash
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 import pymongo as mongo
-import os, datetime, altair, pandas
+import os, datetime, altair, pandas, base64
 
 # MongoDB connection URL
 url = "mongodb+srv://admin:admin@cluster0.blievi7.mongodb.net/?retryWrites=true&w=majority"
@@ -55,12 +55,13 @@ def simplify_topics(info):
     return oupt
 # Define a user object class to represent user data
 class user_obj:
-    def __init__(self,user,name,email,pwrd,pwrdconf):
+    def __init__(self,user,name,email,pwrd,pwrdconf, pic):
         self.user = user
         self.name = name
         self.email = email
         self.pwrd = pwrd
         self.pwrdconf = pwrdconf
+        self.pic = pic
 
     # Define methods to convert user object to dictionary (JSON) format
     def __dict_user__(self):
@@ -68,7 +69,8 @@ class user_obj:
             'email': self.email,
             'user': self.user,
             'password': self.pwrd,
-            'name': self.name
+            'name': self.name,
+            'profile_img' :self.pic
 
         }
     def __dict__(self):
@@ -132,7 +134,7 @@ def land():
     for aux_charts in charts_data:
         titles.append(aux_charts['title'])
         types.append(aux_charts['type'])
-    return render_template('land.html', user_name = session['user_logged'], titles = titles, types = types)
+    return render_template('land.html', user_name = session['user_logged'],profile_pic =  session['profile_img'], titles = titles, types = types)
 
 @charts.route('/land/<title>')
 def chart_page(title):
@@ -163,7 +165,7 @@ def chart_page(title):
         title=title
         )
         pie_chart_json = pie_chart.to_json()
-        return render_template('chart_page.html',chart_description = aux_desc, chart_tittle=aux_title,chart_topics = desimplify_topics(aux_topic), user_name = session['user_logged'], pie_chart_json = pie_chart_json )
+        return render_template('chart_page.html',user_name = session['user_logged'], profile_pic =  session['profile_img'], chart_description = aux_desc, chart_tittle=aux_title,chart_topics = aux_topic, pie_chart_json = pie_chart_json )
     else:
         os.system("cls")
         aux_topic = chart_data['topic1']
@@ -193,7 +195,7 @@ def chart_page(title):
         )
 
         pie_chart_json = pie_chart.to_json()
-        return render_template('chart_page.html',chart_description = aux_desc, chart_tittle=aux_title,chart_topic = desimplify_topics(aux_topic),chart_topic2 = desimplify_topics(aux_topic2), user_name = session['user_logged'], pie_chart_json = pie_chart_json )
+        return render_template('chart_page.html',user_name = session['user_logged'],profile_pic =  session['profile_img'], chart_description = aux_desc, chart_tittle=aux_title,chart_topic = desimplify_topics(aux_topic),chart_topic2 = desimplify_topics(aux_topic2), pie_chart_json = pie_chart_json )
 
 @charts.route('/criar-chart')
 def create_chart():
@@ -203,12 +205,30 @@ def create_chart():
     for info in sub_topics:
         sub_array.append(info['sub_topic'])
 
-    return render_template('create_chart.html',user_name = session['user_logged'],topics = combo_topics["ava_topic"], sub_topic = sub_array)
+    return render_template('create_chart.html',user_name = session['user_logged'],profile_pic =  session['profile_img'],topics = combo_topics["ava_topic"], sub_topic = sub_array)
+
+
+@charts.route('/profile')
+def profile():
+    return render_template('profile.html',user_name = session['user_logged'],profile_pic =  session['profile_img'],name = session['name'],user=session['user_logged'])
+
+#@charts.route('/profile/change_pic',methods=['POST',])
+#def cng_pic():
+#    img = base64.b64encode(request.files['img'].read()).decode('utf-8')
+#    session['profile_img'] = None
+#    session['profile_img'] = "data:image/png;base64,"+img
+#    col_users.update_one({"user":session['user_logged']},{"$set":{"profile_img":"data:image/png;base64,"+img}})
+#
+#    return render_template('profile.html',user_name = session['user_logged'],profile_pic =  session['profile_img'],name = session['name'],user=session['user_logged'])
 
 
 
-
-
+@charts.route('/profile/change_email')
+def cng_email():
+    return render_template('email.html',user_name = session['user_logged'],profile_pic =  session['profile_img'])
+@charts.route('/profile/change_password')
+def cng_password():
+    return render_template('password.html',user_name = session['user_logged'],profile_pic =  session['profile_img'])
 
 @charts.route('/inserir-chart',methods=['POST',])
 def insert_chart():
@@ -218,8 +238,8 @@ def insert_chart():
     chart_description = request.form['txtdescricao']
     chart_topic1 = simplify_topics(request.form['first-select'])
     chart_topic2 = simplify_topics(request.form['second-select'])
-    chart_subtopic2 = request.form['third-select']
-    if chart_topic2 == "simple":
+    chart_subtopic2 = request.form['second-if-select']
+    if chart_topic2 == "s":
         col_charts.insert_one({"title":chart_tittle,"creation_date":chart_date,"description":chart_description,
                           "topic1":chart_topic1,"type":"simple"})
     else:
@@ -233,7 +253,7 @@ def insert_chart():
 @charts.route('/adicionar-informações')
 def add_info():
    
-    return render_template('add_info.html', questions_r = user_questions_r, questions_l = user_questions_l)
+    return render_template('add_info.html', questions_r = user_questions_r, questions_l = user_questions_l,user_name = session['user_logged'],profile_pic =  session['profile_img'])
 
 
 @charts.route('/inserir-info',methods=['POST',])  
@@ -371,6 +391,7 @@ def regis():
         email = request.form['txtemail'],
         pwrd = request.form['txtsenha'],
         pwrdconf = request.form['txtsenhaconf'],
+        pic = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFMAAABTCAMAAADUbMsyAAABX1BMVEWenp6fn5+goKChoaGioqKjo6OkpKSlpaWmpqanp6eoqKipqamqqqqrq6usrKytrKytra2ura2urq6vrq6vr6+wr6+wsLCxsbGysrKzs7O0tLS1tbW2tra3t7e4uLi5ubm6urq7u7u8vLy9vb2+vr6/v7/AwMDBwcHCwsLDw8PExMTFxcXGxsbHxcXHx8fIxsbIyMjJx8fJycnKyMjKysrLycnLysrLy8vMy8vMzMzNzMzNzc3Ozs7Pzc3Pzs7Pz8/Qz8/Q0NDR0NDR0dHS0tLT0tLT09PU09PU1NTV1NTV1dXW1dXW1tbX1tbX19fY2NjZ2dna2dna2trb29vc29vc3Nzd3d3e3t7f39/g4ODh4ODh4eHi4uLj4+Pk5OTl5eXm5ubn5+fo5+fo6Ojp6Ojp6enq6urr6+vs7Ozt7e3u7u7v7+/w8PDx8fHy8vLz8/P09PT19fX29vb39/f///8Ku0ecAAAAAWJLR0R0322obQAAA19JREFUWMPt2etTElEUAPDDS8FXRaaoFCCpmawmYUpZlpkhEZC0V42XRCTy3uX/n2lfymvvLvcuM02T54POuGd/cx+7O+dcoT36gDvzL5lsPNsancnlCu12wQxg8WVGY9Ze2O2NdmUGpPBVR2CmxgE8rbgDlHDkDZsHomO1QSdseYNmBAbDvl83YDbXTaAWY8fUZsUJuFjh6MyGOmmZEn+u0ZmrqqQ1PC39jtGYuZ61NJktVtuY3fk0jiblnWpQmMu3I1t6fhBLplikhDxOOCI3GxaF9CRRb8zLf3eRm6wy5w3UH17lSp3YDMp3BgZItKlMIENsysv5ZJBECWXzYsTmorQ9CRXzZkE/EJsu3DARCsvmAd04w6ommtV+mDTX05RUNyNW0UwSmyHxXUGYCInblKd6PmdxJnJRPZ9VYShLWFNYmQmK9114rb1apofcvHoM4MeaPuEL2iI2swHha65lhn8TmxdRYShY0wvm00tSkz9j7bCuMU4nypObyA2bGuYaKhDP/RwFYBdrrpiiqERsZlBMuA8Xb5wIXRObReFGhI84Qk1is450Ik3xHmV0zDKFqTPQDE9Th1SKePG8xNHVYDzezFLXivglLVKbJaxZpTax23TO09feaZqp65hldfKsZcDkLyiGqdd31FRXkzPWH2VVzCuDPVf62wB58sugmT887SeZnwbNXOpVrFtkDxnmhyGTC4RQYuv1bRXKnrxkGOaev0Fv1hYgKNTF28zO4ZdE4uvnt9uMGA9g5oq6N7wPoolO95ieEPo7R5HOrIrHAEFpyp+2us2HYhlZojGbc3BjCkN936U+Ei9MVshNXm6DQrfbE323I7nbe1KpD3OkNRhf2pAbgcds94P0PSW0iFHl1MF/yQ1vVmPL9tvm1d3/zB85OmcDnqPyMGYj6jb3NNeOntKBfWbpuWpyfazqmLlV62DLvhDp1DSTg5fNvr7PfrfJJebVTyrMq/Kqsl7MUcbMcVPV5CJT2OMPeatS8/gE+35z0GSnQSvEktmtmeGI8r1m3Q/aYY6hXZ0UWLruNotTevngZfVzxtMdszCumw5j+/o5YDm7MWsTQ6TD4jBJtpJirsBQ6UNlLfCSWTbBCONCMo9HSUJAMkMjNf2SGfyPzXR4lJG6+3/Hv2D+AevXwHEUe10sAAAAAElFTkSuQmCC"
         )
     # Insert user data as a dictionary (JSON file) into the 'users' collection
     col_users.insert_one(new_user.__dict_user__())
@@ -421,6 +442,8 @@ def logar():
     for info in usercheck:
         aux_user = info['user']
         aux_pass = info['password']
+        aux_img = info['profile_img']
+        aux_name = info['name']
     # Check if the submitted username matches any user in the database
     if username == aux_user:
         # If the username matches, check if the submitted password matches the stored password
@@ -428,6 +451,8 @@ def logar():
             # If both username and password match, store the username in the session
             # Redirect the user to the '/land' page (landing page after successful login)
             session['user_logged'] = aux_user
+            session['profile_img'] = aux_img
+            session['name'] = aux_name
             return redirect('/land')
         else:
              # If the submitted password doesn't match, redirect to the index page (login page)

@@ -1,45 +1,9 @@
-<!DOCTYPE html>
-<html class="html" lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="../static/css/style-add-info.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet"/>
-    <script src="../static/js/other.js"></script>
-    <title>Charts.create</title>
-</head>
-<body>
-    <!--   N A V    B A R    -->
-    <nav>
-        <div class="logo">
-            <img src="../static/charts.logo.png">
-        </div>  
-        <div class="end-navbar-div">
-            <div class="logout-btn">
-                <input type="button" id="btn" value="Sair">
-            </div>
-            <div class="user-img" id="">  
-            </div>
-        </div>
-    </nav>
-    
-    <!--   N A V    B A R      H R   -->
-    <div class="navbar-divide-hr"></div>
-
-    <!--   P O P - U P   D O   P E R F I L   -->
-    <div class="config-popup">
-        <a href="/home/home.html">Home</a>
-        <a href="/editarperfil/editarperfil.html">Meu perfil</a>
-        <a href="#">Minhas charts</a>
-        <a href="/adicionarinfo/adicionarinfo.html">Responder perguntas</a>
-        <a href="#">Modo escuro</a>
-    </div>
-
+{% extends 'base.html' %}
+{%block content%}
     <!--   M A I N   -->
     <main>
-        <aside>
-            <span>
+        <aside class="addinfo-aside">
+            <span >
                 Você quer contribuir para o Charts?
             </span>
             <span class="margin-span">
@@ -55,7 +19,7 @@
 
 
     <!--   S E C T I O N  -->
-        <section>
+        <section class="addinfo-section">
             <form action="/inserir-info" method="post" class="inner-section-div">
                 <div class="left-inner-section-div">
                     <div class="add-info-div">
@@ -228,6 +192,4 @@
         </form>
         </section>
     </main>
-
-</body>
-</html>
+    {%endblock%}
