@@ -222,13 +222,18 @@ def profile():
 #    return render_template('profile.html',user_name = session['user_logged'],profile_pic =  session['profile_img'],name = session['name'],user=session['user_logged'])
 
 
-
 @charts.route('/profile/change_email')
 def cng_email():
     return render_template('email.html',user_name = session['user_logged'],profile_pic =  session['profile_img'])
 @charts.route('/profile/change_password')
 def cng_password():
     return render_template('password.html',user_name = session['user_logged'],profile_pic =  session['profile_img'])
+
+@charts.route('/profile/mycharts')
+def enzo():
+    
+    return render_template("my_charts.html")
+
 
 @charts.route('/inserir-chart',methods=['POST',])
 def insert_chart():
@@ -241,10 +246,10 @@ def insert_chart():
     chart_subtopic2 = request.form['second-if-select']
     if chart_topic2 == "s":
         col_charts.insert_one({"title":chart_tittle,"creation_date":chart_date,"description":chart_description,
-                          "topic1":chart_topic1,"type":"simple"})
+                          "topic1":chart_topic1,"type":"simple","creator":session['user_logged'],"creator_id":session['id']})
     else:
         col_charts.insert_one({"title":chart_tittle,"creation_date":chart_date,"description":chart_description,
-                          "topic1":chart_topic1,"topic2":chart_topic2,"subtopic2":chart_subtopic2,"type":"complex"})
+                          "topic1":chart_topic1,"topic2":chart_topic2,"subtopic2":chart_subtopic2,"type":"complex","creator":session['user_logged'],"creator_id":session['id']})
     return redirect('/land')
   
     
@@ -269,7 +274,7 @@ def insert_info():
         question_1_awn=request.form['cor']
         col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
         col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
-        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+        col_topics.update_one({'t opic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
         
         question_1 = "Idade"
         question_1_awn=request.form['idade']
@@ -444,6 +449,7 @@ def logar():
         aux_pass = info['password']
         aux_img = info['profile_img']
         aux_name = info['name']
+        aux_id = info['_id']
     # Check if the submitted username matches any user in the database
     if username == aux_user:
         # If the username matches, check if the submitted password matches the stored password
@@ -453,6 +459,7 @@ def logar():
             session['user_logged'] = aux_user
             session['profile_img'] = aux_img
             session['name'] = aux_name
+            session['id'] = aux_id
             return redirect('/land')
         else:
              # If the submitted password doesn't match, redirect to the index page (login page)

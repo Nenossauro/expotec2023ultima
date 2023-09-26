@@ -91,7 +91,7 @@ table {
 html{
 	/* setting HMTL viewports */
 	width: 100%;
-	height: 100%;
+	height: auto;
 	font-family: Krub, Inter Tight, Jaldi, sans-serif;
 }
 body{
@@ -216,7 +216,7 @@ main{
 .home-main{
     display: flex;
     flex-direction: column;
-	height: calc(100vh - calc(8rem + 0.5rem));
+    height: calc(100vh - 8.5rem);
 }
 .main-section-wrap{
     display: flex;
@@ -237,10 +237,10 @@ main{
     .home-main .new-chart-btn{
         background-color: var(--create-chart-background-color);
         cursor: pointer;
+        transition: 0.3s ease-in-out;
     }
         .home-main .new-chart-btn:hover{
             box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
-            transition: 0.3s ease-in-out;
         }
     
     /*   ADD INFO DIV    */
@@ -250,10 +250,10 @@ main{
     .home-main .answer-chart-btn{
         background-color: var(--answer-chart-background-color);
         cursor: pointer;
+        transition: 0.3s ease-in-out;
     }
         .home-main .answer-chart-btn:hover, .home-main .create-chart-btn:hover{
             box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
-            transition: 0.3s ease-in-out;
         }
     
     .home-main .new-chart-btn, .home-main .answer-chart-btn{
@@ -338,7 +338,7 @@ main{
     /*   F O O T E R   */
     footer{
         width: 100%;
-        margin: 3rem 0 3rem 0;
+        padding: 3rem 0 3rem 0;
         color: var(--primary-font-color);
         font-weight: 500;
         font-family: Inter Tight;
@@ -964,6 +964,52 @@ main{
                         height: auto;
                         margin-top: 4rem;
                     }
+
+
+
+                            /*   M Y   C H A R T S   */
+
+    .mycharts-main{
+        width: 80%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin: auto;
+    }
+        .mycharts-div{
+            width: 40rem;
+            height: 40rem;
+            border: 1px solid var(--primary-font-color);
+
+            display: flex;
+            flex-direction: column;
+            border-radius: 5rem;
+            margin: 5rem;
+
+
+        }
+            .mycharts-div-main{
+                display: flex;
+                justify-content: center;
+                align-content: center;
+                height: 90%;
+            }
+                .mycharts-main-logo{
+
+                }
+        .mycharts-div-title{
+            height: 10%;
+            padding: 2rem;
+            border-top: 1px solid var(--primary-font-color);
+
+            color: var(--primary-font-color);
+            text-align: center;
+            font-family: Fira Code;
+            font-size: 3rem;
+            font-weight: 600;
+            line-height: normal;
+        }    
+
 
 
                            /*   M E D I A   Q U E R I E S   */
