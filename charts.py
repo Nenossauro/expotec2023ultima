@@ -449,7 +449,6 @@ def logar():
         aux_pass = info['password']
         aux_img = info['profile_img']
         aux_name = info['name']
-        aux_id = info['_id']
     # Check if the submitted username matches any user in the database
     if username == aux_user:
         # If the username matches, check if the submitted password matches the stored password
@@ -459,7 +458,6 @@ def logar():
             session['user_logged'] = aux_user
             session['profile_img'] = aux_img
             session['name'] = aux_name
-            session['id'] = aux_id
             return redirect('/land')
         else:
              # If the submitted password doesn't match, redirect to the index page (login page)
