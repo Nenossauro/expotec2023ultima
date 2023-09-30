@@ -1,234 +1,346 @@
-/* fonts */
-@import url('https://fonts.googleapis.com/css2?family=Krub:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
-
-/* http://meyerweb.com/eric/tools/css/reset/ 
-   v2.0 | 20110126
-   License: none (public domain)
-*/
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-}
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
-}
-/* isso aqui fui eu que fiz, então depois que for deixar bonito a gente tira*/
-nav{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-body {
-	line-height: 1;
-}
-ol, ul {
-	list-style: none;
-}
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
-}
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-
-:root{
-    font-size: 62.5%;
-}
-html{
-	/* setting HMTL viewports */
-	width: 100%;
-	height: 100%;
-	font-family: "Krub", sans-serif;
-}
-
-
-body{
-	/* rem equivalency */
-    font-size: 1.6rem;
-	overflow: hidden;
-	/* inherit html proportions*/
-	width: 100%;
-	height: 100%;
-}
-
 /* MAIN GRID */
 .main-grid-body{
 
 	/* grid */
-	display: grid;
-	grid-template-columns: 25% 75%;
-	transition: 0.7s ease-in-out;
+	display: flex;
+	
 }
 
 /* ASIDE */
-/* isso aqui fui eu que fiz, então depois que for deixar bonito a gente tira (placeholder)*/
-.disclaimer-register{
-    border-radius: 0 7rem 7rem 0;
-    background-color: #D9D9D9;
 
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
 
-	padding-right: 7rem;
-	box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
-}
-.disclaimer-upper-text, .disclaimer-lower-text, span{
-	display: inherit;
-	flex-direction: inherit;
-	margin: 1rem;
-}
-.disclaimer-upper-text{
-	font-size: 2.2rem;
-	font-weight: 700;
-}
-.disclaimer-lower-text{
-	margin-top: 6rem;
-	font-weight: 400;
-	font-size: 1.7rem;
-}
-.disclaimer-source-text{
-	font-size: 2rem;
-}
-.GitHub{
-	font-weight: 600;
-	margin: 3rem;
-}
+	.disclaimer-register{
+        width: 50%;
+
+		border-radius: 0 7rem 7rem 0;
+		background-color: #D9D9D9;
+
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+
+		padding-right: 7rem;
+		box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+	}
+		.disclaimer-upper-text, .disclaimer-lower-text, span{
+			display: inherit;
+			flex-direction: inherit;
+			margin: 3rem 0 0 1rem;
+		}
+			.disclaimer-upper-text{
+				font-size: 3rem;
+				font-weight: 700;
+			}
+			.disclaimer-lower-text{
+				margin-top: 6rem;
+				font-weight: 400;
+				font-size: 2rem;
+			}
+		.disclaimer-source-text{
+			font-size: 2rem;
+		}
+	.GitHub{
+		font-weight: 600;
+		margin: 3rem;
+	}
+
 /* MAIN	*/
 .main-start{
+    height: auto;
 	position: relative;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
-/* start button main */
-.div-start-button, #btn{
-	width: 26rem;
-	height: 10rem;
+	/* start button main */
+	.start{
+		display: flex;
+		text-align: center;
+		flex-direction: column;
+	}
+		.div-start-button #btn-register, .btn-div input{
+			width: 25rem;
+			height: 10rem;
 
-	border-radius: 4rem;
-	background: #FF7A00;
-	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-	transition: transform ease 0.5s, box-shadow ease 0.5s;
+			border-radius: 4rem;
+			background: #FF7A00;
+			box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+			transition: transform ease 0.5s, box-shadow ease 0.5s;
 
-	border: none;
-	font-size: 3rem;
-	font-weight: 700;
-	color: #fff;
-}
-#btn:hover{
-	transform: translateY(-5px);
-  	box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
-}
-.start{
+			border: none;
+			font-size: 3rem;
+			font-weight: 700;
+			color: #fff;
+		}
+			.div-start-button #btn-register:hover, .btn-div input:hover{
+				transform: translateY(-5px);
+				box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
+			}
+		.login-portal{
+			color: #FF7A00;
+			font-size: 1.7rem;
+			margin: 1.5rem;
+		}
+
+		/* absolutes divs enzo you are crazy */
+		.registration-div, .login-div{
+			position: absolute;
+			background-color: #FF67F9;
+			width: 70%;
+			height: auto;
+
+			transform: translateX(+100vw); 
+			transition: 0.8s;
+
+			border-radius: 4rem;
+			z-index: 1;
+			
+			box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+
+			display: flex;
+			flex-direction: column;
+		}
+		.inner-registration-div span, .login-div span{
+				font-size: 3rem;
+				font-weight: 600;
+			}
+			.inner-registration-div input, .inner-login-div input{ 
+				width: auto;
+				height: 3rem;
+				color:rgb(50, 50, 50);
+				padding: 1rem 1.5rem 1rem 1.5rem;
+				font-size: 2.5rem;
+				font-weight: 200;
+				border-radius: 2.5rem;
+				outline: 0;
+				border: 0;
+			
+				background-color: #D9D9D9;
+				box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
+			}
+
+		.registration-div, .login-div{
+
+		}
+
+			/* registration div */
+			.registration-div.entry{
+				transform: translateX(0);
+				padding: 3rem;
+			}
+				.inner-registration-div{
+					width: 100%;
+					height: 100%;
+					display: flex;
+					flex-direction: row;
+				}
+			
+
+			/* LOGIN DIV */
+			.login-div{
+				flex-direction: column;
+				width: auto;
+			}
+				.login-div.entry{
+					transform: translateX(0);
+					padding: 3rem;
+				}
+				
+			.login-div .btn-div{
+				margin-top: 5rem;
+			}
+
+
+		/* inputs */
+		.div-input{
+			width: auto;
+			margin-top: 2rem;
+		}
+		.input-group-left, .input-group-right{
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			width: 100%;
+		}
+
+		.btn-div{
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+			.btn-div input{
+				margin: 5rem 5rem 3rem 5rem;
+			}
+/* MAIN GRID */
+.main-grid-body{
+
+	/* grid */
 	display: flex;
-	text-align: center;
-	flex-direction: column;
-}
-.login-portal{
-	color: #FF7A00;
-	font-size: 1.7rem;
-	margin: 1.5rem;
-}
-
-/* registration div */
-.registration-div,.login-div{
-	position: absolute;
-	background-color: #EE8FEA;
-	width: 90%;
-	height: 95%;
-
-	transform: translateX(+100vw); 
-	transition: 0.8s;
-
-	border-radius: 4rem;
-	z-index: 1;
 	
-	box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-
-	display: grid;
-	grid-template-areas: "registration"
-						 "btndiv";
-}
-.registration-div.entry,.login-div.entry{
-	transform: translateX(0);
 }
 
-/* registration page */
-.registration-page{
-	width: 100%;
-	height: 100%;
-	display: grid;
-	grid-template-areas: "inputleft inputright";
-	grid-area: "registration";
-	grid-gap: 2.5rem;
-	margin-left: 2.5rem;
-	margin-right: 2.5rem;
-}
-.registration-page span{
-	font-size: 3rem;
-	font-weight: 600;
-}
-.registration-page input{ 
-	width: 95%;
-	height: 3rem;
-	color:rgb(50, 50, 50);
-	padding: 1rem 1.5rem 1rem 1.5rem;
-	font-size: 2.5rem;
-	font-weight: 200;
-	border-radius: 2.5rem;
-	outline: 0;
-	border: 0;
+/* ASIDE */
 
-	background-color: #D9D9D9;
-	box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
-}
-/* input groups */
-.div-input{
-	margin-top: 5rem;
-}
-.input-group-left{
-	grid-area: inputleft;
-	width: 100%;
 
-}
-.input-group-right{
-	grid-area: inputright;
-	width: 100%;
+	.disclaimer-register{
+        width: 50%;
 
-}
+		border-radius: 0 7rem 7rem 0;
+		background-color: #D9D9D9;
 
-.btn-div{
-	width: 100%;
-	grid-area: btndiv;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
 
+		padding-right: 7rem;
+		box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+	}
+		.disclaimer-upper-text, .disclaimer-lower-text, span{
+			display: inherit;
+			flex-direction: inherit;
+			margin: 3rem 0 0 1rem;
+		}
+			.disclaimer-upper-text{
+				font-size: 3rem;
+				font-weight: 700;
+			}
+			.disclaimer-lower-text{
+				margin-top: 6rem;
+				font-weight: 400;
+				font-size: 2rem;
+			}
+		.disclaimer-source-text{
+			font-size: 2rem;
+		}
+	.GitHub{
+		font-weight: 600;
+		margin: 3rem;
+	}
+
+/* MAIN	*/
+.main-start{
+    height: auto;
+	position: relative;
 	display: flex;
-	justify-content: end;
+	justify-content: center;
+	align-items: center;
 }
-.btn-div input#btn{
-	margin-right: 5rem;
-}
+	/* start button main */
+	.start{
+		display: flex;
+		text-align: center;
+		flex-direction: column;
+	}
+		.div-start-button #btn-register, .btn-div input{
+			width: 25rem;
+			height: 10rem;
+
+			border-radius: 4rem;
+			background: #FF7A00;
+			box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+			transition: transform ease 0.5s, box-shadow ease 0.5s;
+
+			border: none;
+			font-size: 3rem;
+			font-weight: 700;
+			color: #fff;
+		}
+			.div-start-button #btn-register:hover, .btn-div input:hover{
+				transform: translateY(-5px);
+				box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
+			}
+		.login-portal{
+			color: #FF7A00;
+			font-size: 1.7rem;
+			margin: 1.5rem;
+		}
+
+		/* absolutes divs enzo you are crazy */
+		.registration-div, .login-div{
+			position: absolute;
+			background-color: #FF67F9;
+			width: 70%;
+			height: auto;
+
+			transform: translateX(+100vw); 
+			transition: 0.8s;
+
+			border-radius: 4rem;
+			z-index: 1;
+			
+			box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+
+			display: flex;
+			flex-direction: column;
+		}
+		.inner-registration-div span, .login-div span{
+				font-size: 3rem;
+				font-weight: 600;
+			}
+			.inner-registration-div input, .inner-login-div input{ 
+				width: auto;
+				height: 3rem;
+				color:rgb(50, 50, 50);
+				padding: 1rem 1.5rem 1rem 1.5rem;
+				font-size: 2.5rem;
+				font-weight: 200;
+				border-radius: 2.5rem;
+				outline: 0;
+				border: 0;
+			
+				background-color: #D9D9D9;
+				box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
+			}
+
+		.registration-div, .login-div{
+
+		}
+
+			/* registration div */
+			.registration-div.entry{
+				transform: translateX(0);
+				padding: 3rem;
+			}
+				.inner-registration-div{
+					width: 100%;
+					height: 100%;
+					display: flex;
+					flex-direction: row;
+				}
+			
+
+			/* LOGIN DIV */
+			.login-div{
+				flex-direction: column;
+				width: auto;
+			}
+				.login-div.entry{
+					transform: translateX(0);
+					padding: 3rem;
+				}
+				
+			.login-div .btn-div{
+				margin-top: 5rem;
+			}
+
+
+		/* inputs */
+		.div-input{
+			width: auto;
+			margin-top: 2rem;
+		}
+		.input-group-left, .input-group-right{
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			width: 100%;
+		}
+
+		.btn-div{
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+			.btn-div input{
+				margin: 5rem 5rem 3rem 5rem;
+			}

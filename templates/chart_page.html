@@ -27,12 +27,37 @@
 
 
         <aside class="chart-aside">
-            <div class="inner-span-aside-div">
-                <span>Sobre "{{chart_tittle}}":</span>
-            </div>
 
             <div class="inner-info-aside-div">
                 <div class="info-aside-div">
+                    <!--   CRIADOR   -->
+                    <div class="author-div">
+                        <div class="author-div-span">
+                            <span>Criador da chart:</span> 
+                        </div>
+                        <span>%{{chart_author}}</span>
+                    </div>
+
+                    <!--   DATA DE CRIACAO   -->
+                    <div class="date-div">
+                        <div class="date-div-span">
+                            Data:
+                        </div>
+                        <span>{{chart_creation}}</span>
+                    </div>
+
+                    <!--   DESCRIÇÃO   -->
+                    <div class="desc-div">
+                        <div class="desc-div-span">
+                            Descrição:
+                        </div>
+                        <div class="desc-div-content">
+                            {{chart_description}}
+                        </div>
+                    </div>
+
+                    <!--   TOPICOS   -->
+                    
                     <div class="topic-div">
                         <div class="topic-div-span">
                             Tópicos relacionados:
@@ -45,14 +70,9 @@
                              </ul>
                         </div>
                     </div>
-                    <div class="desc-div">
-                        <div class="desc-div-span">
-                            Descrição pelo criador:
-                        </div>
-                        <div class="desc-div-content">
-                            {{chart_description}}
-                        </div>
-                    </div>
+
+                    
+                    
                 </div>
             </div>
         </aside>

@@ -10,22 +10,23 @@
     <title>Charts.Home</title>
 </head>
 <body>
+    <div class="loading-page">
+        <div>
+            <img src="/static/donut-chart.png">
+        </div>
+    </div>
+
      <!--   N A V    B A R    -->
      <nav>
         <div class="logo">
             <img id="logo" src="../static/charts.logo.png">
         </div>  
         <div class="end-navbar-div">
-            <div class="logout-btn">
-                <form action="/logout" method="POST">
-                    <input type="submit" id="btn" value="Sair">
-                </form>            
-            </div>
-            <div>
-            {{user_name}}
+            <div class="navbar-user-username">
+            %{{user_name}}
             </div>
             <div class="user-img"> 
-                <img src="{{profile_pic}}">
+                <img src="/static/default-user-img.svg">
             </div>
         </div>
     </nav>
@@ -40,6 +41,11 @@
         <a href="/profile/mycharts">Minhas charts</a>
         <a href="/adicionar-informações">Responder perguntas</a>
         <a id="toggle-dark-mode" href="#">Modo escuro</a>
+        <div class="logout-btn">
+            <form action="/logout" method="POST">
+                <input type="submit" id="btn" value="Sair">
+            </form>            
+        </div>
     </div>
 
     {%block content%}{%endblock%}
@@ -51,5 +57,5 @@
             <span>
             Todos os direitos reservados ao TIN3A &copy;.
         </span>
-        </footer>
+    </footer>
    </div>

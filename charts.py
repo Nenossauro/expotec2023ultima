@@ -1,5 +1,6 @@
 # Import necessary modules from Flask, pymongo, and os
 from flask import Flask, render_template, request, redirect, session, flash
+from bson.objectid import ObjectId
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 import pymongo as mongo
@@ -16,6 +17,11 @@ col_users = db["users"]
 col_charts = db["charts"]
 col_topics = db["topics"]
 col_questions = db["questions"]
+
+def update_user_data(session,question,question_awnser):
+    col_users.update_one({'user':session},{"$set":{new_simplify_topics(question):question_awnser}})
+    col_users.update_one({'user':session,'sub_topic': {'$ne': question}},{'$addToSet':{'ava_topic':question}})
+    col_topics.update_one({'topic':question,'sub_topic': {'$ne': question_awnser}},{'$addToSet': {'sub_topic': question_awnser}})
 
 def new_simplify_topics(info):
    
@@ -115,8 +121,6 @@ charts = Flask(__name__)
 charts.secret_key = 'enzo'
 
 
-user_questions_l = ['Qual seu animal favorito?','Qual sua musica favorita?']
-user_questions_r = ['Você já saiu do país?','Qual sua idade?']
 
 # Define route to render index.html template
 @charts.route('/')
@@ -142,14 +146,21 @@ def chart_page(title):
         return redirect('/')
     chart_data = col_charts.find_one({"title": title})
     aux_title = chart_data['title']
+    aux_creation = chart_data['creation_date']
+    aux_author = chart_data['creator']
     aux_type = chart_data['type']
     aux_desc = chart_data['description']
+    
     if aux_type=="simple":
+
+
         os.system("cls")
         aux_topic = chart_data['topic1']
         user_topics = []
-        user_data = col_users.find({aux_topic: {'$ne': ''}})
+        user_data = col_users.find({aux_topic: {'$exists': True}})
         user_topics = [each[aux_topic] for each in user_data]
+
+
         df = pandas.DataFrame({'category': user_topics})
         counts = df['category'].value_counts().sort_index()
         chart_df = pandas.DataFrame({'Topic': counts.index, 'Frequency': counts.values})
@@ -165,7 +176,10 @@ def chart_page(title):
         title=title
         )
         pie_chart_json = pie_chart.to_json()
-        return render_template('chart_page.html',user_name = session['user_logged'], profile_pic =  session['profile_img'], chart_description = aux_desc, chart_tittle=aux_title,chart_topics = aux_topic, pie_chart_json = pie_chart_json )
+
+
+
+        return render_template('chart_page.html',user_name = session['user_logged'], profile_pic =  session['profile_img'], chart_description = aux_desc, chart_tittle=title,chart_topics = aux_topic, pie_chart_json = pie_chart_json, chart_creation = aux_creation, chart_author = aux_author )
     else:
         os.system("cls")
         aux_topic = chart_data['topic1']
@@ -174,7 +188,7 @@ def chart_page(title):
         user_topics = []
         user_data = col_users.find({
             '$and': [
-                { aux_topic: { '$ne': '' } },
+                { aux_topic: { '$exists': True } },
                 { aux_topic2: aux_subtopic }
             ]
         })
@@ -195,7 +209,7 @@ def chart_page(title):
         )
 
         pie_chart_json = pie_chart.to_json()
-        return render_template('chart_page.html',user_name = session['user_logged'],profile_pic =  session['profile_img'], chart_description = aux_desc, chart_tittle=aux_title,chart_topic = desimplify_topics(aux_topic),chart_topic2 = desimplify_topics(aux_topic2), pie_chart_json = pie_chart_json )
+        return render_template('chart_page.html',user_name = session['user_logged'],profile_pic =  session['profile_img'], chart_description = aux_desc, chart_tittle=aux_title,chart_topic = desimplify_topics(aux_topic),chart_topic2 = desimplify_topics(aux_topic2), pie_chart_json = pie_chart_json, chart_creation = aux_creation, chart_author = aux_author )
 
 @charts.route('/criar-chart')
 def create_chart():
@@ -204,8 +218,25 @@ def create_chart():
     sub_array = []
     for info in sub_topics:
         sub_array.append(info['sub_topic'])
-
+    print(sub_array[2])
     return render_template('create_chart.html',user_name = session['user_logged'],profile_pic =  session['profile_img'],topics = combo_topics["ava_topic"], sub_topic = sub_array)
+
+@charts.route('/inserir-chart',methods=['POST',])
+def insert_chart():
+    
+    chart_tittle = request.form['txttitulo']
+    chart_date = request.form['txtdata']
+    chart_description = request.form['txtdescricao']
+    chart_topic1 = simplify_topics(request.form['first-select'])
+    chart_topic2 = simplify_topics(request.form['second-select'])
+    chart_subtopic2 = request.form['second-if-select']
+    if chart_topic2 == "s":
+        col_charts.insert_one({"title":chart_tittle,"creation_date":chart_date,"description":chart_description,
+                          "topic1":chart_topic1,"type":"simple","creator":session['user_logged'],'creator_id':session['id']})
+    else:
+        col_charts.insert_one({"title":chart_tittle,"creation_date":chart_date,"description":chart_description,
+                          "topic1":chart_topic1,"topic2":chart_topic2,"subtopic2":chart_subtopic2.lower(),"type":"complex","creator":session['user_logged'],'creator_id':session['id']})
+    return redirect('/land')
 
 
 @charts.route('/profile')
@@ -230,27 +261,18 @@ def cng_password():
     return render_template('password.html',user_name = session['user_logged'],profile_pic =  session['profile_img'])
 
 @charts.route('/profile/mycharts')
-def enzo():
-    
-    return render_template("my_charts.html")
+def mycharts():
+    mychart = col_charts.find({"creator":session['user_logged']})
+    titles = []
+    types = []
+    for aux_charts in mychart:
+        print(aux_charts['title'])
+        titles.append(aux_charts['title'])
+        types.append(aux_charts['type'])
+    return render_template("my_charts.html", chart_title = titles, user_name=session['user_logged'])
 
 
-@charts.route('/inserir-chart',methods=['POST',])
-def insert_chart():
-    
-    chart_tittle = request.form['txttitulo']
-    chart_date = request.form['txtdata']
-    chart_description = request.form['txtdescricao']
-    chart_topic1 = simplify_topics(request.form['first-select'])
-    chart_topic2 = simplify_topics(request.form['second-select'])
-    chart_subtopic2 = request.form['second-if-select']
-    if chart_topic2 == "s":
-        col_charts.insert_one({"title":chart_tittle,"creation_date":chart_date,"description":chart_description,
-                          "topic1":chart_topic1,"type":"simple","creator":session['user_logged'],"creator_id":session['id']})
-    else:
-        col_charts.insert_one({"title":chart_tittle,"creation_date":chart_date,"description":chart_description,
-                          "topic1":chart_topic1,"topic2":chart_topic2,"subtopic2":chart_subtopic2,"type":"complex","creator":session['user_logged'],"creator_id":session['id']})
-    return redirect('/land')
+
   
     
 
@@ -258,7 +280,7 @@ def insert_chart():
 @charts.route('/adicionar-informações')
 def add_info():
    
-    return render_template('add_info.html', questions_r = user_questions_r, questions_l = user_questions_l,user_name = session['user_logged'],profile_pic =  session['profile_img'])
+    return render_template('add_info.html', user_name = session['user_logged'],profile_pic =  session['profile_img'])
 
 
 @charts.route('/inserir-info',methods=['POST',])  
@@ -266,123 +288,92 @@ def insert_info():
         
         question_1 = "Animal Favorito"
         question_1_awn=request.form['animal']
-        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
-        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
-        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
+
 
         question_1 = "Cor Favorita"
         question_1_awn=request.form['cor']
-        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
-        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
-        col_topics.update_one({'t opic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
-        
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
         question_1 = "Idade"
         question_1_awn=request.form['idade']
-        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
-        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
-        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
 
         question_1 = "Como veio"
         question_1_awn=request.form['transporte']
-        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
-        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
-        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
 
         question_1 = "Tem pet"
         question_1_awn=request.form['pet']
-        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
-        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
-        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
 
         question_1 = "Musica Favorita"
         question_1_awn=request.form['musica']
-        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
-        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
-        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
 
         question_1 = "Já saiu do país"
         question_1_awn=request.form['pais']
-        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
-        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
-        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
 
         question_1 = "Metros de Altura"
         question_1_awn=request.form['altura']
-        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
-        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
-        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
-
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
         question_1 = "Quantidade de livros lidos esse ano"
         question_1_awn=request.form['livro_ano']
-        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
-        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
-        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
 
         question_1 = "Já saiu do estado"
         question_1_awn=request.form['estado']
-        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
-        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
-        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
+
 
         question_1 = "Está trabalhando"
         question_1_awn=request.form['trabalha']
-        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
-        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
-        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
+
 
         question_1 = "Filme Favorito"
         question_1_awn=request.form['filme']
-        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
-        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
-        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
+
 
         question_1 = "Genero de Musica"
         question_1_awn=request.form['musica_genero']
-        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
-        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
-        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
+
 
         question_1 = "Genero de Filme"
         question_1_awn=request.form['filme_genero']
-        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
-        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
-        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
 
         question_1 = "Cor dos olhos"
         question_1_awn=request.form['olhos']
-        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
-        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
-        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
+
 
         question_1 = "Relacionamento romantico"
         question_1_awn=request.form['relacionamento']
-        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
-        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
-        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
+
 
         question_1 = "Melhor animal de estimação"
         question_1_awn=request.form['melhor_pet']
-        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
-        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
-        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
+
 
         question_1 = "Achou o site interessante"
         question_1_awn=request.form['interessante']
-        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
-        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
-        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
+
 
         question_1 = "Quantidade de refeições no dia"
         question_1_awn=request.form['refeicoes']
-        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
-        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
-        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
+
 
         question_1 = "Quantidade de quartos em casa"
         question_1_awn=request.form['quartos']
-        col_users.update_one({'user':session['user_logged']},{"$set":{new_simplify_topics(question_1):question_1_awn}})
-        col_users.update_one({'user':session['user_logged'],'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
-        col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
+
     
 
         return redirect('/land')
@@ -403,67 +394,90 @@ def regis():
     sessao = request.form['txtusuario']
     question_1 = "País em que mora"
     question_1_awn=request.form['txtpais']
-    col_users.update_one({'user':sessao},{"$set":{new_simplify_topics(question_1):question_1_awn}})
-    col_users.update_one({'user':sessao,'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
-    col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
-
+    update_user_data(sessao,question_1,question_1_awn.lower())
     question_1 = "Estado em que mora"
-    question_1_awn=request.form['txtestado']
-    col_users.update_one({'user':sessao},{"$set":{new_simplify_topics(question_1):question_1_awn}})
-    col_users.update_one({'user':sessao,'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
-    col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
-
+    question_1_awn=request.form['txtestado'] 
+    update_user_data(sessao,question_1,question_1_awn.lower())
     question_1 = "Cidade em que mora"
     question_1_awn=request.form['txtcidade']
-    col_users.update_one({'user':sessao},{"$set":{new_simplify_topics(question_1):question_1_awn}})
-    col_users.update_one({'user':sessao,'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
-    col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
-
+    update_user_data(sessao,question_1,question_1_awn.lower())
     question_1 = "Cor do Cabelo"
     question_1_awn=request.form['txtcorcabelo']
-    col_users.update_one({'user':sessao},{"$set":{new_simplify_topics(question_1):question_1_awn}})
-    col_users.update_one({'user':sessao,'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
-    col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
-
+    update_user_data(sessao,question_1,question_1_awn.lower())
     question_1 = "Numero do calçado"
     question_1_awn=request.form['txtcalcado']
-    col_users.update_one({'user':sessao},{"$set":{new_simplify_topics(question_1):question_1_awn}})
-    col_users.update_one({'user':sessao,'sub_topic': {'$ne': question_1}},{'$addToSet':{'ava_topic':question_1}})
-    col_topics.update_one({'topic':question_1,'sub_topic': {'$ne': question_1_awn}},{'$addToSet': {'sub_topic': question_1_awn}})
+    update_user_data(sessao,question_1,question_1_awn.lower())
+
+    username = request.form['txtusuario']
+    password = request.form['txtsenha']
+    # Search the 'users' collection in the database for a user with the specified username
+    try:
+        usercheck = col_users.find({"user":username})
+        # Iterate over the search results (usually just one user document)
+        for info in usercheck:
+            aux_user = info['user']
+            aux_pass = info['password']
+            aux_img = info['profile_img']
+            aux_name = info['name']
+            aux_id = info['_id']
+        # Check if the submitted username matches any user in the database
+        if username == aux_user:
+            # If the username matches, check if the submitted password matches the stored password
+            if password == aux_pass:
+                # If both username and password match, store the username in the session
+                # Redirect the user to the '/land' page (landing page after successful login)
+                session['user_logged'] = aux_user
+                session['profile_img'] = aux_img
+                session['name'] = aux_name
+                session['id'] = str(aux_id)
+                return redirect('/land')
+            else:
+                # If the submitted password doesn't match, redirect to the index page (login page)
+                return redirect('/')
+        else:
+            # If the submitted username doesn't match any user in the database, redirect to the index page
+            return redirect('/')
+    except:
+        return redirect('/')
 
     # Render the index.html template after registration
-    return redirect('/')
+    return redirect('/land')
 
 # Define route for authentication of user
 @charts.route('/logar',methods=['POST',])
 # Run the Flask app
 def logar():
-    # Retrieve the username and password submitted in the login form
+  # Retrieve the username and password submitted in the login form
     username = request.form['txtusuariologin']
     password = request.form['txtsenhalogin']
     # Search the 'users' collection in the database for a user with the specified username
-    usercheck = col_users.find({"user":username})
-    # Iterate over the search results (usually just one user document)
-    for info in usercheck:
-        aux_user = info['user']
-        aux_pass = info['password']
-        aux_img = info['profile_img']
-        aux_name = info['name']
-    # Check if the submitted username matches any user in the database
-    if username == aux_user:
-        # If the username matches, check if the submitted password matches the stored password
-        if password == aux_pass:
-            # If both username and password match, store the username in the session
-            # Redirect the user to the '/land' page (landing page after successful login)
-            session['user_logged'] = aux_user
-            session['profile_img'] = aux_img
-            session['name'] = aux_name
-            return redirect('/land')
+    try:
+        usercheck = col_users.find({"user":username})
+        # Iterate over the search results (usually just one user document)
+        for info in usercheck:
+            aux_user = info['user']
+            aux_pass = info['password']
+            aux_img = info['profile_img']
+            aux_name = info['name']
+            aux_id = info['_id']
+        # Check if the submitted username matches any user in the database
+        if username == aux_user:
+            # If the username matches, check if the submitted password matches the stored password
+            if password == aux_pass:
+                # If both username and password match, store the username in the session
+                # Redirect the user to the '/land' page (landing page after successful login)
+                session['user_logged'] = aux_user
+                session['profile_img'] = aux_img
+                session['name'] = aux_name
+                session['id'] = str(aux_id)
+                return redirect('/land')
+            else:
+                # If the submitted password doesn't match, redirect to the index page (login page)
+                return redirect('/')
         else:
-             # If the submitted password doesn't match, redirect to the index page (login page)
+            # If the submitted username doesn't match any user in the database, redirect to the index page
             return redirect('/')
-    else:
-        # If the submitted username doesn't match any user in the database, redirect to the index page
+    except:
         return redirect('/')
 
 @charts.route('/logout',methods=['POST',])

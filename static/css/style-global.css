@@ -37,6 +37,15 @@
     --desc-title-color: #7e3ce6;
 }
 
+@keyframes rotation {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(359deg);
+    }
+  }
+
 
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
@@ -105,6 +114,30 @@ body{
 	height: 100%;
 }
 
+/*   L O A D I N G   P A G E   */
+.loading-page{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #505050;
+    opacity: 50%;
+
+    visibility: hidden;
+    z-index: 10;
+}
+    .loading-page img{
+        animation: rotation 2s infinite linear;
+        user-select: none;
+    }
+    .loading-page.show{
+        visibility: visible;
+    }
+
+
 /*   N A V    B A R    */
 nav{
     position:sticky;
@@ -131,30 +164,16 @@ nav{
 		align-items: center;
 	}
 
-	/*   LOG OUT BUTTON    */
-	.logout-btn #btn{
-		width: 9rem;
-		height: 5rem;
-		margin: 2rem;
+    /*   USER USERNAME   */
+    .navbar-user-username{
+        margin: 2rem;
+        margin-left: 0;
 
-		border-radius: 4rem;
-		background: var(--primary-color);
-		box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-		transition: transform ease 0.5s, box-shadow ease 0.5s;
-
-		border: none;
-		font-size: 1.7rem;
-		font-weight: 600;
-		color: #fff;
-		cursor: pointer;
-
-		font-family: Inter Tight;
-		font-weight: 400;
-	}
-		.logout-btn #btn:hover{
-			transform: translateY(-5px);
-			box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
-		}
+        color: var(--primary-color);
+        font-size: 2rem;
+        font-weight: 700;
+        font-family: Fira Code;
+    }    
 
 	/*   USER IMAGE    */
 	.user-img{
@@ -179,7 +198,7 @@ nav{
 	visibility: hidden;
 
 	width: 30rem;
-    height: 35rem;
+    height: auto;
 
 	position: absolute;
 	right: 0;
@@ -191,11 +210,12 @@ nav{
 	box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
 }
 	.config-popup a{
-		margin: 2rem;
+		padding: 2rem;
 		color: var(--secondary-font-color);
 		font-family: Inter Tight;
 		font-weight: 500;
 		font-size: 2.5rem;
+        border-bottom: 1px solid var(--secondary-font-color);
 	}
 	.config-popup a:hover{
 		font-weight: 600;
@@ -204,12 +224,219 @@ nav{
 	visibility: visible;
 }
 
+/*   LOG OUT BUTTON    */
+.logout-btn{
+    display: flex;
+    justify-content: center;
+}
+.logout-btn #btn{
+    width: 9rem;
+    height: 5rem;
+    margin: 2rem;
+
+    border-radius: 4rem;
+    background: var(--primary-color);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    transition: transform ease 0.5s, box-shadow ease 0.5s;
+
+    border: none;
+    font-size: 1.7rem;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+
+    font-family: Inter Tight;
+    font-weight: 400;
+}
+    .logout-btn #btn:hover{
+        transform: translateY(-5px);
+        box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
+    }
+
 /*   M A I N   */
 main{
 	width: 100%;
 	height: calc(100vh - calc(8rem + 0.5rem));
 	display: flex;
 }
+
+                                    /*   I N D E X   */
+
+                                    
+/* MAIN GRID */
+.main-grid-body{
+
+	/* grid */
+	display: grid;
+	height: 100vh;
+	grid-template-columns: 25% 75%;
+	transition: 0.7s ease-in-out;
+    overflow-x: hidden;
+}
+
+/* ASIDE */
+
+
+	.disclaimer-register{
+		border-radius: 0 7rem 7rem 0;
+		background-color: #D9D9D9;
+
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+
+		padding-right: 7rem;
+		box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+	}
+		.disclaimer-upper-text, .disclaimer-lower-text, span{
+			display: inherit;
+			flex-direction: inherit;
+			margin: 1rem;
+		}
+			.disclaimer-upper-text{
+				font-size: 2.2rem;
+				font-weight: 700;
+			}
+			.disclaimer-lower-text{
+				margin-top: 6rem;
+				font-weight: 400;
+				font-size: 1.7rem;
+			}
+		.disclaimer-source-text{
+			font-size: 2rem;
+		}
+	.GitHub{
+		font-weight: 600;
+		margin: 3rem;
+	}
+
+/* MAIN	*/
+.main-start{
+    height: auto;
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+	/* start button main */
+	.start{
+		display: flex;
+		text-align: center;
+		flex-direction: column;
+	}
+		.div-start-button #btn-register, .btn-div input{
+			width: 26rem;
+			height: 10rem;
+
+			border-radius: 4rem;
+			background: #FF7A00;
+			box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+			transition: transform ease 0.5s, box-shadow ease 0.5s;
+
+			border: none;
+			font-size: 3rem;
+			font-weight: 700;
+			color: #fff;
+		}
+			.div-start-button #btn-register:hover, .btn-div input:hover{
+				transform: translateY(-5px);
+				box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
+			}
+		.login-portal{
+			color: #FF7A00;
+			font-size: 1.7rem;
+			margin: 1.5rem;
+		}
+
+		/* absolutes divs enzo you are crazy */
+		.registration-div, .login-div{
+			position: absolute;
+			background-color: #FF67F9;
+			width: 70%;
+			height: auto;
+
+			transform: translateX(+100vw); 
+			transition: 0.8s;
+
+			border-radius: 4rem;
+			z-index: 1;
+			
+			box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+
+			display: flex;
+			flex-direction: column;
+		}
+		.inner-registration-div span, .login-div span{
+				font-size: 3rem;
+				font-weight: 600;
+			}
+			.inner-registration-div input, .inner-login-div input{ 
+				width: auto;
+				height: 3rem;
+				color:rgb(50, 50, 50);
+				padding: 1rem 1.5rem 1rem 1.5rem;
+				font-size: 2.5rem;
+				font-weight: 200;
+				border-radius: 2.5rem;
+				outline: 0;
+				border: 0;
+			
+				background-color: #D9D9D9;
+				box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
+			}
+
+		.registration-div, .login-div{
+
+		}
+
+			/* registration div */
+			.registration-div.entry{
+				transform: translateX(0);
+				padding: 3rem;
+			}
+				.inner-registration-div{
+					width: 100%;
+					height: 100%;
+					display: flex;
+					flex-direction: row;
+				}
+			
+
+			/* LOGIN DIV */
+			.login-div{
+				flex-direction: column;
+				width: auto;
+			}
+				.login-div.entry{
+					transform: translateX(0);
+					padding: 3rem;
+				}
+				
+			.login-div .btn-div{
+				margin-top: 5rem;
+			}
+
+
+		/* inputs */
+		.div-input{
+			width: auto;
+			margin-top: 2rem;
+		}
+		.input-group-left, .input-group-right{
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			width: 100%;
+		}
+
+		.btn-div{
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+			.btn-div input{
+				margin: 5rem 5rem 3rem 5rem;
+			}
 
                                         /*   H O M E   */
 
@@ -907,19 +1134,8 @@ main{
             display: flex;
             flex-direction: column;
         }
-            .inner-span-aside-div{
-                height: auto;
-                margin: 5rem;
-
-                color: var(--primary-font-color);
-                text-align: center;
-                font-family: Krub;
-                font-size: 4rem;
-                font-weight: 600;
-                line-height: normal;
-            }
             .inner-info-aside-div{
-                margin: 0 5rem 5rem 5rem;
+                margin: 5rem;
                 height: 100%;
             }
                 .info-aside-div{
@@ -933,11 +1149,15 @@ main{
                     display: flex;
                     flex-direction: column;
                 }
+                .author-div, .date-div, .desc-div, .topic-div{
+                    border-bottom: 1px solid var(--primary-font-color);
+                    margin-bottom: 4rem;
+                }
                     .topic-div{
                         width: 100%;
                         height: 35%;
                     }
-                    .topic-div-content, .desc-div-content{
+                    .topic-div-content, .desc-div-content, .author-div, .date-div{
                         color: var(--primary-font-color);
                         font-family: Krub;
                         font-size: 2.5rem;
@@ -948,7 +1168,7 @@ main{
                             margin: 1rem;
                             list-style:disc;
                         }
-                        .topic-div-span, .desc-div-span{
+                        .topic-div-span, .desc-div-span, .author-div-span, .date-div-span{
                             width: auto;
                             height: auto;
                             margin-bottom: 3rem;
@@ -962,7 +1182,7 @@ main{
                     .desc-div{
                         width: 100%;
                         height: auto;
-                        margin-top: 4rem;
+                        margin-bottom: 4rem;
                     }
 
 
@@ -970,7 +1190,8 @@ main{
                             /*   M Y   C H A R T S   */
 
     .mycharts-main{
-        width: 80%;
+        width: 90%;
+        height: auto;
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
@@ -979,23 +1200,32 @@ main{
         .mycharts-div{
             width: 40rem;
             height: 40rem;
-            border: 1px solid var(--primary-font-color);
+            border: 5px solid var(--primary-font-color);
 
             display: flex;
             flex-direction: column;
             border-radius: 5rem;
-            margin: 5rem;
+            margin: 5rem 5rem 0 5rem;
 
+            cursor: pointer;
 
+            transition: 0.3s ease-in-out;
+        }
+        .mycharts-div:hover{
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
         }
             .mycharts-div-main{
                 display: flex;
                 justify-content: center;
-                align-content: center;
+                align-items: center;
                 height: 90%;
             }
                 .mycharts-main-logo{
-
+                    background-image: url('../donut-chart.png');
+                    background-repeat: no-repeat;
+                    background-size: contain;
+                    width: 50%;
+                    aspect-ratio: 1/1;
                 }
         .mycharts-div-title{
             height: 10%;
@@ -1008,6 +1238,8 @@ main{
             font-size: 3rem;
             font-weight: 600;
             line-height: normal;
+
+            overflow: hidden;
         }    
 
 
@@ -1149,5 +1381,88 @@ main{
         align-items: normal;
         align-self: normal;
         width: 100%;
+    }
+}
+
+/* EDIT PROFILE */
+@media screen and (max-width: 1300px) {
+    .editprofile-section{
+        padding: 5% 0 0 0;
+    }
+}
+@media screen and (max-width: 1150px) {
+    .user-name-div{
+        font-size: 5rem;
+        
+    }
+}
+@media screen and (max-width: 950px) {
+    .user-name-div{
+        font-size: 5rem;
+        
+    }
+    .editprofile-main{
+        width: 100%;
+        margin: 0;
+    }
+    .editprofile-section{
+        padding: 5rem;
+        width: auto;
+    }
+}
+@media screen and (max-width: 750px) {
+    .editprofile-article .top-inner-article-div{
+        flex-direction: column;
+        height: auto;
+    }
+    .editprofile-main{
+        height: auto;
+    }
+    .profile-pic-div{
+        width: 20rem;
+        height: 20rem;
+    }
+    .left-group{
+        margin: 2rem 0 0 0;
+    }
+    .input-div{
+        justify-content: space-between;
+    }
+    .input-div-span{
+        width: auto;
+        margin-right: 2rem;
+    }
+}
+@media screen and (max-width: 650px) {
+    .low-inner-article-div .input-div{
+        display: flex;
+        flex-direction: column;
+    }
+}
+@media screen and (max-width: 480px) {
+    .editprofile-main .editprofile-section{
+        flex-direction: column;
+    }
+    .top-inner-article-div{
+        align-items: center;
+    }
+}
+
+/* MY CHARTS PAGE */
+@media screen and (max-width: 1200px) {
+    .mycharts-main{
+        width: 100%;
+    }
+}
+@media screen and (max-width: 1030px) {
+    .mycharts-main{
+        align-items: center;
+        width: 100vw;
+    }
+}
+@media screen and (max-width: 550px) {
+    .mycharts-div{
+        width: auto;
+        margin: 3rem;
     }
 }

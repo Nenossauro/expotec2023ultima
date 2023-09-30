@@ -1,121 +1,22 @@
 {% extends 'base.html' %}
 {%block content%}
+
+
 <main class="mycharts-main">
-    <div class="mycharts-div">
-        <div class="mycharts-div-main">
-            <div class="mycharts-main-logo">
-                <img src="static\charts.logo.png">
+
+    {%for titles in chart_title%}
+        <div class="mycharts-div">
+
+            <div class="mycharts-div-main">
+                <div class="mycharts-main-logo">
+                </div>
             </div>
-        </div>
-
-
-        <div class="mycharts-div-title">
-            <span>Titulo do enzo</span>
-        </div>
-    </div>
-
-    <div class="mycharts-div">
-        <div class="mycharts-div-main">
-            <div class="mycharts-main-logo">
-
+            <div class="mycharts-div-title">
+                <span><a href="{{ url_for('chart_page', title=titles) }}">{{titles}}</a></span>
             </div>
+
         </div>
-
-
-        <div class="mycharts-div-title">
-            <span>Titulo do enzo</span>
-        </div>
-    </div>
-
-    <div class="mycharts-div">
-        <div class="mycharts-div-main">
-            <div class="mycharts-main-logo">
-
-            </div>
-        </div>
-
-
-        <div class="mycharts-div-title">
-            <span>Titulo do enzo</span>
-        </div>
-    </div>
-
-    <div class="mycharts-div">
-        <div class="mycharts-div-main">
-            <div class="mycharts-main-logo">
-
-            </div>
-        </div>
-
-
-        <div class="mycharts-div-title">
-            <span>Titulo do enzo</span>
-        </div>
-    </div>
-
-    <div class="mycharts-div">
-        <div class="mycharts-div-main">
-            <div class="mycharts-main-logo">
-
-            </div>
-        </div>
-
-
-        <div class="mycharts-div-title">
-            <span>Titulo do enzo</span>
-        </div>
-    </div>
-
-    <div class="mycharts-div">
-        <div class="mycharts-div-main">
-            <div class="mycharts-main-logo">
-
-            </div>
-        </div>
-
-
-        <div class="mycharts-div-title">
-            <span>Titulo do enzo</span>
-        </div>
-    </div>
-
-    <div class="mycharts-div">
-        <div class="mycharts-div-main">
-            <div class="mycharts-main-logo">
-
-            </div>
-        </div>
-
-
-        <div class="mycharts-div-title">
-            <span>Titulo do enzo</span>
-        </div>
-    </div>
-
-    <div class="mycharts-div">
-        <div class="mycharts-div-main">
-            <div class="mycharts-main-logo">
-
-            </div>
-        </div>
-
-
-        <div class="mycharts-div-title">
-            <span>Titulo do enzo</span>
-        </div>
-    </div>
-
-    <div class="mycharts-div">
-        <div class="mycharts-div-main">
-            <div class="mycharts-main-logo">
-
-            </div>
-        </div>
-
-
-        <div class="mycharts-div-title">
-            <span>Titulo do enzo</span>
-        </div>
-    </div>
+    {%endfor%}
+    
 </main>
 {%endblock%}

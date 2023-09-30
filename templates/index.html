@@ -4,12 +4,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/css/style-index.css">
+    <link rel="stylesheet" href="../static/css/style-global.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="static/js/index.js"></script>
+    <script src="../static/js/other.js"></script>
     <title>charts.br</title>
 </head>
 <body class="main-grid-body" id="main-grid-body">
+    <div class="loading-page">
+        <div>
+            <img src="/static/donut-chart.png">
+        </div>
+    </div>
     <!-- -->
     <aside class="disclaimer-register">
         <div class="disclaimer-text">
@@ -31,7 +36,7 @@
     <main class="main-start">
         <div class="start">
             <div class="div-start-button">
-                <input value="Começar!" type="button" id="btn">
+                <input value="Começar!" type="button" id="btn-register">
             </div>
 
             <div class="login-portal">
@@ -41,67 +46,64 @@
 
         <div class="registration-div">
             <form action="/registrar" method="POST">
-                <div class="registration-page">
-
+                <div class="inner-registration-div">
                     <div class="input-group-left">
-                        <div class="div-input 1">
+                        <div class="div-input">
                             <span>Usuário</span>
                             <input name="txtusuario" required="" type="text">
                         </div>
-                        <div class="div-input 2">
+                        <div class="div-input">
                             <span>Nome inteiro</span>
                             <input name="txtnome" required="" type="text">
                         </div>
-                        <div class="div-input 3">
+                        <div class="div-input">
                             <span>E-mail</span>
                             <input name="txtemail" required="" type="text">
                         </div>
-                        <div class="div-input 4">
+                        <div class="div-input">
                             <span>Senha</span>
                             <input name="txtsenha" required="" type="password">
                         </div>
-                        <div class="div-input 5">
+                        <div class="div-input">
                             <span>Confirmar senha</span>
                             <input name="txtsenhaconf" required="" type="password">
                         </div>
                     </div>
                     
                     <div class="input-group-right">
-                        <div class="div-input 6">
+                        <div class="div-input">
                             <span>País</span>
                             <input name="txtpais" required="" type="text">
                         </div>
-                        <div class="div-input 7">
+                        <div class="div-input">
                             <span>Estado</span>
                             <input name="txtestado" required="" type="text">
                         </div>
-                        <div class="div-input 8">
+                        <div class="div-input">
                             <span>Cidade</span>
                             <input name="txtcidade" required="" type="text">
                         </div>
-                        <div class="div-input 9">
+                        <div class="div-input">
                             <span>Cor do cabelo</span>
                             <input name="txtcorcabelo" required="" type="text">
                         </div>
-                        <div class="div-input 10">
+                        <div class="div-input">
                             <span>Calçado</span>
                             <input name="txtcalcado" required="" type="text">
                         </div>
-
+                    </div>
                     </div>
                     <div class="btn-div">
                         <input value="Confirmar" type="submit" id="btn">
+                        Já tem uma conta?<a id="R_anchor" href="#">Entre aqui.</a>
                     </div>
 
-                </div>
             </form>
-           
         </div>
         <div class="login-div">
             <form action="/logar" method="POST">
-                <div class="registration-page">
 
-                    <div class="input-group-left">
+                    <div class="inner-login-div">
                         <div class="div-input 1">
                             <span>Usuário</span>
                             <input name="txtusuariologin" required="" type="text">
@@ -113,9 +115,8 @@
                     </div>
                     <div class="btn-div">
                         <input value="Confirmar" type="submit" id="btn">
+                        Não tem uma conta? <a id="L_anchor" href="#">Crie aqui.</a>
                     </div>
-
-                </div>
             </form>
            
         </div>

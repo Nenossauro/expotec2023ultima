@@ -145,7 +145,7 @@
                 thirdSelect.append('<option value="{{topic}}">{{topic}}</option>');
 
             {%endfor%}
-        } else if (selectedValue === "Estado onde mora"){
+        } else if (selectedValue === "Estado em que mora"){
            {%for topic in sub_topic[2]%}
                 
                 thirdSelect.append('<option value="{{topic}}">{{topic}}</option>');
@@ -307,6 +307,22 @@
         } 
         else if (selectedValue === "Quantidade de refeições no dia"){
            {%for topic in sub_topic[22]%}
+                
+                thirdSelect.append('<option value="{{topic}}">{{topic}}</option>');
+
+            {%endfor%}
+
+        } 
+        else if (selectedValue === "País em que mora"){
+           {%for topic in sub_topic[23]%}
+                
+                thirdSelect.append('<option value="{{topic}}">{{topic}}</option>');
+
+            {%endfor%}
+
+        } 
+        else if (selectedValue === "Cidade em que mora"){
+           {%for topic in sub_topic[24]%}
                 
                 thirdSelect.append('<option value="{{topic}}">{{topic}}</option>');
 
