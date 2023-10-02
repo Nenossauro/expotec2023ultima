@@ -91,17 +91,17 @@ class user_obj:
 os.system("cls")
 
 # Create a Flask app instance and set a secret key to handle sessions
-charts = Flask(__name__)
-charts.secret_key = 'enzo'
+app = Flask(__name__)
+app.secret_key = 'enzo'
 
 
 
 # Define route to render index.html template
-@charts.route('/')
+@app.route('/')
 def index():
     return render_template('index.html')
 
-@charts.route('/land')
+@app.route('/land')
 def land():
     if 'user_logged' not in session or session['user_logged'] == None:
         return redirect('/')
@@ -114,7 +114,7 @@ def land():
         types.append(aux_charts['type'])
     return render_template('land.html', user_name = session['user_logged'],profile_pic =  session['profile_img'], titles = titles, types = types)
 
-@charts.route('/land/<title>')
+@app.route('/land/<title>')
 def chart_page(title):
     if 'user_logged' not in session or session['user_logged'] == None:
         return redirect('/')
@@ -185,7 +185,7 @@ def chart_page(title):
         pie_chart_json = pie_chart.to_json()
         return render_template('chart_page.html',user_name = session['user_logged'],profile_pic =  session['profile_img'], chart_description = aux_desc, chart_tittle=aux_title,chart_topic = desimplify_topics(aux_topic),chart_topic2 = desimplify_topics(aux_topic2), pie_chart_json = pie_chart_json, chart_creation = aux_creation, chart_author = aux_author )
 
-@charts.route('/criar-chart')
+@app.route('/criar-chart')
 def create_chart():
     combo_topics = col_users.find_one({'user':session['user_logged']})
     sub_topics = col_topics.find()
@@ -195,7 +195,7 @@ def create_chart():
     print(sub_array[2])
     return render_template('create_chart.html',user_name = session['user_logged'],profile_pic =  session['profile_img'],topics = combo_topics["ava_topic"], sub_topic = sub_array)
 
-@charts.route('/inserir-chart',methods=['POST',])
+@app.route('/inserir-chart',methods=['POST',])
 def insert_chart():
     
     chart_tittle = request.form['txttitulo']
@@ -213,7 +213,7 @@ def insert_chart():
     return redirect('/land')
 
 
-@charts.route('/profile')
+@app.route('/profile')
 def profile():
     return render_template('profile.html',user_name = session['user_logged'],profile_pic =  session['profile_img'],name = session['name'],user=session['user_logged'])
 
@@ -227,14 +227,14 @@ def profile():
 #    return render_template('profile.html',user_name = session['user_logged'],profile_pic =  session['profile_img'],name = session['name'],user=session['user_logged'])
 
 
-@charts.route('/profile/change_email')
+@app.route('/profile/change_email')
 def cng_email():
     return render_template('email.html',user_name = session['user_logged'],profile_pic =  session['profile_img'])
-@charts.route('/profile/change_password')
+@app.route('/profile/change_password')
 def cng_password():
     return render_template('password.html',user_name = session['user_logged'],profile_pic =  session['profile_img'])
 
-@charts.route('/profile/mycharts')
+@app.route('/profile/mycharts')
 def mycharts():
     mychart = col_charts.find({"creator":session['user_logged']})
     titles = []
@@ -251,13 +251,13 @@ def mycharts():
     
 
 
-@charts.route('/adicionar-informações')
+@app.route('/adicionar-informações')
 def add_info():
    
     return render_template('add_info.html', user_name = session['user_logged'],profile_pic =  session['profile_img'])
 
 
-@charts.route('/inserir-info',methods=['POST',])  
+@app.route('/inserir-info',methods=['POST',])  
 def insert_info():
         
         question_1 = "Animal Favorito"
@@ -352,7 +352,7 @@ def insert_info():
 
         return redirect('/land')
 # Define route for registration form submission
-@charts.route('/registrar', methods=['POST',])
+@app.route('/registrar', methods=['POST',])
 def regis():
     # Create a new user object with form data
     new_user = user_obj(
@@ -418,7 +418,7 @@ def regis():
     return redirect('/land')
 
 # Define route for authentication of user
-@charts.route('/logar',methods=['POST',])
+@app.route('/logar',methods=['POST',])
 # Run the Flask app
 def logar():
   # Retrieve the username and password submitted in the login form
@@ -454,7 +454,7 @@ def logar():
     except:
         return redirect('/')
 
-@charts.route('/logout',methods=['POST',])
+@app.route('/logout',methods=['POST',])
 def logout():
    if 'user_logged' not in session or session['user_logged'] == None:
         return redirect('/') 
