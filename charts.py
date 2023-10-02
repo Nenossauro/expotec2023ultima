@@ -444,4 +444,3 @@ def logout():
    session['user_logged'] = None
    return redirect('/')
 
-app.run()
