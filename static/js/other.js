@@ -49,6 +49,33 @@ $(document).ready(function() {
     })
   
 
+// ONLY ENABLING REGISTERING AFTER ALL INPUTS FILLED
+
+  function checkinput() {
+    const fields = document.querySelectorAll('.div-input input');
+    let filled = true;
+
+    fields.forEach(function (input) {
+        if (input.value.trim() === '') {
+            filled = false;
+        }
+    });
+
+    return filled;
+  }
+
+  document.addEventListener('input', function () {
+    const btn = document.getElementById('btn');
+    if (checkinput()) {
+        btn.removeAttribute('disabled'); 
+    } else {
+        btn.setAttribute('disabled', 'disabled'); 
+    }
+  });
+
+  
+
+  
 
       // USER CONFIG POP-UP IMG ONCLICK
       $('.user-img').click(function(event) {

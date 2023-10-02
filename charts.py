@@ -145,8 +145,8 @@ def chart_page(title):
             tooltip='Frequency:N'
             
         ).properties(
-       width=400,
-         height=400,
+       width=919,
+         height=529,
         title=title
         )
         pie_chart_json = pie_chart.to_json()
@@ -177,8 +177,8 @@ def chart_page(title):
             tooltip='Frequency:N'
             
         ).properties(
-        width=500,
-        height=500,
+        width=919,
+        height=529,
         title=title
         )
 
@@ -217,16 +217,6 @@ def insert_chart():
 def profile():
     return render_template('profile.html',user_name = session['user_logged'],profile_pic =  session['profile_img'],name = session['name'],user=session['user_logged'])
 
-#@charts.route('/profile/change_pic',methods=['POST',])
-#def cng_pic():
-#    img = base64.b64encode(request.files['img'].read()).decode('utf-8')
-#    session['profile_img'] = None
-#    session['profile_img'] = "data:image/png;base64,"+img
-#    col_users.update_one({"user":session['user_logged']},{"$set":{"profile_img":"data:image/png;base64,"+img}})
-#
-#    return render_template('profile.html',user_name = session['user_logged'],profile_pic =  session['profile_img'],name = session['name'],user=session['user_logged'])
-
-
 @app.route('/profile/change_email')
 def cng_email():
     return render_template('email.html',user_name = session['user_logged'],profile_pic =  session['profile_img'])
@@ -245,108 +235,101 @@ def mycharts():
         types.append(aux_charts['type'])
     return render_template("my_charts.html", chart_title = titles, user_name=session['user_logged'])
 
-
-
-  
-    
-
-
 @app.route('/adicionar-informações')
 def add_info():
    
     return render_template('add_info.html', user_name = session['user_logged'],profile_pic =  session['profile_img'])
-
 
 @app.route('/inserir-info',methods=['POST',])  
 def insert_info():
         
         question_1 = "Animal Favorito"
         question_1_awn=request.form['animal']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
 
 
         question_1 = "Cor Favorita"
         question_1_awn=request.form['cor']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
         question_1 = "Idade"
         question_1_awn=request.form['idade']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
 
         question_1 = "Como veio"
         question_1_awn=request.form['transporte']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
 
         question_1 = "Tem pet"
         question_1_awn=request.form['pet']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
 
         question_1 = "Musica Favorita"
         question_1_awn=request.form['musica']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
 
         question_1 = "Já saiu do país"
         question_1_awn=request.form['pais']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
 
         question_1 = "Metros de Altura"
         question_1_awn=request.form['altura']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
         question_1 = "Quantidade de livros lidos esse ano"
         question_1_awn=request.form['livro_ano']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
 
         question_1 = "Já saiu do estado"
         question_1_awn=request.form['estado']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
 
 
         question_1 = "Está trabalhando"
         question_1_awn=request.form['trabalha']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
 
 
         question_1 = "Filme Favorito"
         question_1_awn=request.form['filme']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
 
 
         question_1 = "Genero de Musica"
         question_1_awn=request.form['musica_genero']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
 
 
         question_1 = "Genero de Filme"
         question_1_awn=request.form['filme_genero']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
 
         question_1 = "Cor dos olhos"
         question_1_awn=request.form['olhos']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
 
 
         question_1 = "Relacionamento romantico"
         question_1_awn=request.form['relacionamento']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
 
 
         question_1 = "Melhor animal de estimação"
         question_1_awn=request.form['melhor_pet']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
 
 
         question_1 = "Achou o site interessante"
         question_1_awn=request.form['interessante']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
 
 
         question_1 = "Quantidade de refeições no dia"
         question_1_awn=request.form['refeicoes']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
 
 
         question_1 = "Quantidade de quartos em casa"
         question_1_awn=request.form['quartos']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower())
+        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
 
     
 
@@ -368,19 +351,19 @@ def regis():
     sessao = request.form['txtusuario']
     question_1 = "País em que mora"
     question_1_awn=request.form['txtpais']
-    update_user_data(sessao,question_1,question_1_awn.lower())
+    update_user_data(sessao,question_1,question_1_awn.lower().strip(" "))
     question_1 = "Estado em que mora"
     question_1_awn=request.form['txtestado'] 
-    update_user_data(sessao,question_1,question_1_awn.lower())
+    update_user_data(sessao,question_1,question_1_awn.lower().strip(" "))
     question_1 = "Cidade em que mora"
     question_1_awn=request.form['txtcidade']
-    update_user_data(sessao,question_1,question_1_awn.lower())
+    update_user_data(sessao,question_1,question_1_awn.lower().strip(" "))
     question_1 = "Cor do Cabelo"
     question_1_awn=request.form['txtcorcabelo']
-    update_user_data(sessao,question_1,question_1_awn.lower())
+    update_user_data(sessao,question_1,question_1_awn.lower().strip(" "))
     question_1 = "Numero do calçado"
     question_1_awn=request.form['txtcalcado']
-    update_user_data(sessao,question_1,question_1_awn.lower())
+    update_user_data(sessao,question_1,question_1_awn.lower().strip(" "))
 
     username = request.form['txtusuario']
     password = request.form['txtsenha']
@@ -460,3 +443,5 @@ def logout():
         return redirect('/') 
    session['user_logged'] = None
    return redirect('/')
+
+app.run()
