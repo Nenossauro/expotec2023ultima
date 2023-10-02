@@ -89,24 +89,16 @@
                         <div class="select-btn-group">
                             <select name="third-select" id = "third-select">
                             </select>
-                        <div id="togglePlusBtn2">
-                            <span class="icon"><i class="fa fa-plus"></i></span>
                         </div>
+                        <div class="if-select">
+                            <select name="second-if-select" id="second-if-select">
+                                <option value="">Selecione um tópico...</option>
+                        
+                            </select>
                         </div>
                     </div>
 
                     <!--   Q U A R T O   I N P U T   -->
-                    <div class="input-fourth">
-                        <span>4° tópico</span>
-                        <div class="select-btn-group">
-                            <select id = "fourht-select">
-                                <option value="">Selecione um tópico...</option>
-                                {%for topic in topics%}
-                                <option value="{{topic}}">{{topic}}</option>
-                                {%endfor%}
-                            </select>
-                        </div>
-                    </div>
                 </div>
  
             </div>

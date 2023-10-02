@@ -102,6 +102,7 @@ html{
 	width: 100%;
 	height: auto;
 	font-family: Krub, Inter Tight, Jaldi, sans-serif;
+    position: relative;
 }
 body{
 	background-color: var(--background-color);
@@ -273,13 +274,17 @@ main{
 	transition: 0.7s ease-in-out;
     overflow-x: hidden;
 }
+    .main-grid-body a{
+        color: var(--link-font-color);
+    }
 
 /* ASIDE */
 
 
 	.disclaimer-register{
 		border-radius: 0 7rem 7rem 0;
-		background-color: #D9D9D9;
+        color: var(--primary-font-color);
+		background-color: var(--darker-background-color);
 
 		display: flex;
 		flex-direction: column;
@@ -329,7 +334,7 @@ main{
 			height: 10rem;
 
 			border-radius: 4rem;
-			background: #FF7A00;
+			background: var(--secondary-color);
 			box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 			transition: transform ease 0.5s, box-shadow ease 0.5s;
 
@@ -343,7 +348,7 @@ main{
 				box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
 			}
 		.login-portal{
-			color: #FF7A00;
+			color: var(--secondary-color);
 			font-size: 1.7rem;
 			margin: 1.5rem;
 		}
@@ -351,7 +356,7 @@ main{
 		/* absolutes divs enzo you are crazy */
 		.registration-div, .login-div{
 			position: absolute;
-			background-color: #FF67F9;
+			background-color: var(--primary-color);
 			width: 70%;
 			height: auto;
 
@@ -366,14 +371,15 @@ main{
 			display: flex;
 			flex-direction: column;
 		}
-		.inner-registration-div span, .login-div span{
+		.inner-registration-div span, .inner-login-div span{
 				font-size: 3rem;
 				font-weight: 600;
+                color: var(--primary-font-color);
 			}
 			.inner-registration-div input, .inner-login-div input{ 
 				width: auto;
 				height: 3rem;
-				color:rgb(50, 50, 50);
+				color: #000;
 				padding: 1rem 1.5rem 1rem 1.5rem;
 				font-size: 2.5rem;
 				font-weight: 200;
@@ -381,13 +387,9 @@ main{
 				outline: 0;
 				border: 0;
 			
-				background-color: #D9D9D9;
+				background-color: var(--input-background);
 				box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
 			}
-
-		.registration-div, .login-div{
-
-		}
 
 			/* registration div */
 			.registration-div.entry{
@@ -437,6 +439,12 @@ main{
 			.btn-div input{
 				margin: 5rem 5rem 3rem 5rem;
 			}
+            .btn-div span{
+                color: var(--primary-font-color);
+            }
+            .btn-div a{
+                color: var(--link-font-color);
+            }
 
                                         /*   H O M E   */
 
@@ -877,12 +885,18 @@ main{
                     font-size: 4rem;
                     margin-right: 1rem;
                 }
-                    .alter-profile-image .btn-div{
+                .alter-profile-image form{
+                    width: auto;
+                    height: auto;
+                }
+                    .alter-profile-image input{
                         display: flex;
+                        flex-direction: column;
                         align-items: center;
                         justify-content: center;
                         height: 5rem;
                         width: 6rem;
+                        font-size: 3rem;    
 
                         border: 0.2rem solid var(--primary-font-color);
                         border-radius: 1rem;
@@ -890,7 +904,7 @@ main{
                         cursor: pointer;
                         transition: 0.3s ease-in-out;
                     }
-                        .alter-profile-image .btn-div:hover{
+                        .alter-profile-image input:hover{
                             background-color: var(--primary-font-color);
                         }
 
@@ -906,8 +920,11 @@ main{
                     width: 100%;
                     margin-bottom: 5rem;
                 }
-                    
-                
+                    .profile-pic-div, .profile-pic-div img{
+                        aspect-ratio: 1/1;
+                        width: auto;
+                        height: 100%;
+                    }            
                     .left-group{
                         display: flex;
                         flex-direction: column;
@@ -1107,7 +1124,7 @@ main{
         }
             .inner-span-section-div{
                 display: flex;
-                padding: 0 5rem 5rem 5rem;
+                padding: 0 5rem 5rem 0;
 
                 color: var(--desc-title-color);
                 font-family: Fira Code;
@@ -1163,6 +1180,7 @@ main{
                         font-size: 2.5rem;
                         font-style: normal;
                         font-weight: 700;
+                        margin-bottom: 2rem;
                     }
                         .topic-div li{
                             margin: 1rem;
@@ -1303,7 +1321,7 @@ main{
     }
 }
 @media screen and (max-width: 515px) {
-    .logout-btn{
+    .navbar-user-username{
         position: absolute;
         visibility: hidden;
     }

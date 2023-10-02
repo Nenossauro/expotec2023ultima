@@ -9,12 +9,10 @@
         
         <aside class="alter-profile-image">
             <form method="post" action="/profile/change_pic" enctype="multipart/form-data">
-            <div class="btn-div">
-                <input id="files" name="img" type="file" accept="image/x-png,image/jpeg">
-            </div>
-            <div class="btn-div">
-                <input type="submit" value="💾">
-            </div>
+                <div class="alter-profile-image-button">
+                    <input type="submit" value="💾">
+                    <input style="visibility: hidden;" id="files" name="img" type="file" accept="image/x-png,image/jpeg">
+                </div>
             </form>
         </aside>
 
@@ -25,10 +23,8 @@
             <div class="top-inner-article-div">
                 <div class="profile-pic-div">
                     
-                       <img src="{{profile_pic}}" alt="" style="height:100%, width: 100%;"> 
+                       <img src="{{profile_pic}}" alt=""> 
                         
-                    
-                    
                 </div>
                 <div class="left-group">
                     <div class="user-name-div">
