@@ -87,32 +87,6 @@ class user_obj:
 
 
 
-# Function to retrieve user information based on specified field
-def get_your_info(info_want,session):
-    # Search the 'users' collection in the database for a user with the specified session (username)
-    personal_info = col_users.find({'user':session})
-    # Iterate over the search results (usually just one user document)
-    for info in personal_info:
-        aux_name = info['name']
-        aux_country = info['cnt']
-        aux_state = info['stt']
-        aux_city = info['cty']
-        aux_hair = info['hair']
-        aux_shoe = info['shoe']
-    # Use a switch-case structure to determine which information to return based on 'info_want'
-    match(info_want):
-        case "name":
-            return aux_name
-        case "country":
-            return aux_country
-        case "state":
-            return aux_state
-        case "city":
-            return aux_city
-        case "hair":
-            return aux_hair
-        case "shoe":
-            return aux_shoe
 # Clear console screen for better visualisation
 os.system("cls")
 
