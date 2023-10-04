@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base_no_footer.html' %}
 {% block content %}
     <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
@@ -70,13 +70,26 @@
                              </ul>
                         </div>
                     </div>
+                    <div class="topic-div">
+                        <div class="topic-div-span">
+                            Comentários:
+                        </div>
+                        <form method="post" action="/comment">
+                            <textarea  name="comentario" maxlength="1000" ></textarea>
+                            <input type="submit" name="enviar" value="comentar">
+                        </form>
+                        <div class="topic-div-content">
+                            {%for comment in comments%}
+                                {{comment}}<br>
+                            {%endfor%}
+                        </div>
+                    </div>
 
                     
                     
                 </div>
             </div>
         </aside>
-        
     </main>
 
 {%endblock%}

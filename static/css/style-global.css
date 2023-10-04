@@ -102,7 +102,6 @@ html{
 	width: 100%;
 	height: auto;
 	font-family: Krub, Inter Tight, Jaldi, sans-serif;
-    position: relative;
 }
 body{
 	background-color: var(--background-color);
@@ -118,8 +117,8 @@ body{
 /*   L O A D I N G   P A G E   */
 .loading-page{
     position: absolute;
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -129,6 +128,8 @@ body{
 
     visibility: hidden;
     z-index: 10;
+
+    overflow: hidden;
 }
     .loading-page img{
         animation: rotation 2s infinite linear;
@@ -138,6 +139,28 @@ body{
         visibility: visible;
     }
 
+/*   E R R O R   P A G E   */
+.error-popup{
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+    .error-popup-div{
+        height: 5rem;
+        width: 15rem;
+
+        background-color: #cc1919;
+        padding: 2rem;
+        border-radius: 3rem;
+        margin: 5rem;
+
+        box-shadow: rgba(255, 255, 255, 0.2) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.9) 0px 0px 0px 1px;
+        transition: 0.5s ease-in-out;
+        visibility: hidden;
+    }
+    .error-popup.show{
+        visibility: visible;
+    }
 
 /*   N A V    B A R    */
 nav{
@@ -256,7 +279,7 @@ nav{
 
 /*   M A I N   */
 main{
-	width: 100%;
+	width: auto;
 	height: calc(100vh - calc(8rem + 0.5rem));
 	display: flex;
 }
@@ -269,10 +292,9 @@ main{
 
 	/* grid */
 	display: grid;
-	height: 100vh;
 	grid-template-columns: 25% 75%;
 	transition: 0.7s ease-in-out;
-    overflow-x: hidden;
+    position: fixed;
 }
     .main-grid-body a{
         color: var(--link-font-color);
@@ -357,8 +379,9 @@ main{
 		.registration-div, .login-div{
 			position: absolute;
 			background-color: var(--primary-color);
-			width: 70%;
+			width: 50%;
 			height: auto;
+            left: 25%;
 
 			transform: translateX(+100vw); 
 			transition: 0.8s;
@@ -371,6 +394,9 @@ main{
 			display: flex;
 			flex-direction: column;
 		}
+            .registration-div{
+                height: 80%;
+            }
 		.inner-registration-div span, .inner-login-div span{
 				font-size: 3rem;
 				font-weight: 600;
@@ -451,7 +477,7 @@ main{
 .home-main{
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 8.5rem);
+    height: calc(100vh - 18.5rem);
 }
 .main-section-wrap{
     display: flex;
@@ -506,8 +532,7 @@ main{
 
 /*   C H A R T S   S E C T I O N   */
 .home-main .main-charts-section{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    display: flex;
 }
     
 .home-main .main-charts-section a{
@@ -530,6 +555,11 @@ main{
 
         display: flex;
     }
+        .main-charts-section .left-charts-links .link-left-div,
+        .main-charts-section .middle-charts-links .link-middle-div,
+        .main-charts-section .right-charts-links .link-right-div{
+            overflow-y: scroll;
+        }
 
     /*   LEFT CHART LINKS DIV    */
     .home-main .left-charts-links{
@@ -596,7 +626,7 @@ main{
         color: var(--primary-font-color);
 
         display: grid;
-        grid-template-columns: 35% 65%;
+        grid-template-columns: 35% 55% 10%;
     }
         /*   L E F T   S E C T I O N   D I V   */
         .left-inner-section-div{
@@ -606,7 +636,6 @@ main{
         .left-inner-section-div, .input-title, .input-date, .input-description{
             display: flex;
             flex-direction: column;
-            border-radius: 1rem;
         }
             /*   N E W   C H A R T   S P A N   */
             .left-inner-section-div-span{
@@ -638,7 +667,7 @@ main{
                 background: var(--input-background);
             }
                 .input-description textarea{
-                    height: 30rem;
+                    height: 25rem;
                 }
 
             
@@ -778,7 +807,10 @@ main{
                                 transform: rotate(0deg);
                                 transition: ease-in-out 0.3s;
                             }
-
+        .create-btn{
+            display: flex;
+            justify-content: center;
+        }
 
                                     /*   A D D   T O P I C S   */
 
@@ -840,13 +872,17 @@ main{
                         font-size: 2rem;
                         padding: 0.5rem;
                     }
-                    
-                    .alter-btn{
+
+                    .addinfo-section .alter-btn{
+                        position: fixed;
+                        right: 0;
+                        bottom: 0;
+                        z-index: 5;
                         margin: 3rem;
                         display: flex;
                         flex-direction: row-reverse;
                     }
-                    .alter-btn #btn{
+                    .addinfo-section .alter-btn #btn{
                         width: 12rem;
                         height: 5rem;
                         border-radius: 4rem;
@@ -863,7 +899,7 @@ main{
                         font-family: Inter Tight;
                         font-weight: 500;
                     }
-                        .alter-btn #btn:hover{
+                        .addinfo-section .alter-btn #btn:hover{
                             transform: translateY(-5px);
                             box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
                         }
@@ -874,6 +910,7 @@ main{
         width: 70%;
         display: flex;
         margin: auto;
+        height: calc(100vh - 18.5rem);
     }
         .editprofile-section{
                 width: 100%;
@@ -1108,11 +1145,11 @@ main{
                 visibility: visible;
                 opacity: 1;
             }
-
-
                                     /*   C H A R T   P A G E   */
 
-
+    .chart-main{
+        height: auto;
+    }
         /*   S E C T I O N   */
         .chart-section{
             width: 65%;
@@ -1206,15 +1243,34 @@ main{
 
 
                             /*   M Y   C H A R T S   */
+    .no-charts-section{
+            width: auto;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+
+            color: var(--primary-font-color);
+                            font-family: Krub;
+                            font-size: 2.5rem;
+                            font-style: normal;
+                            font-weight: 700;
+                            margin: 5rem;
+        }
+            .no-charts-section a{
+                color: var(--link-font-color);
+            }
 
     .mycharts-main{
         width: 90%;
-        height: auto;
+        height: calc(100vh - 18.5rem);
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
         margin: auto;
     }
+    
+
         .mycharts-div{
             width: 40rem;
             height: 40rem;
@@ -1306,14 +1362,12 @@ main{
             height: 20vh;
         }
     .home-main .main-charts-section{
-        grid-template-columns: none;
-        grid-template-rows: 1fr 1fr 1fr;
+        flex-direction: column;
     }
 }
 @media screen and (max-width: 700px) {
       html, body {
-        overflow-x: hidden;
-        overflow-y: auto;
+        
       }
             
     .logo{
@@ -1335,11 +1389,8 @@ main{
     .addinfo-section .inner-section-div{
         flex-direction: column;
     }
-    .right-inner-section-div{
+    .addinfo-section .right-inner-section-div{
         margin: 0;
-    }
-    .alter-btn{
-        margin: 3rem 0 3rem 3rem;
     }
 }
 @media screen and (max-width: 1190px) {
@@ -1358,7 +1409,7 @@ main{
         flex-direction: column;
     }
     .addinfo-aside{
-        text-align: justify;
+        text-align: center;
         align-items: center;
         padding: 5rem;
         margin: 0;
@@ -1366,7 +1417,7 @@ main{
     .addinfo-aside, .addinfo-section{
         width: auto;
     }
-    .left-inner-section-div{
+    .addinfo-section .left-inner-section-div{
         align-items: center;
     }
     .add-info-div{
@@ -1482,5 +1533,206 @@ main{
     .mycharts-div{
         width: auto;
         margin: 3rem;
+    }
+}
+
+/* CREATE CHARTS */
+@media screen and (max-width: 1370px) {
+    .create-chart-section .left-inner-section-div-span{
+        font-size: 4rem;
+    }
+    .input-title input{
+        width: calc(100% - 2rem);
+    }
+}
+@media screen and (max-width: 1050px) {
+    .create-chart-section{
+        display: flex;
+        flex-direction: column;
+    }
+    main{
+        height: auto;
+    }
+    .right-inner-section-div{
+        margin: 8rem 0 0 0;
+    }
+    .create-btn{
+        margin-top: 8rem;
+    }
+}
+@media screen and (max-width: 710px) {
+    .create-chart-section{
+        margin: 5rem 2rem 2rem 2rem;
+    }
+}
+@media screen and (max-width: 550px) {
+    .create-chart-section{
+        margin: 5rem 0 0 0;
+        padding: 5rem 3rem 5rem 3rem;
+    }
+}
+
+@media screen and (max-height: 950px) {
+    .input-description textarea{
+        height: 20rem;
+    }
+}
+@media screen and (max-height: 900px) {
+    .input-description textarea{
+        height: 15rem;
+    }
+}
+@media screen and (max-height: 850px) {
+    .input-description textarea{
+        height: 10rem;
+    }
+}
+
+/* CHART PAGE */
+@media screen and (max-width: 1300px) {
+    .chart-section .inner-span-section-div{
+        text-align: center;
+        padding: 0;
+        margin-bottom: 5rem;
+    }
+    .chart-main{
+        flex-direction: column;
+        align-items: center;
+    }
+    .chart-aside{
+        width: 65%;
+    }
+    .inner-content-section-div{
+        margin: 0;
+    }
+}
+@media screen and (max-width: 1100px) {
+    .chart-section{
+        width: 90%;
+    }
+}
+@media screen and (max-width: 780px){
+    .chart-aside{
+        width: 90%;
+    }
+}
+@media screen and (max-width: 515px) {
+    .chart-aside{
+        width: auto;
+    }
+    .chart-section .inner-span-section-div{
+        font-size: 4rem;
+    }
+}
+
+/* EMAIL && PASSWORD PAGES */
+@media screen and (max-width: 1030px) {
+    .changeemail-main, .changepass-main{
+        width: 90%;
+    }
+    .changeemail-main .alter-profile-image, .changepass-main .alter-profile-image{
+        margin-top: 5rem;
+        margin-bottom: 5rem;
+    }
+    .changeemail-main span, .changepass-main span{
+        margin: 0;
+    }
+    .changeemail-section .top-inner-section-div, .changepass-section .top-inner-section-div{
+        margin-bottom: 5rem;
+    }
+}
+@media screen and (max-width: 600px) {
+    .changeemail-main .top-inner-section-div input, .changeemail-main .low-inner-section-div input,
+    .changepass-main .top-inner-section-div input, .changepass-main .low-inner-section-div input{
+        width: 20rem;
+    }
+}
+
+/* INDEX */
+@media screen and (max-width: 1430px) {
+    .main-grid-body .main-start{
+        width: 100%;
+    }
+    .main-grid-body{
+        grid-template-columns: 50% 50%;
+    }
+    .registration-div{
+        height: 90%;
+        overflow-y: scroll;
+    }
+        .registration-div .inner-registration-div{
+            flex-direction: column;
+        }
+        .registration-div .btn-div a{
+            margin-bottom: 5rem;
+        }
+}
+@media screen and (max-width: 930px) {
+    .main-grid-body{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .disclaimer-register{
+        margin: 5rem 5rem 5rem 5rem;
+        width: 80%;
+        text-align: center;
+        border-radius: 5rem;
+        font-size: 4rem;
+        padding: 0;
+    }
+    .disclaimer-register .disclaimer-text{
+        margin: 3rem;
+    }
+        .disclaimer-register .disclaimer-upper-text{
+            font-size: 3rem;
+        }
+        .disclaimer-register .disclaimer-lower-text{
+            font-size: 2rem;
+            word-wrap: break-word;
+        }
+        .disclaimer-register .disclaimer-source-text{
+            font-size: 2.8rem;
+        }
+    .disclaimer-source-text{
+        padding: 0;
+    }
+    .main-start{
+        margin-top: 20rem;
+    }
+        .start{
+            width: 100%;
+            align-items: center;
+        }
+            .start .div-start-button{
+                width: 100%;
+            }
+                .start .div-start-button #btn-register{
+                    width: 80%;
+                    height: 15rem;
+                    border-radius: 10rem;
+                    font-size: 5rem;
+                }
+            .start .login-portal{
+                margin-bottom: 5rem;
+                font-size: 3rem;
+            }
+    .registration-div{
+        height: auto;
+        width: 100%;
+        border-radius: 10rem 10rem 0 0;
+    }
+        .registration-div .btn-div, .login-div .btn-div{
+            font-size: 3rem;
+        }
+            .registration-div .btn-div a, .login-div .btn-div a{
+                font-size: 2rem;
+                margin-bottom: 0;
+            }
+}
+@media screen and (max-width: 550px) {
+    .disclaimer-register{
+        margin: 1rem;
+        width: auto;
     }
 }

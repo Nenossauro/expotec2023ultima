@@ -17,7 +17,7 @@ col_users = db["users"]
 col_charts = db["charts"]
 col_topics = db["topics"]
 col_questions = db["questions"]
-
+col_comments = db["comments"]
 def update_user_data(session,question,question_awnser):
     col_users.update_one({'user':session},{"$set":{new_simplify_topics(question):question_awnser}})
     col_users.update_one({'user':session,'sub_topic': {'$ne': question}},{'$addToSet':{'ava_topic':question}})
@@ -105,6 +105,16 @@ def index():
 def land():
     if 'user_logged' not in session or session['user_logged'] == None:
         return redirect('/')
+    usercheck = col_users.find({"user":session['user_logged']})
+    for info in usercheck:
+        aux_user = info['user']
+        aux_img = info['profile_img']
+        aux_name = info['name']
+        aux_id = info['_id']
+    session['user_logged'] = aux_user
+    session['profile_img'] = aux_img
+    session['name'] = aux_name
+    session['id'] = str(aux_id)
     os.system("cls")
     charts_data = col_charts.find()
     titles = []
@@ -118,6 +128,18 @@ def land():
 def chart_page(title):
     if 'user_logged' not in session or session['user_logged'] == None:
         return redirect('/')
+    usercheck = col_users.find({"user":session['user_logged']})
+    for info in usercheck:
+        aux_user = info['user']
+        aux_img = info['profile_img']
+        aux_name = info['name']
+        aux_id = info['_id']
+    session['user_logged'] = aux_user
+    session['profile_img'] = aux_img
+    session['name'] = aux_name
+    session['id'] = str(aux_id)
+
+
     chart_data = col_charts.find_one({"title": title})
     aux_title = chart_data['title']
     aux_creation = chart_data['creation_date']
@@ -125,6 +147,16 @@ def chart_page(title):
     aux_type = chart_data['type']
     aux_desc = chart_data['description']
     
+    comments = col_comments.find({'chart_name':title})
+    comments_array = []
+    commenter_array = []
+    commenter_pic_array = []
+    for comment in comments:
+        comments_array.append(comment['comment'])
+        commenter_array.append(comment['user'])
+        commenter_pic_array.append(comment['user_pic'])
+        
+
     if aux_type=="simple":
 
 
@@ -153,7 +185,7 @@ def chart_page(title):
 
 
 
-        return render_template('chart_page.html',user_name = session['user_logged'], profile_pic =  session['profile_img'], chart_description = aux_desc, chart_tittle=title,chart_topics = aux_topic, pie_chart_json = pie_chart_json, chart_creation = aux_creation, chart_author = aux_author )
+        return render_template('chart_page.html',comments = comments_array,commenters = commenter_array, comenters_pic = commenter_pic_array,user_name = session['user_logged'], profile_pic =  session['profile_img'], chart_description = aux_desc, chart_tittle=title,chart_topics = aux_topic, pie_chart_json = pie_chart_json, chart_creation = aux_creation, chart_author = aux_author )
     else:
         os.system("cls")
         aux_topic = chart_data['topic1']
@@ -183,10 +215,27 @@ def chart_page(title):
         )
 
         pie_chart_json = pie_chart.to_json()
-        return render_template('chart_page.html',user_name = session['user_logged'],profile_pic =  session['profile_img'], chart_description = aux_desc, chart_tittle=aux_title,chart_topic = desimplify_topics(aux_topic),chart_topic2 = desimplify_topics(aux_topic2), pie_chart_json = pie_chart_json, chart_creation = aux_creation, chart_author = aux_author )
+        return render_template('chart_page.html',comments = comments_array,commenters = commenter_array, comenters_pic = commenter_pic_array,user_name = session['user_logged'],profile_pic =  session['profile_img'], chart_description = aux_desc, chart_tittle=aux_title,chart_topic = desimplify_topics(aux_topic),chart_topic2 = desimplify_topics(aux_topic2), pie_chart_json = pie_chart_json, chart_creation = aux_creation, chart_author = aux_author )
+
+@app.route('/comment',methods=['POST','GET',])
+def comment():
+    comment = request.form['comentario']
+    url = request.referrer
+    col_comments.insert_one({'comment':comment,'user':session['user_logged'],'user_pic':session['profile_img'],'chart_name':url})
+    return redirect(request.referrer)
 
 @app.route('/criar-chart')
 def create_chart():
+    usercheck = col_users.find({"user":session['user_logged']})
+    for info in usercheck:
+        aux_user = info['user']
+        aux_img = info['profile_img']
+        aux_name = info['name']
+        aux_id = info['_id']
+    session['user_logged'] = aux_user
+    session['profile_img'] = aux_img
+    session['name'] = aux_name
+    session['id'] = str(aux_id)
     combo_topics = col_users.find_one({'user':session['user_logged']})
     sub_topics = col_topics.find()
     sub_array = []
@@ -215,7 +264,26 @@ def insert_chart():
 
 @app.route('/profile')
 def profile():
+    usercheck = col_users.find({"user":session['user_logged']})
+    for info in usercheck:
+        aux_user = info['user']
+        aux_img = info['profile_img']
+        aux_name = info['name']
+        aux_id = info['_id']
+    session['user_logged'] = aux_user
+    session['profile_img'] = aux_img
+    session['name'] = aux_name
+    session['id'] = str(aux_id)
     return render_template('profile.html',user_name = session['user_logged'],profile_pic =  session['profile_img'],name = session['name'],user=session['user_logged'])
+
+@app.route('/profile/change_pic', methods=['POST',])
+def cng_pic():
+    pic = request.files['img']
+    new_pic = base64.b64encode(pic.read()).decode('utf-8')
+    col_users.update_one({'user':session['user_logged']},{'$set':{'profile_img':"data:image/png;base64,"+new_pic}})
+    
+    return redirect('/profile')
+
 
 @app.route('/profile/change_email')
 def cng_email():
@@ -226,6 +294,16 @@ def cng_password():
 
 @app.route('/profile/mycharts')
 def mycharts():
+    usercheck = col_users.find({"user":session['user_logged']})
+    for info in usercheck:
+        aux_user = info['user']
+        aux_img = info['profile_img']
+        aux_name = info['name']
+        aux_id = info['_id']
+    session['user_logged'] = aux_user
+    session['profile_img'] = aux_img
+    session['name'] = aux_name
+    session['id'] = str(aux_id)
     mychart = col_charts.find({"creator":session['user_logged']})
     titles = []
     types = []
@@ -237,7 +315,16 @@ def mycharts():
 
 @app.route('/adicionar-informações')
 def add_info():
-   
+    usercheck = col_users.find({"user":session['user_logged']})
+    for info in usercheck:
+        aux_user = info['user']
+        aux_img = info['profile_img']
+        aux_name = info['name']
+        aux_id = info['_id']
+    session['user_logged'] = aux_user
+    session['profile_img'] = aux_img
+    session['name'] = aux_name
+    session['id'] = str(aux_id)
     return render_template('add_info.html', user_name = session['user_logged'],profile_pic =  session['profile_img'])
 
 @app.route('/inserir-info',methods=['POST',])  
@@ -444,3 +531,4 @@ def logout():
    session['user_logged'] = None
    return redirect('/')
 
+app.run()

@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base_no_footer.html' %}
 {%block content%}
     <!--   M A I N   -->
     <main>
@@ -15,22 +15,22 @@
                     <span>Título</span>
                     <form action="/inserir-chart" method="POST">
 
-                    <input name = "txttitulo" type="text" placeholder="Coloque o título da sua Chart aqui.">
+                    <input required="true" name = "txttitulo" type="text" placeholder="Coloque o título da sua Chart aqui.">
                 </div>
 
                 <!--   D A T A   D A   C H A R T   -->
                 <div class="input-date">
                     <span class="input-date-span">Data</span>
-                    <input name="txtdata"type="date" id="input-date">
+                    <input required="true" name="txtdata"type="date" id="input-date">
                     <div class="today-date-checkbox">
-                        <input name="datanow" id="checkbox-date" type="checkbox">
+                        <input  name="datanow" id="checkbox-date" type="checkbox">
                         <span>Usar a data de hoje</span>
                     </div>
                 </div>
                 <!--   D E S C R I Ç Ã O   -->
                 <div class="input-description">
                     <span>Descrição &#40;Limite: 1000&#41;</span>
-                    <textarea name="txtdescricao" maxlength="1000"></textarea>
+                    <textarea  name="txtdescricao" maxlength="1000"></textarea>
                 </div>
             </div>
             <!--   P A R T E   D I R E I T A   D O   F O R M U L Á R I O   -->
@@ -49,7 +49,7 @@
                     <div class="input-first">
                         <span>Eu quero saber...</span>
                         <div class="select-btn-group">
-                            <select name="first-select" id="first-select">
+                            <select required="true" name="first-select" id="first-select">
                                 <option value="">Selecione um tópico...</option>
 
                                 {%for topic in topics%}
@@ -63,10 +63,10 @@
                     <div class="input-second">
                         <span>De quem...</span>
                         <div class="select-btn-group">
-                            <select name="second-select" id="second-select">
+                            <select required="true" name="second-select" id="second-select">
 
                                 <option value="">Selecione um tópico...</option>
-                                <option value="simple">Chart simples...</option>
+                                <option value="simple">Usa o charts.br...</option>
                                 {%for topic in topics%}
                                 <option value="{{topic}}">{{topic}}</option>
                                 {%endfor%}
@@ -85,7 +85,7 @@
 
                     <!--   T E R C E I R O   I N P U T   -->
                     <div class="input-third">
-                        <span>3° tópico</span>
+                        <span>E...</span>
                         <div class="select-btn-group">
                             <select name="third-select" id = "third-select">
                             </select>

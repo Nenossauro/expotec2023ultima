@@ -44,10 +44,8 @@ $(document).ready(function() {
     $('.alter-btn #btn').click(function(event) {
       $('.loading-page').addClass('show')
     })
-    $('.alter-btn #btn').click(function(event) {
-      $('.loading-page').addClass('show')
-    })
   
+    
 
 // ONLY ENABLING REGISTERING AFTER ALL INPUTS FILLED
 
