@@ -19,7 +19,7 @@ col_topics = db["topics"]
 col_questions = db["questions"]
 col_comments = db["comments"]
 def update_user_data(session,question,question_awnser):
-    col_users.update_one({'user':session},{"$set":{new_simplify_topics(question):question_awnser}})
+    col_users.update_one({'user':session},{"$set":{question:question_awnser}})
     col_users.update_one({'user':session,'sub_topic': {'$ne': question}},{'$addToSet':{'ava_topic':question}})
     col_topics.update_one({'topic':question,'sub_topic': {'$ne': question_awnser}},{'$addToSet': {'sub_topic': question_awnser}})
 
@@ -99,7 +99,9 @@ app.secret_key = 'enzo'
 # Define route to render index.html template
 @app.route('/')
 def index():
-    return render_template('index.html')
+    error_state = request.args.get('error_state', 'hidden')  
+    error_message = request.args.get('error_message', '')    
+    return render_template('index.html', visible = error_state, error = error_message)
 
 @app.route('/land')
 def land():
@@ -112,7 +114,7 @@ def land():
         aux_name = info['name']
         aux_id = info['_id']
     session['user_logged'] = aux_user
-    session['profile_img'] = aux_img
+    img_pic = aux_img
     session['name'] = aux_name
     session['id'] = str(aux_id)
     os.system("cls")
@@ -122,7 +124,7 @@ def land():
     for aux_charts in charts_data:
         titles.append(aux_charts['title'])
         types.append(aux_charts['type'])
-    return render_template('land.html', user_name = session['user_logged'],profile_pic =  session['profile_img'], titles = titles, types = types)
+    return render_template('land.html', user_name = session['user_logged'],profile_pic =  img_pic, titles = titles, types = types)
 
 @app.route('/land/<title>')
 def chart_page(title):
@@ -135,7 +137,7 @@ def chart_page(title):
         aux_name = info['name']
         aux_id = info['_id']
     session['user_logged'] = aux_user
-    session['profile_img'] = aux_img
+    img_pic = aux_img
     session['name'] = aux_name
     session['id'] = str(aux_id)
 
@@ -150,11 +152,11 @@ def chart_page(title):
     comments = col_comments.find({'chart_name':title})
     comments_array = []
     commenter_array = []
-    commenter_pic_array = []
+    #commenter_pic_array = []
     for comment in comments:
         comments_array.append(comment['comment'])
         commenter_array.append(comment['user'])
-        commenter_pic_array.append(comment['user_pic'])
+        #commenter_pic_array.append(comment['user_pic'])
         
 
     if aux_type=="simple":
@@ -185,45 +187,84 @@ def chart_page(title):
 
 
 
-        return render_template('chart_page.html',comments = comments_array,commenters = commenter_array, comenters_pic = commenter_pic_array,user_name = session['user_logged'], profile_pic =  session['profile_img'], chart_description = aux_desc, chart_tittle=title,chart_topics = aux_topic, pie_chart_json = pie_chart_json, chart_creation = aux_creation, chart_author = aux_author )
+        return render_template('chart_page.html',comments = comments_array,commenters = commenter_array, #comenters_pic = commenter_pic_array
+                               user_name = session['user_logged'], profile_pic =  img_pic, chart_description = aux_desc, chart_tittle=title,chart_topic = aux_topic, pie_chart_json = pie_chart_json, chart_creation = aux_creation, chart_author = aux_author )
     else:
-        os.system("cls")
-        aux_topic = chart_data['topic1']
-        aux_topic2 = chart_data['topic2']
-        aux_subtopic = chart_data['subtopic2']
-        user_topics = []
-        user_data = col_users.find({
-            '$and': [
-                { aux_topic: { '$exists': True } },
-                { aux_topic2: aux_subtopic }
-            ]
-        })
-        user_topics = [each[aux_topic] for each in user_data]
-        df = pandas.DataFrame({'category': user_topics})
-        counts = df['category'].value_counts().sort_index()
-        chart_df = pandas.DataFrame({'Topic': counts.index, 'Frequency': counts.values})
-        chart_df['ratio'] = round((chart_df['Frequency']/len(user_topics)*100))
-        pie_chart = altair.Chart(chart_df).mark_arc(size=100).encode(
-            theta='ratio:Q',
-            color='Topic:N',
-            tooltip='Frequency:N'
-            
-        ).properties(
-        width=919,
-        height=529,
-        title=title
-        )
 
-        pie_chart_json = pie_chart.to_json()
-        return render_template('chart_page.html',comments = comments_array,commenters = commenter_array, comenters_pic = commenter_pic_array,user_name = session['user_logged'],profile_pic =  session['profile_img'], chart_description = aux_desc, chart_tittle=aux_title,chart_topic = desimplify_topics(aux_topic),chart_topic2 = desimplify_topics(aux_topic2), pie_chart_json = pie_chart_json, chart_creation = aux_creation, chart_author = aux_author )
+        if chart_data['topic3'] == "":
+            os.system("cls")
+            aux_topic = chart_data['topic1']
+            aux_topic2 = chart_data['topic2']
+            aux_subtopic = chart_data['subtopic2']
+            user_topics = []
+            user_data = col_users.find({
+                '$and': [
+                    { aux_topic: { '$exists': True } },
+                    { aux_topic2: aux_subtopic }
+                ]
+            })
+            user_topics = [each[aux_topic] for each in user_data]
+            df = pandas.DataFrame({'category': user_topics})
+            counts = df['category'].value_counts().sort_index()
+            chart_df = pandas.DataFrame({'Topic': counts.index, 'Frequency': counts.values})
+            chart_df['ratio'] = round((chart_df['Frequency']/len(user_topics)*100))
+            pie_chart = altair.Chart(chart_df).mark_arc(size=100).encode(
+                theta='ratio:Q',
+                color='Topic:N',
+                tooltip='Frequency:N'
+                
+            ).properties(
+            width=919,
+            height=529,
+            title=title
+            )
 
+            pie_chart_json = pie_chart.to_json()
+            return render_template('chart_page.html',comments = comments_array,commenters = commenter_array, #comenters_pic = commenter_pic_array,
+                                   user_name = session['user_logged'],profile_pic =  img_pic, chart_description = aux_desc, chart_tittle=aux_title,chart_topic = desimplify_topics(aux_topic),chart_topic2 = desimplify_topics(aux_topic2), pie_chart_json = pie_chart_json, chart_creation = aux_creation, chart_author = aux_author )
+        else:
+            os.system("cls")
+            aux_topic = chart_data['topic1']
+            aux_topic2 = chart_data['topic2']
+            aux_topic3 = chart_data['topic3']
+            aux_subtopic = chart_data['subtopic2']
+            aux_subtopic2 = chart_data['subtopic3']
+            user_topics = []
+            user_data = col_users.find({
+                '$and': [
+                    { aux_topic: { '$exists': True } },
+                    { aux_topic2: aux_subtopic },
+                    { aux_topic3: aux_subtopic2 }
+                    
+                ]
+            })
+            user_topics = [each[aux_topic] for each in user_data]
+            df = pandas.DataFrame({'category': user_topics})
+            counts = df['category'].value_counts().sort_index()
+            chart_df = pandas.DataFrame({'Topic': counts.index, 'Frequency': counts.values})
+            chart_df['ratio'] = round((chart_df['Frequency']/len(user_topics)*100))
+            pie_chart = altair.Chart(chart_df).mark_arc(size=100).encode(
+                theta='ratio:Q',
+                color='Topic:N',
+                tooltip='Frequency:N'
+                
+            ).properties(
+            width=919,
+            height=529,
+            title=title
+            )
+
+            pie_chart_json = pie_chart.to_json()
+            return render_template('chart_page.html',comments = comments_array,commenters = commenter_array, #comenters_pic = commenter_pic_array,
+                                   user_name = session['user_logged'],profile_pic =  img_pic, chart_description = aux_desc, chart_tittle=aux_title,chart_topic = desimplify_topics(aux_topic),chart_topic2 = desimplify_topics(aux_topic2), pie_chart_json = pie_chart_json, chart_creation = aux_creation, chart_author = aux_author )
+        
 @app.route('/comment',methods=['POST','GET',])
 def comment():
     comment = request.form['comentario']
-    url = request.referrer
-    col_comments.insert_one({'comment':comment,'user':session['user_logged'],'user_pic':session['profile_img'],'chart_name':url})
+    url = request.form['chart_url']
+    col_comments.insert_one({'comment':comment,'user':session['user_logged'],'chart_name':url})
     return redirect(request.referrer)
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
 @app.route('/criar-chart')
 def create_chart():
     usercheck = col_users.find({"user":session['user_logged']})
@@ -233,7 +274,7 @@ def create_chart():
         aux_name = info['name']
         aux_id = info['_id']
     session['user_logged'] = aux_user
-    session['profile_img'] = aux_img
+    img_pic = aux_img
     session['name'] = aux_name
     session['id'] = str(aux_id)
     combo_topics = col_users.find_one({'user':session['user_logged']})
@@ -241,8 +282,7 @@ def create_chart():
     sub_array = []
     for info in sub_topics:
         sub_array.append(info['sub_topic'])
-    print(sub_array[2])
-    return render_template('create_chart.html',user_name = session['user_logged'],profile_pic =  session['profile_img'],topics = combo_topics["ava_topic"], sub_topic = sub_array)
+    return render_template('create_chart.html',user_name = session['user_logged'],profile_pic =  img_pic,topics = combo_topics["ava_topic"], sub_topic = sub_array)
 
 @app.route('/inserir-chart',methods=['POST',])
 def insert_chart():
@@ -250,16 +290,21 @@ def insert_chart():
     chart_tittle = request.form['txttitulo']
     chart_date = request.form['txtdata']
     chart_description = request.form['txtdescricao']
-    chart_topic1 = simplify_topics(request.form['first-select'])
-    chart_topic2 = simplify_topics(request.form['second-select'])
+    chart_topic1 = request.form['first-select']
+    chart_topic2 = request.form['second-select']
     chart_subtopic2 = request.form['second-if-select']
-    if chart_topic2 == "s":
+
+    chart_topic3 = request.form['third-select']
+    chart_subtopic3 = request.form['third-if-select']
+
+
+    if chart_topic2 == "simple":
         col_charts.insert_one({"title":chart_tittle,"creation_date":chart_date,"description":chart_description,
                           "topic1":chart_topic1,"type":"simple","creator":session['user_logged'],'creator_id':session['id']})
     else:
         col_charts.insert_one({"title":chart_tittle,"creation_date":chart_date,"description":chart_description,
-                          "topic1":chart_topic1,"topic2":chart_topic2,"subtopic2":chart_subtopic2.lower(),"type":"complex","creator":session['user_logged'],'creator_id':session['id']})
-    return redirect('/land')
+                          "topic1":chart_topic1,"topic2":chart_topic2,"subtopic2":chart_subtopic2.lower(),"topic3":chart_topic3,"subtopic3":chart_subtopic3,"type":"complex","creator":session['user_logged'],'creator_id':session['id']})
+    return redirect(f'/land/{chart_tittle}')
 
 
 @app.route('/profile')
@@ -270,11 +315,13 @@ def profile():
         aux_img = info['profile_img']
         aux_name = info['name']
         aux_id = info['_id']
+        aux_email = info['email']
+        aux_pass = info['password']
     session['user_logged'] = aux_user
-    session['profile_img'] = aux_img
+    img_pic = aux_img
     session['name'] = aux_name
     session['id'] = str(aux_id)
-    return render_template('profile.html',user_name = session['user_logged'],profile_pic =  session['profile_img'],name = session['name'],user=session['user_logged'])
+    return render_template('profile.html',user_name = session['user_logged'],password = aux_pass,email = aux_email,profile_pic =  img_pic,name = session['name'],user=session['user_logged'])
 
 @app.route('/profile/change_pic', methods=['POST',])
 def cng_pic():
@@ -287,10 +334,10 @@ def cng_pic():
 
 @app.route('/profile/change_email')
 def cng_email():
-    return render_template('email.html',user_name = session['user_logged'],profile_pic =  session['profile_img'])
+    return render_template('email.html',user_name = session['user_logged'])
 @app.route('/profile/change_password')
 def cng_password():
-    return render_template('password.html',user_name = session['user_logged'],profile_pic =  session['profile_img'])
+    return render_template('password.html',user_name = session['user_logged'])
 
 @app.route('/profile/mycharts')
 def mycharts():
@@ -301,7 +348,7 @@ def mycharts():
         aux_name = info['name']
         aux_id = info['_id']
     session['user_logged'] = aux_user
-    session['profile_img'] = aux_img
+    img_pic = aux_img
     session['name'] = aux_name
     session['id'] = str(aux_id)
     mychart = col_charts.find({"creator":session['user_logged']})
@@ -322,101 +369,101 @@ def add_info():
         aux_name = info['name']
         aux_id = info['_id']
     session['user_logged'] = aux_user
-    session['profile_img'] = aux_img
+    img = aux_img
     session['name'] = aux_name
     session['id'] = str(aux_id)
-    return render_template('add_info.html', user_name = session['user_logged'],profile_pic =  session['profile_img'])
+    return render_template('add_info.html', user_name = session['user_logged'],profile_pic =  img)
 
 @app.route('/inserir-info',methods=['POST',])  
 def insert_info():
         
         question_1 = "Animal Favorito"
         question_1_awn=request.form['animal']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
+        update_user_data(session['user_logged'],question_1.lower(),question_1_awn.lower().strip(" "))
 
 
         question_1 = "Cor Favorita"
         question_1_awn=request.form['cor']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
+        update_user_data(session['user_logged'],question_1.lower(),question_1_awn.lower().strip(" "))
         question_1 = "Idade"
         question_1_awn=request.form['idade']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
+        update_user_data(session['user_logged'],question_1.lower(),question_1_awn.lower().strip(" "))
 
         question_1 = "Como veio"
         question_1_awn=request.form['transporte']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
+        update_user_data(session['user_logged'],question_1.lower(),question_1_awn.lower().strip(" "))
 
         question_1 = "Tem pet"
         question_1_awn=request.form['pet']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
+        update_user_data(session['user_logged'],question_1.lower(),question_1_awn.lower().strip(" "))
 
         question_1 = "Musica Favorita"
         question_1_awn=request.form['musica']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
+        update_user_data(session['user_logged'],question_1.lower(),question_1_awn.lower().strip(" "))
 
         question_1 = "Já saiu do país"
         question_1_awn=request.form['pais']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
+        update_user_data(session['user_logged'],question_1.lower(),question_1_awn.lower().strip(" "))
 
         question_1 = "Metros de Altura"
         question_1_awn=request.form['altura']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
+        update_user_data(session['user_logged'],question_1.lower(),question_1_awn.lower().strip(" "))
         question_1 = "Quantidade de livros lidos esse ano"
         question_1_awn=request.form['livro_ano']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
+        update_user_data(session['user_logged'],question_1.lower(),question_1_awn.lower().strip(" "))
 
         question_1 = "Já saiu do estado"
         question_1_awn=request.form['estado']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
+        update_user_data(session['user_logged'],question_1.lower(),question_1_awn.lower().strip(" "))
 
 
         question_1 = "Está trabalhando"
         question_1_awn=request.form['trabalha']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
+        update_user_data(session['user_logged'],question_1.lower(),question_1_awn.lower().strip(" "))
 
 
         question_1 = "Filme Favorito"
         question_1_awn=request.form['filme']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
+        update_user_data(session['user_logged'],question_1.lower(),question_1_awn.lower().strip(" "))
 
 
         question_1 = "Genero de Musica"
         question_1_awn=request.form['musica_genero']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
+        update_user_data(session['user_logged'],question_1.lower(),question_1_awn.lower().strip(" "))
 
 
         question_1 = "Genero de Filme"
         question_1_awn=request.form['filme_genero']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
+        update_user_data(session['user_logged'],question_1.lower(),question_1_awn.lower().strip(" "))
 
         question_1 = "Cor dos olhos"
         question_1_awn=request.form['olhos']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
+        update_user_data(session['user_logged'],question_1.lower(),question_1_awn.lower().strip(" "))
 
 
         question_1 = "Relacionamento romantico"
         question_1_awn=request.form['relacionamento']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
+        update_user_data(session['user_logged'],question_1.lower(),question_1_awn.lower().strip(" "))
 
 
         question_1 = "Melhor animal de estimação"
         question_1_awn=request.form['melhor_pet']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
+        update_user_data(session['user_logged'],question_1.lower(),question_1_awn.lower().strip(" "))
 
 
         question_1 = "Achou o site interessante"
         question_1_awn=request.form['interessante']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
+        update_user_data(session['user_logged'],question_1.lower(),question_1_awn.lower().strip(" "))
 
 
         question_1 = "Quantidade de refeições no dia"
         question_1_awn=request.form['refeicoes']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
+        update_user_data(session['user_logged'],question_1.lower(),question_1_awn.lower().strip(" "))
 
 
         question_1 = "Quantidade de quartos em casa"
         question_1_awn=request.form['quartos']
-        update_user_data(session['user_logged'],question_1,question_1_awn.lower().strip(" "))
+        update_user_data(session['user_logged'],question_1.lower(),question_1_awn.lower().strip(" "))
 
     
 
@@ -438,19 +485,19 @@ def regis():
     sessao = request.form['txtusuario']
     question_1 = "País em que mora"
     question_1_awn=request.form['txtpais']
-    update_user_data(sessao,question_1,question_1_awn.lower().strip(" "))
+    update_user_data(sessao,question_1.lower(),question_1_awn.lower().strip(" "))
     question_1 = "Estado em que mora"
     question_1_awn=request.form['txtestado'] 
-    update_user_data(sessao,question_1,question_1_awn.lower().strip(" "))
+    update_user_data(sessao,question_1.lower(),question_1_awn.lower().strip(" "))
     question_1 = "Cidade em que mora"
     question_1_awn=request.form['txtcidade']
-    update_user_data(sessao,question_1,question_1_awn.lower().strip(" "))
+    update_user_data(sessao,question_1.lower(),question_1_awn.lower().strip(" "))
     question_1 = "Cor do Cabelo"
     question_1_awn=request.form['txtcorcabelo']
-    update_user_data(sessao,question_1,question_1_awn.lower().strip(" "))
+    update_user_data(sessao,question_1.lower(),question_1_awn.lower().strip(" "))
     question_1 = "Numero do calçado"
     question_1_awn=request.form['txtcalcado']
-    update_user_data(sessao,question_1,question_1_awn.lower().strip(" "))
+    update_user_data(sessao,question_1.lower(),question_1_awn.lower().strip(" "))
 
     username = request.form['txtusuario']
     password = request.form['txtsenha']
@@ -471,7 +518,6 @@ def regis():
                 # If both username and password match, store the username in the session
                 # Redirect the user to the '/land' page (landing page after successful login)
                 session['user_logged'] = aux_user
-                session['profile_img'] = aux_img
                 session['name'] = aux_name
                 session['id'] = str(aux_id)
                 return redirect('/land')
@@ -504,25 +550,23 @@ def logar():
             aux_img = info['profile_img']
             aux_name = info['name']
             aux_id = info['_id']
-        # Check if the submitted username matches any user in the database
-        if username == aux_user:
-            # If the username matches, check if the submitted password matches the stored password
-            if password == aux_pass:
-                # If both username and password match, store the username in the session
-                # Redirect the user to the '/land' page (landing page after successful login)
-                session['user_logged'] = aux_user
-                session['profile_img'] = aux_img
-                session['name'] = aux_name
-                session['id'] = str(aux_id)
-                return redirect('/land')
-            else:
-                # If the submitted password doesn't match, redirect to the index page (login page)
-                return redirect('/')
+        # If the username matches, check if the submitted password matches the stored password
+        if password == aux_pass:
+            # If both username and password match, store the username in the session
+            # Redirect the user to the '/land' page (landing page after successful login)
+            session['user_logged'] = aux_user
+            session['name'] = aux_name
+            session['id'] = str(aux_id)
+            return redirect('/land')
         else:
-            # If the submitted username doesn't match any user in the database, redirect to the index page
-            return redirect('/')
+            # If the submitted password doesn't match, redirect to the index page (login page)
+            error_state = "visible"
+            error_message = "Senha incorreta!"
+            return redirect(f'/?error_state={error_state}&error_message={error_message}')
     except:
-        return redirect('/')
+        error_state = "visible"
+        error_message = "Usuario não existe!!"
+        return redirect(f'/?error_state={error_state}&error_message={error_message}')
 
 @app.route('/logout',methods=['POST',])
 def logout():

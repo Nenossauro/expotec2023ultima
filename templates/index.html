@@ -16,11 +16,7 @@
             <img src="/static/donut-chart.png">
         </div>
     </div>
-    <div class="error-popup">
-        <div class="error-popup-div">
-            
-        </div>
-    </div>
+    
     <div class="registration-div">
         <form action="/registrar" method="POST">
             <div class="inner-registration-div">
@@ -117,6 +113,11 @@
         </div>
     </aside>
     <main class="main-start">
+        <div class="error-popup">
+            <div class="error-popup-div" style="visibility: {{visible}};">
+                {{error}}
+            </div>
+        </div>
         <div class="start">
             <div class="div-start-button">
                 <input value="Começar!" type="button" id="btn-register">
