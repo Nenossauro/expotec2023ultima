@@ -576,5 +576,3 @@ def logout():
         return redirect('/') 
    session['user_logged'] = None
    return redirect('/')
-
-app.run()
