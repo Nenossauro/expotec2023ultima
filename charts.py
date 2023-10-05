@@ -152,12 +152,10 @@ def chart_page(title):
     comments = col_comments.find({'chart_name':title})
     comments_array = []
     commenter_array = []
-    profile_pic  = []
     #commenter_pic_array = []
     for comment in comments:
         comments_array.append(comment['comment'])
         commenter_array.append(comment['user'])
-        profile_pic.append(comment['user_pic'])
         #commenter_pic_array.append(comment['user_pic'])
         
 
