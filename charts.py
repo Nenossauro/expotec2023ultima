@@ -152,10 +152,12 @@ def chart_page(title):
     comments = col_comments.find({'chart_name':title})
     comments_array = []
     commenter_array = []
+    profile_pic  = []
     #commenter_pic_array = []
     for comment in comments:
         comments_array.append(comment['comment'])
         commenter_array.append(comment['user'])
+        profile_pic.append(comment['user_pic'])
         #commenter_pic_array.append(comment['user_pic'])
         
 
@@ -358,7 +360,7 @@ def mycharts():
         print(aux_charts['title'])
         titles.append(aux_charts['title'])
         types.append(aux_charts['type'])
-    return render_template("my_charts.html", chart_title = titles, user_name=session['user_logged'])
+    return render_template("my_charts.html", chart_title = titles, user_name=session['user_logged'],profile_pic = img_pic)
 
 @app.route('/adicionar-informações')
 def add_info():
@@ -575,3 +577,4 @@ def logout():
    session['user_logged'] = None
    return redirect('/')
 
+app.run()

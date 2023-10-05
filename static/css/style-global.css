@@ -46,6 +46,9 @@
     }
   }
 
+img{
+    object-fit: cover;
+}
 
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
@@ -107,8 +110,9 @@ body{
 	background-color: var(--background-color);
 	/* rem equivalency */
     font-size: 1.6rem;
+    
 
-	/* overflow: hidden;
+	overflow-x: hidden;
 	/* inherit html proportions*/
 	width: 100%;
 	height: 100%;
@@ -156,6 +160,7 @@ body{
 
         box-shadow: rgba(255, 255, 255, 0.2) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.9) 0px 0px 0px 1px;
         transition: 0.5s ease-in-out;
+        visibility: hidden;
     }
     .error-popup.show{
         visibility: visible;
@@ -199,13 +204,12 @@ nav{
     }    
 
 	/*   USER IMAGE    */
-	.user-img{
-		height: auto;
+	.user-img, .user-img img{
+		height: 100%;
+        width: 100%;
 		cursor: pointer;
+        aspect-ratio: 1/1;
 	}
-        .user-img img{
-            overflow: hidden;
-        }
 
 
 /*   N A V B A R   D I V I D E   */
@@ -281,6 +285,7 @@ main{
 	width: auto;
 	height: calc(100vh - calc(8rem + 0.5rem));
 	display: flex;
+    overflow-x: hidden
 }
 
                                     /*   I N D E X   */
@@ -378,9 +383,8 @@ main{
 		.registration-div, .login-div{
 			position: absolute;
 			background-color: var(--primary-color);
-			width: 50%;
+			width: 70%;
 			height: auto;
-            left: 25%;
 
 			transform: translateX(+100vw); 
 			transition: 0.8s;
@@ -393,9 +397,6 @@ main{
 			display: flex;
 			flex-direction: column;
 		}
-            .registration-div{
-                height: 80%;
-            }
 		.inner-registration-div span, .inner-login-div span{
 				font-size: 3rem;
 				font-weight: 600;
@@ -476,7 +477,7 @@ main{
 .home-main{
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 18.5rem);
+    height: calc(100vh - 8.5rem);
 }
 .main-section-wrap{
     display: flex;
@@ -834,7 +835,6 @@ main{
             display: flex;
             flex-direction: column;
             background-color: var(--primary-color);
-            width: inherit;
             margin: 5rem 5rem 0rem 5rem;
             padding: 5rem 5rem 2rem 5rem;
             border-radius: 8rem 8rem 0rem 0rem;
@@ -902,7 +902,6 @@ main{
                             transform: translateY(-5px);
                             box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
                         }
-
                             /*   E D I T   P R O F I L E   */
 
     .editprofile-main{
@@ -913,7 +912,7 @@ main{
     }
         .editprofile-section{
                 width: 100%;
-                height: 100%;
+                height: auto;
                 display: flex;
                 padding: 5% 15% 0 0;
             }
@@ -1148,20 +1147,27 @@ main{
 
     .chart-main{
         height: auto;
+        flex-direction: column;
+    }
+    .top-wrapper-div{
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        margin-top: 5rem;
     }
         /*   S E C T I O N   */
         .chart-section{
             width: 65%;
             height: auto;
-            margin: 5rem;
+            padding: 5rem;
 
             display: flex;
             flex-direction: column;
         }
             .inner-span-section-div{
                 display: flex;
+                align-items: center;
                 padding: 0 5rem 5rem 0;
-
                 color: var(--desc-title-color);
                 font-family: Fira Code;
                 font-size: 6rem;
@@ -1179,6 +1185,86 @@ main{
             width: 75%;
             height: auto;
         }
+
+                /* COMENTARIOS */
+                .comment-wrapper-div{
+                    display: flex;
+                    flex-direction: column;
+                    padding: 5rem;
+                    margin: auto;
+                    margin-bottom: 10rem;
+                    width: 80%;
+                    border-radius: 5rem;
+                    background-color: var(--darker-background-color);
+                    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+                }
+                    .comment-wrapper-div form{
+                        width: 100%;
+                        display: flex;
+                        align-items: center;
+                    }
+                        .comment-wrapper-div form input{
+                            width: 100%;
+                            height: 3rem;
+                            color: #000;
+                            padding: 1rem 1.5rem 1rem 1.5rem;
+                            font-size: 2.5rem;
+                            font-weight: 200;
+                            border-radius: 1rem;
+                            outline: 0;
+                            border: 0;
+                            margin: 0 1.5rem 0 1.5rem;
+                        
+                            background-color: var(--input-background);
+                            box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
+                        }
+                        #new-comment-btn{
+                            width: 12rem;
+                            height: 5rem;
+                            border-radius: 4rem;
+                            background: var(--secondary-color);
+                            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+                            transition: transform ease 0.5s, box-shadow ease 0.5s;
+                            border: none;
+                            font-size: 2rem;
+                            font-weight: 600;
+                            color: #fff;
+                            cursor: pointer;
+                            font-family: Inter Tight;
+                            font-weight: 500;
+                        }
+                    .comment-title-span{
+                        color: var(--primary-font-color);
+                        font-weight: bold;
+                        font-size: 6rem;
+                        margin-bottom: 5rem;
+                    }
+                        .comment-title-span span{
+                            margin: 0;
+                        }
+                    .new-comment-div, .comment-div{
+                        display: flex;
+                        width: 100%;
+                        height: auto;
+                    }
+                        .new-comment-div-img, .new-comment-div-img img,
+                        .comment-div-img, .comment-div-img img{
+                            cursor: pointer;
+                            aspect-ratio: 1/1;
+                            height: 8rem;
+                        }
+                        .comment-div{
+                            margin-top: 5rem;
+                            padding: 2.5rem;
+                        }
+                            .comment-div span{
+                                color: var(--primary-font-color);
+                                font-family: Inter Tight;
+                                font-size: 2.5rem;
+                                font-style: normal;
+                                font-weight: 500;
+                                line-height: normal;
+                            }
 
         /*   A S I D E   */
         .chart-aside{
@@ -1365,9 +1451,6 @@ main{
     }
 }
 @media screen and (max-width: 700px) {
-      html, body {
-        
-      }
             
     .logo{
         padding-left: 0;
@@ -1588,11 +1671,22 @@ main{
 }
 
 /* CHART PAGE */
+@media screen and (max-width: 1580px) {
+    .top-wrapper-div{
+        flex-direction: column;
+    }
+    .chart-aside{
+        width: 80%;
+        margin: auto;
+    }
+    .chart-section{
+        margin-bottom: 0;
+    }
+}
 @media screen and (max-width: 1300px) {
     .chart-section .inner-span-section-div{
         text-align: center;
         padding: 0;
-        margin-bottom: 5rem;
     }
     .chart-main{
         flex-direction: column;
@@ -1601,18 +1695,30 @@ main{
     .chart-aside{
         width: 65%;
     }
+        .chart-main .inner-span-section-div{
+            margin: 0 2rem 5rem 2rem;
+            width: 90vw;
+        }
     .inner-content-section-div{
         margin: 0;
     }
 }
 @media screen and (max-width: 1100px) {
-    .chart-section{
-        width: 90%;
+   .chart-section{
+        width: 100%;
+        align-items: center ;
+        padding: 0;
+    }
+    .chart-section .inner-span-section-div{
+        justify-content: space-between;
+    }
+    .chart-section .inner-span-section-div span{
+        font-size: 4rem;
     }
 }
 @media screen and (max-width: 780px){
     .chart-aside{
-        width: 90%;
+        width: auto;
     }
 }
 @media screen and (max-width: 515px) {
@@ -1622,6 +1728,9 @@ main{
     .chart-section .inner-span-section-div{
         font-size: 4rem;
     }
+}
+@media screen and (max-width: 620px) {
+    
 }
 
 /* EMAIL && PASSWORD PAGES */
@@ -1735,3 +1844,332 @@ main{
         width: auto;
     }
 }
+
+.like {
+    display: inline-block;
+    width: 10rem;
+    height: 10rem;
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+    overflow: hidden;
+  }
+  
+  /* Global Button Hover Style for our like/unlike el */
+  .like:hover {
+    background: #fff;
+    transition: background-color 0.25s ease;
+  }
+  
+  /* Liked/Unliked states of our like icon */
+  .liked .like-icon-state {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewbox='0 0 100 100'><path fill='%23de3618' d='M50,88.87 C76.67,70.46 90,53.9 90,39.17 C90,17.08 63.12,3.84 50,27.63 C38.875,3.85 10,17.08 10,39.17 C10,53.9 23.33,70.46 50,88.87 Z'/></svg>");
+  }
+  
+  .unliked .like-icon-state {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewbox='0 0 100 100'><path fill='none' stroke='%23666' stroke-width='5' d='M50,88.87 C76.67,70.46 90,53.9 90,39.17 C90,17.08 63.12,3.84 50,27.63 C38.875,3.85 10,17.08 10,39.17 C10,53.9 23.33,70.46 50,88.87 Z'/></svg>");
+  }
+  
+  .like span {
+    text-indent: -1000px;
+    font-size: 0.5rem;
+  }
+  
+  /* Global aspects of the like icon (holding our icon state view) */
+  .like-icon {
+    background-size: contain;
+    position: absolute;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    top: 15%;
+    right: 15%;
+    bottom: 15%;
+    left: 15%;
+  }
+  
+  .liked .like-icon-state {
+    transform: scale(0);
+  }
+  
+  /* Set initial opacity and attach the like animation  */
+  .liked .like-icon-state {
+    opacity: 0;
+    -webkit-animation: 1.2s like-animation both cubic-bezier(0.45, 0.05, 0.55, 0.95);
+            animation: 1.2s like-animation both cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  }
+  
+  @-webkit-keyframes like-animation {
+    0% {
+      transform: scale(0);
+    }
+    15% {
+      transform: scale(1.25);
+    }
+    32% {
+      transform: scale(0.95);
+    }
+    50% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes like-animation {
+    0% {
+      transform: scale(0);
+    }
+    15% {
+      transform: scale(1.25);
+    }
+    32% {
+      transform: scale(0.95);
+    }
+    50% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  /* Set initial opacity and attach the unlike animation  */
+  .unliked .like-icon-state {
+    opacity: 0;
+    -webkit-animation: 1.2s unlike-animation both cubic-bezier(0.45, 0.05, 0.55, 0.95);
+            animation: 1.2s unlike-animation both cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  }
+  
+  @-webkit-keyframes unlike-animation {
+    0% {
+      transform: scale(0);
+    }
+    15% {
+      transform: scale(1.1);
+    }
+    30% {
+      transform: scale(0.98);
+    }
+    45% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes unlike-animation {
+    0% {
+      transform: scale(0);
+    }
+    15% {
+      transform: scale(1.1);
+    }
+    30% {
+      transform: scale(0.98);
+    }
+    45% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  /* Pop a small animation of the background on like */
+  .liked {
+    background: var(--background-color);
+    -webkit-animation: 1.2s liked-bg-animation both;
+            animation: 1.2s liked-bg-animation both;
+  }
+  
+  @-webkit-keyframes liked-bg-animation {
+    0% {
+      transform: scale(0);
+    }
+    15% {
+      transform: scale(1.1);
+    }
+    30% {
+      transform: scale(0.95);
+    }
+    50% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes liked-bg-animation {
+    0% {
+      transform: scale(0);
+    }
+    15% {
+      transform: scale(1.1);
+    }
+    30% {
+      transform: scale(0.95);
+    }
+    50% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  /* Pop a more discreet animation of the background on unlike */
+  .unliked {
+    -webkit-animation: 1.2s unliked-bg-animation both;
+            animation: 1.2s unliked-bg-animation both;
+  }
+  
+  @-webkit-keyframes unliked-bg-animation {
+    0% {
+      transform: scale(0);
+    }
+    10% {
+      transform: scale(0.7);
+    }
+    30% {
+      transform: scale(0.95);
+    }
+    50% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes unliked-bg-animation {
+    0% {
+      transform: scale(0);
+    }
+    10% {
+      transform: scale(0.7);
+    }
+    30% {
+      transform: scale(0.95);
+    }
+    50% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  /* Pseudo el for our ring animation */
+  .like::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 50%;
+    border: 1px solid var(--secondary-font-color);
+    transform: scale(0);
+  }
+  
+  /* Apply animation to the ring el */
+  .liked::before {
+    -webkit-animation: 1.2s bg-ring-animation both;
+            animation: 1.2s bg-ring-animation both;
+  }
+  
+  @-webkit-keyframes bg-ring-animation {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+    10% {
+      transform: scale(1.5);
+      opacity: 0.25;
+    }
+    15% {
+      transform: scale(2);
+      opacity: 0.15;
+    }
+    45% {
+      transform: scale(3.25);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 0;
+    }
+  }
+  
+  @keyframes bg-ring-animation {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+    10% {
+      transform: scale(1.5);
+      opacity: 0.25;
+    }
+    15% {
+      transform: scale(2);
+      opacity: 0.15;
+    }
+    45% {
+      transform: scale(3.25);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 0;
+    }
+  }
+  .saving::after {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    width: 60%;
+    height: 60%;
+    border: 0.15em solid rgba(100, 100, 100, 0.5);
+    border-radius: 50%;
+    border-right-color: transparent;
+    border-top-color: transparent;
+    -webkit-animation: spin-animation 400ms infinite linear;
+            animation: spin-animation 400ms infinite linear;
+  }
+  
+  @-webkit-keyframes spin-animation {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes spin-animation {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }

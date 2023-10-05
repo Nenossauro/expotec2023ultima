@@ -16,82 +16,10 @@
             <img src="/static/donut-chart.png">
         </div>
     </div>
-    
-    <div class="registration-div">
-        <form action="/registrar" method="POST">
-            <div class="inner-registration-div">
-                <div class="input-group-left">
-                    <div class="div-input">
-                        <span>Usuário</span>
-                        <input name="txtusuario" required="" type="text">
-                    </div>
-                    <div class="div-input">
-                        <span>Nome inteiro</span>
-                        <input name="txtnome" required="" type="text">
-                    </div>
-                    <div class="div-input">
-                        <span>E-mail</span>
-                        <input name="txtemail" required="" type="text">
-                    </div>
-                    <div class="div-input">
-                        <span>Senha</span>
-                        <input name="txtsenha" required="" type="password">
-                    </div>
-                    <div class="div-input">
-                        <span>Confirmar senha</span>
-                        <input name="txtsenhaconf" required="" type="password">
-                    </div>
-                </div>
-                
-                <div class="input-group-right">
-                    <div class="div-input">
-                        <span>País</span>
-                        <input name="txtpais" required="" type="text">
-                    </div>
-                    <div class="div-input">
-                        <span>Estado</span>
-                        <input name="txtestado" required="" type="text">
-                    </div>
-                    <div class="div-input">
-                        <span>Cidade</span>
-                        <input name="txtcidade" required="" type="text">
-                    </div>
-                    <div class="div-input">
-                        <span>Cor do cabelo</span>
-                        <input name="txtcorcabelo" required="" type="text">
-                    </div>
-                    <div class="div-input">
-                        <span>Calçado</span>
-                        <input name="txtcalcado" required="" type="number">
-                    </div>
-                </div>
-                </div>
-                <div class="btn-div">
-                    <input value="Confirmar" type="submit" id="btn">
-                    <span>Já tem uma conta?</span><a id="R_anchor" href="#">Entre aqui.</a>
-                </div>
-
-        </form>
-    </div>
-    <div class="login-div">
-        <form action="/logar" method="POST">
-
-                <div class="inner-login-div">
-                    <div class="div-input 1">
-                        <span>Usuário</span>
-                        <input name="txtusuariologin" required="" type="text">
-                    </div>
-                    <div class="div-input 4">
-                        <span>Senha</span>
-                        <input name="txtsenhalogin" required="" type="password">
-                    </div>
-                </div>
-                <div class="btn-div">
-                    <input value="Confirmar" type="submit" id="btn">
-                    <span>Não tem uma conta?</span> <a id="L_anchor" href="#">Crie aqui.</a>
-                </div>
-        </form>
-       
+    <div class="error-popup">
+        <div class="error-popup-div">
+            
+        </div>
     </div>
 
     <!-- -->
@@ -113,19 +41,89 @@
         </div>
     </aside>
     <main class="main-start">
-        <div class="error-popup">
-            <div class="error-popup-div" style="visibility: {{visible}};">
-                {{error}}
-            </div>
-        </div>
         <div class="start">
             <div class="div-start-button">
                 <input value="Começar!" type="button" id="btn-register">
             </div>
-
             <div class="login-portal">
                 <a id="btn-login" href="#">Já tenho uma conta.</a>
             </div>
+        </div>
+        <div class="registration-div">
+            <form action="/registrar" method="POST">
+                <div class="inner-registration-div">
+                    <div class="input-group-left">
+                        <div class="div-input">
+                            <span>Usuário</span>
+                            <input name="txtusuario" required="" type="text">
+                        </div>
+                        <div class="div-input">
+                            <span>Nome inteiro</span>
+                            <input name="txtnome" required="" type="text">
+                        </div>
+                        <div class="div-input">
+                            <span>E-mail</span>
+                            <input name="txtemail" required="" type="text">
+                        </div>
+                        <div class="div-input">
+                            <span>Senha</span>
+                            <input name="txtsenha" required="" type="password">
+                        </div>
+                        <div class="div-input">
+                            <span>Confirmar senha</span>
+                            <input name="txtsenhaconf" required="" type="password">
+                        </div>
+                    </div>
+                    
+                    <div class="input-group-right">
+                        <div class="div-input">
+                            <span>País</span>
+                            <input name="txtpais" required="" type="text">
+                        </div>
+                        <div class="div-input">
+                            <span>Estado</span>
+                            <input name="txtestado" required="" type="text">
+                        </div>
+                        <div class="div-input">
+                            <span>Cidade</span>
+                            <input name="txtcidade" required="" type="text">
+                        </div>
+                        <div class="div-input">
+                            <span>Cor do cabelo</span>
+                            <input name="txtcorcabelo" required="" type="text">
+                        </div>
+                        <div class="div-input">
+                            <span>Calçado</span>
+                            <input name="txtcalcado" required="" type="text">
+                        </div>
+                    </div>
+                    </div>
+                    <div class="btn-div">
+                        <input value="Confirmar" type="submit" id="btn">
+                        <span>Já tem uma conta?</span><a id="R_anchor" href="#">Entre aqui.</a>
+                    </div>
+    
+            </form>
+        </div>
+        <div class="login-div">
+            <form action="/logar" method="POST">
+    
+                    <div class="inner-login-div">
+                        <div class="div-input 1">
+                            <span>Usuário</span>
+                            <input name="txtusuariologin" required="" type="text">
+                        </div>
+                        <div class="div-input 4">
+                            <span>Senha</span>
+                            <input name="txtsenhalogin" required="" type="password">
+                        </div>
+                    </div>
+                    <div class="btn-div">
+                        <input value="Confirmar" type="submit" id="btn">
+                        <span>Não tem uma conta?</span> <a id="L_anchor" href="#">Crie aqui.</a>
+                    </div>
+            </form>
+           
         </div>
     </main>
 
