@@ -18,6 +18,8 @@
     --secondary-font-color: #fff;
     --link-font-color: #007AAE;
     --desc-title-color: #D90;
+
+    --error-background: #f44336;
 }
 .dark-mode{
     --background-color: #1a1a1a;
@@ -35,6 +37,8 @@
     --secondary-font-color: #000;
     --link-font-color: #007AAE;
     --desc-title-color: #7e3ce6;
+
+    --error-background: #710000;
 }
 
 @keyframes rotation {
@@ -45,6 +49,18 @@
       transform: rotate(359deg);
     }
   }
+
+@keyframes rotate {	
+    to {
+		--angle: 360deg;
+	}
+}
+
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
 
 img{
     object-fit: cover;
@@ -148,22 +164,50 @@ body{
     position: absolute;
     right: 0;
     top: 0;
+    transition: 0.3s ease-in-out;
+    
+    color: var(--primary-font-color);
+
+    font-family: Fira Code;
 }
     .error-popup-div{
-        height: 5rem;
-        width: 15rem;
+        display: flex;
 
-        background-color: #cc1919;
+        height: fit-content;
+        width: auto;
+
+        background-color: var(--error-background);
         padding: 2rem;
         border-radius: 3rem;
         margin: 5rem;
 
+        border: 2px solid transparent;
         box-shadow: rgba(255, 255, 255, 0.2) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.9) 0px 0px 0px 1px;
         transition: 0.5s ease-in-out;
         visibility: hidden;
     }
     .error-popup.show{
         visibility: visible;
+    }
+        .error-btn-div{
+            width: 5rem;
+            height: 5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+.error-popup .closebtn{
+    font-size: 4rem;
+    font-weight: 700;
+    transition: 0.3s ease-in-out;
+    cursor: pointer;
+    margin: 0;
+}
+.error-popup .closebtn:hover{
+    color: #000;
+}
+    .error-popup .closebtn span{
+        margin:0;
     }
 
 /*   N A V    B A R    */
@@ -344,7 +388,6 @@ main{
 /* MAIN	*/
 .main-start{
     height: auto;
-	position: relative;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -386,7 +429,7 @@ main{
 			width: 70%;
 			height: auto;
 
-			transform: translateX(+100vw); 
+			transform: translateX(+110vw); 
 			transition: 0.8s;
 
 			border-radius: 4rem;
@@ -402,7 +445,8 @@ main{
 				font-weight: 600;
                 color: var(--primary-font-color);
 			}
-			.inner-registration-div input, .inner-login-div input{ 
+			.inner-registration-div input, .inner-login-div input,
+            .inner-registration-div select{ 
 				width: auto;
 				height: 3rem;
 				color: #000;
@@ -416,6 +460,9 @@ main{
 				background-color: var(--input-background);
 				box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
 			}
+                .inner-registration-div select{
+                    height: 5rem;
+                }
 
 			/* registration div */
 			.registration-div.entry{
@@ -840,11 +887,40 @@ main{
             border-radius: 8rem 8rem 0rem 0rem;
             box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
         }
+            .addinfo-section form{
+                display: flex;
+                flex-direction: column;
+            }
+            .addinfo-section select{
+                width: 90%;
+                border: none;
+                border-radius: 1rem;
+                font-size: 3rem;
+                padding: 1rem;
+                font-family: Inter Tight;
+                font-weight: lighter;
+                resize: none;
+                border: 1px solid var(--primary-font-color)
+            }
+
+        .special-info-div .add-info-div{
+            justify-content: space-between;
+            background-color: var(--secondary-font-color);
+            padding: 2.5rem;
+            border-radius: 2rem;
+            border: 5px solid transparent;
+            border-image: conic-gradient(
+			from var(--angle),red,yellow,lime,aqua,blue,magenta,red)1;
+        animation: 10s rotate linear infinite;
+        }
             .addinfo-section .inner-section-div{
                 display: flex;
 
                 overflow-x: hidden;
                 overflow-y: scroll;
+            }
+            .addinfo-section .addinfo-section-wrapper{
+                display: flex;
             }
                 .add-info-div{
                     display: flex;
@@ -1008,6 +1084,12 @@ main{
                             background: var(--input-background);
                             margin-bottom: 1rem;
                             cursor: not-allowed;
+                            display: flex;  
+                            width: 100%;
+                            color: #000;
+                            font-family: Inter Tight;
+                            font-size: 3rem;
+                            font-weight: 600;
                         }
 
                         .low-inner-article-div .input-div .input-inner-div{
@@ -1253,9 +1335,17 @@ main{
                             aspect-ratio: 1/1;
                             height: 8rem;
                         }
+                    .outer-comment-div{
+                        display: flex;
+                        flex-direction: column-reverse;
+                    }
                         .comment-div{
+                            width: auto;
                             margin-top: 5rem;
+                            display: flex;
+                            flex-direction: column;
                             padding: 2.5rem;
+                            border: 5px solid #000;
                         }
                             .comment-div span{
                                 color: var(--primary-font-color);
@@ -1265,6 +1355,10 @@ main{
                                 font-weight: 500;
                                 line-height: normal;
                             }
+                                .comment-div-username span{
+                                    color: var(--secondary-color);
+                                    margin: 0;
+                                }
 
         /*   A S I D E   */
         .chart-aside{
@@ -1710,7 +1804,7 @@ main{
         padding: 0;
     }
     .chart-section .inner-span-section-div{
-        justify-content: space-between;
+        justify-content: center;
     }
     .chart-section .inner-span-section-div span{
         font-size: 4rem;
@@ -1724,13 +1818,23 @@ main{
 @media screen and (max-width: 515px) {
     .chart-aside{
         width: auto;
+        margin: 0;
     }
     .chart-section .inner-span-section-div{
         font-size: 4rem;
     }
+    .comment-wrapper-div{
+        border-radius: 0;
+        margin:0;
+    }
 }
-@media screen and (max-width: 620px) {
-    
+@media screen and (max-width: 450px) {
+    .comment-title-span{
+        font-size: 5rem;
+    }
+    .author-div-span, .date-div-span, .desc-div-span, .topic-div-span{
+        font-size: 3rem;
+    }
 }
 
 /* EMAIL && PASSWORD PAGES */
@@ -1765,6 +1869,7 @@ main{
         grid-template-columns: 50% 50%;
     }
     .registration-div{
+        width: auto;
         height: 90%;
         overflow-y: scroll;
     }
@@ -1829,6 +1934,7 @@ main{
         height: auto;
         width: 100%;
         border-radius: 10rem 10rem 0 0;
+        overflow-y: hidden;
     }
         .registration-div .btn-div, .login-div .btn-div{
             font-size: 3rem;
@@ -1844,332 +1950,3 @@ main{
         width: auto;
     }
 }
-
-.like {
-    display: inline-block;
-    width: 10rem;
-    height: 10rem;
-    border-radius: 50%;
-    position: relative;
-    cursor: pointer;
-    transition: background-color 0.25s ease;
-    overflow: hidden;
-  }
-  
-  /* Global Button Hover Style for our like/unlike el */
-  .like:hover {
-    background: #fff;
-    transition: background-color 0.25s ease;
-  }
-  
-  /* Liked/Unliked states of our like icon */
-  .liked .like-icon-state {
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewbox='0 0 100 100'><path fill='%23de3618' d='M50,88.87 C76.67,70.46 90,53.9 90,39.17 C90,17.08 63.12,3.84 50,27.63 C38.875,3.85 10,17.08 10,39.17 C10,53.9 23.33,70.46 50,88.87 Z'/></svg>");
-  }
-  
-  .unliked .like-icon-state {
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewbox='0 0 100 100'><path fill='none' stroke='%23666' stroke-width='5' d='M50,88.87 C76.67,70.46 90,53.9 90,39.17 C90,17.08 63.12,3.84 50,27.63 C38.875,3.85 10,17.08 10,39.17 C10,53.9 23.33,70.46 50,88.87 Z'/></svg>");
-  }
-  
-  .like span {
-    text-indent: -1000px;
-    font-size: 0.5rem;
-  }
-  
-  /* Global aspects of the like icon (holding our icon state view) */
-  .like-icon {
-    background-size: contain;
-    position: absolute;
-    background-repeat: no-repeat;
-    background-position: 50% 50%;
-    top: 15%;
-    right: 15%;
-    bottom: 15%;
-    left: 15%;
-  }
-  
-  .liked .like-icon-state {
-    transform: scale(0);
-  }
-  
-  /* Set initial opacity and attach the like animation  */
-  .liked .like-icon-state {
-    opacity: 0;
-    -webkit-animation: 1.2s like-animation both cubic-bezier(0.45, 0.05, 0.55, 0.95);
-            animation: 1.2s like-animation both cubic-bezier(0.45, 0.05, 0.55, 0.95);
-  }
-  
-  @-webkit-keyframes like-animation {
-    0% {
-      transform: scale(0);
-    }
-    15% {
-      transform: scale(1.25);
-    }
-    32% {
-      transform: scale(0.95);
-    }
-    50% {
-      transform: scale(1);
-      opacity: 1;
-    }
-    to {
-      transform: scale(1);
-      opacity: 1;
-    }
-  }
-  
-  @keyframes like-animation {
-    0% {
-      transform: scale(0);
-    }
-    15% {
-      transform: scale(1.25);
-    }
-    32% {
-      transform: scale(0.95);
-    }
-    50% {
-      transform: scale(1);
-      opacity: 1;
-    }
-    to {
-      transform: scale(1);
-      opacity: 1;
-    }
-  }
-  /* Set initial opacity and attach the unlike animation  */
-  .unliked .like-icon-state {
-    opacity: 0;
-    -webkit-animation: 1.2s unlike-animation both cubic-bezier(0.45, 0.05, 0.55, 0.95);
-            animation: 1.2s unlike-animation both cubic-bezier(0.45, 0.05, 0.55, 0.95);
-  }
-  
-  @-webkit-keyframes unlike-animation {
-    0% {
-      transform: scale(0);
-    }
-    15% {
-      transform: scale(1.1);
-    }
-    30% {
-      transform: scale(0.98);
-    }
-    45% {
-      transform: scale(1);
-      opacity: 1;
-    }
-    to {
-      transform: scale(1);
-      opacity: 1;
-    }
-  }
-  
-  @keyframes unlike-animation {
-    0% {
-      transform: scale(0);
-    }
-    15% {
-      transform: scale(1.1);
-    }
-    30% {
-      transform: scale(0.98);
-    }
-    45% {
-      transform: scale(1);
-      opacity: 1;
-    }
-    to {
-      transform: scale(1);
-      opacity: 1;
-    }
-  }
-  /* Pop a small animation of the background on like */
-  .liked {
-    background: var(--background-color);
-    -webkit-animation: 1.2s liked-bg-animation both;
-            animation: 1.2s liked-bg-animation both;
-  }
-  
-  @-webkit-keyframes liked-bg-animation {
-    0% {
-      transform: scale(0);
-    }
-    15% {
-      transform: scale(1.1);
-    }
-    30% {
-      transform: scale(0.95);
-    }
-    50% {
-      transform: scale(1);
-      opacity: 1;
-    }
-    to {
-      transform: scale(1);
-      opacity: 1;
-    }
-  }
-  
-  @keyframes liked-bg-animation {
-    0% {
-      transform: scale(0);
-    }
-    15% {
-      transform: scale(1.1);
-    }
-    30% {
-      transform: scale(0.95);
-    }
-    50% {
-      transform: scale(1);
-      opacity: 1;
-    }
-    to {
-      transform: scale(1);
-      opacity: 1;
-    }
-  }
-  /* Pop a more discreet animation of the background on unlike */
-  .unliked {
-    -webkit-animation: 1.2s unliked-bg-animation both;
-            animation: 1.2s unliked-bg-animation both;
-  }
-  
-  @-webkit-keyframes unliked-bg-animation {
-    0% {
-      transform: scale(0);
-    }
-    10% {
-      transform: scale(0.7);
-    }
-    30% {
-      transform: scale(0.95);
-    }
-    50% {
-      transform: scale(1);
-      opacity: 1;
-    }
-    to {
-      transform: scale(1);
-      opacity: 1;
-    }
-  }
-  
-  @keyframes unliked-bg-animation {
-    0% {
-      transform: scale(0);
-    }
-    10% {
-      transform: scale(0.7);
-    }
-    30% {
-      transform: scale(0.95);
-    }
-    50% {
-      transform: scale(1);
-      opacity: 1;
-    }
-    to {
-      transform: scale(1);
-      opacity: 1;
-    }
-  }
-  /* Pseudo el for our ring animation */
-  .like::before {
-    content: "";
-    display: block;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    border-radius: 50%;
-    border: 1px solid var(--secondary-font-color);
-    transform: scale(0);
-  }
-  
-  /* Apply animation to the ring el */
-  .liked::before {
-    -webkit-animation: 1.2s bg-ring-animation both;
-            animation: 1.2s bg-ring-animation both;
-  }
-  
-  @-webkit-keyframes bg-ring-animation {
-    0% {
-      transform: scale(0);
-      opacity: 0;
-    }
-    10% {
-      transform: scale(1.5);
-      opacity: 0.25;
-    }
-    15% {
-      transform: scale(2);
-      opacity: 0.15;
-    }
-    45% {
-      transform: scale(3.25);
-      opacity: 0;
-    }
-    to {
-      transform: scale(1);
-      opacity: 0;
-    }
-  }
-  
-  @keyframes bg-ring-animation {
-    0% {
-      transform: scale(0);
-      opacity: 0;
-    }
-    10% {
-      transform: scale(1.5);
-      opacity: 0.25;
-    }
-    15% {
-      transform: scale(2);
-      opacity: 0.15;
-    }
-    45% {
-      transform: scale(3.25);
-      opacity: 0;
-    }
-    to {
-      transform: scale(1);
-      opacity: 0;
-    }
-  }
-  .saving::after {
-    content: "";
-    box-sizing: border-box;
-    position: absolute;
-    top: 20%;
-    left: 20%;
-    width: 60%;
-    height: 60%;
-    border: 0.15em solid rgba(100, 100, 100, 0.5);
-    border-radius: 50%;
-    border-right-color: transparent;
-    border-top-color: transparent;
-    -webkit-animation: spin-animation 400ms infinite linear;
-            animation: spin-animation 400ms infinite linear;
-  }
-  
-  @-webkit-keyframes spin-animation {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  
-  @keyframes spin-animation {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }

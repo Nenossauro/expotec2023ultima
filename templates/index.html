@@ -17,8 +17,11 @@
         </div>
     </div>
     <div class="error-popup">
-        <div class="error-popup-div">
-            
+        <div class="error-popup-div" style="visibility: {{visible}};">
+            <span>{{error}}</span>
+            <div class="error-btn-div">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            </div>
         </div>
     </div>
 
@@ -54,7 +57,7 @@
                 <div class="inner-registration-div">
                     <div class="input-group-left">
                         <div class="div-input">
-                            <span>Usuário</span>
+                            <span>Nome de usuário</span>
                             <input name="txtusuario" required="" type="text">
                         </div>
                         <div class="div-input">
@@ -77,15 +80,44 @@
                     
                     <div class="input-group-right">
                         <div class="div-input">
-                            <span>País</span>
+                            <span>País onde mora</span>
                             <input name="txtpais" required="" type="text">
                         </div>
                         <div class="div-input">
-                            <span>Estado</span>
-                            <input name="txtestado" required="" type="text">
+                            <span>Estado onde mora</span>
+                            <select name="txtestado">
+                                <option>Selecione...</option>
+                                <option>Acre</option>
+                                <option>Alagoas</option>
+                                <option>Amapá</option>
+                                <option>Amazonas</option>
+                                <option>Bahia</option>
+                                <option>Ceará</option>
+                                <option>Distrito Federal</option>
+                                <option>Espírito Santo</option>
+                                <option>Goiás</option>
+                                <option>Maranhão</option>
+                                <option>Mato Grosso</option>
+                                <option>Mato Grosso do Sul</option>
+                                <option>Minas Gerais</option>
+                                <option>Pará</option>
+                                <option>Paraíba</option>
+                                <option>Paraná</option>
+                                <option>Pernambuco</option>
+                                <option>Piauí</option>
+                                <option>Rio de Janeiro</option>
+                                <option>Rio Grande do Norte</option>
+                                <option>Rio Grande do Sul</option>
+                                <option>Rondônia</option>
+                                <option>Roraima</option>
+                                <option>Santa Catarina</option>
+                                <option>São Paulo</option>
+                                <option>Sergipe</option>
+                                <option>Tocantins</option>
+                            </select>  
                         </div>
                         <div class="div-input">
-                            <span>Cidade</span>
+                            <span>Cidade onde mora</span>
                             <input name="txtcidade" required="" type="text">
                         </div>
                         <div class="div-input">
@@ -93,7 +125,7 @@
                             <input name="txtcorcabelo" required="" type="text">
                         </div>
                         <div class="div-input">
-                            <span>Calçado</span>
+                            <span>Número do calçado</span>
                             <input name="txtcalcado" required="" type="text">
                         </div>
                     </div>

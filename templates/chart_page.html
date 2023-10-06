@@ -95,7 +95,7 @@
 
         <div class="comment-wrapper-div">
             <div class="comment-title-span">
-                <span>Comentários</span>
+                <span>Comentários ({{num_comments}})</span>
             </div>
             <div class="new-comment-div">
                 
@@ -108,18 +108,18 @@
                     <input id="new-comment-btn" type="submit" name="enviar" value="Enviar">
                 </form>
             </div>
-            {%for comment in comments%}
+            <div class="outer-comment-div">
+            {% for i in range(comments|length) %}
             <div class="comment-div">
-                <div class="new-comment-div-img">
-                    <img src="{{profile_pic}}">
+                <div class="comment-div-username">
+                    <span>%{{commenters[i]}}</span>
                 </div>
                 <div class="comment-content">
-                    <span>{{comment}}</span>
+                    <span>{{ comments[i] }}</span>
                 </div>
-            
-                
             </div>
-            {%endfor%}
+            {% endfor %}
+        </div>
         </div>
     </main>
 

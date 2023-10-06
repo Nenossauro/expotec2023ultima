@@ -45,14 +45,6 @@ $(document).ready(function() {
       $('.loading-page').addClass('show')
     })
   
-    
-
-
-
-  
-
-  
-
       // USER CONFIG POP-UP IMG ONCLICK
       $('.user-img').click(function(event) {
   

@@ -117,14 +117,26 @@ def land():
     img_pic = aux_img
     session['name'] = aux_name
     session['id'] = str(aux_id)
+
+
     os.system("cls")
+
+
+
     charts_data = col_charts.find()
+    dates = []
+    comments = []
     titles = []
-    types = []
     for aux_charts in charts_data:
+        dates.append((aux_charts['title'],aux_charts['creation_date']))
+        comments.append((aux_charts['title'],aux_charts['comments']))
         titles.append(aux_charts['title'])
-        types.append(aux_charts['type'])
-    return render_template('land.html', user_name = session['user_logged'],profile_pic =  img_pic, titles = titles, types = types)
+    dates.sort(key=lambda x: x[1], reverse=True)
+    comments.sort(key=lambda x: x[1], reverse=True)
+    relevant_titles  = [pair[0] for pair in comments]
+    recent_titles = [pair[0] for pair in dates]
+
+    return render_template('land.html', user_name = session['user_logged'],profile_pic =  img_pic,relevant_titles = relevant_titles, recent_titles = recent_titles, titles = titles)
 
 @app.route('/land/<title>')
 def chart_page(title):
@@ -148,18 +160,20 @@ def chart_page(title):
     aux_author = chart_data['creator']
     aux_type = chart_data['type']
     aux_desc = chart_data['description']
+    aux_comm = chart_data['comments']
     
     comments = col_comments.find({'chart_name':title})
     comments_array = []
     commenter_array = []
-    profile_pic  = []
+    #profile_pic  = []
     #commenter_pic_array = []
     for comment in comments:
         comments_array.append(comment['comment'])
         commenter_array.append(comment['user'])
-        profile_pic.append(comment['user_pic'])
+        #profile_pic.append(comment['user_pic'])
         #commenter_pic_array.append(comment['user_pic'])
-        
+
+
 
     if aux_type=="simple":
 
@@ -189,7 +203,7 @@ def chart_page(title):
 
 
 
-        return render_template('chart_page.html',comments = comments_array,commenters = commenter_array, #comenters_pic = commenter_pic_array
+        return render_template('chart_page.html',num_comments = aux_comm, comments = comments_array,commenters = commenter_array, #comenters_pic = commenter_pic_array
                                user_name = session['user_logged'], profile_pic =  img_pic, chart_description = aux_desc, chart_tittle=title,chart_topic = aux_topic, pie_chart_json = pie_chart_json, chart_creation = aux_creation, chart_author = aux_author )
     else:
 
@@ -222,7 +236,7 @@ def chart_page(title):
             )
 
             pie_chart_json = pie_chart.to_json()
-            return render_template('chart_page.html',comments = comments_array,commenters = commenter_array, #comenters_pic = commenter_pic_array,
+            return render_template('chart_page.html',num_comments = aux_comm, comments = comments_array,commenters = commenter_array, #comenters_pic = commenter_pic_array,
                                    user_name = session['user_logged'],profile_pic =  img_pic, chart_description = aux_desc, chart_tittle=aux_title,chart_topic = desimplify_topics(aux_topic),chart_topic2 = desimplify_topics(aux_topic2), pie_chart_json = pie_chart_json, chart_creation = aux_creation, chart_author = aux_author )
         else:
             os.system("cls")
@@ -265,6 +279,7 @@ def comment():
     comment = request.form['comentario']
     url = request.form['chart_url']
     col_comments.insert_one({'comment':comment,'user':session['user_logged'],'chart_name':url})
+    col_charts.update_one({'title':url},{'$inc':{'comments':1}})
     return redirect(request.referrer)
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 @app.route('/criar-chart')
@@ -290,7 +305,7 @@ def create_chart():
 def insert_chart():
     
     chart_tittle = request.form['txttitulo']
-    chart_date = request.form['txtdata']
+    chart_date = datetime.datetime.today().strftime('%d/%m/%Y %H:%M')
     chart_description = request.form['txtdescricao']
     chart_topic1 = request.form['first-select']
     chart_topic2 = request.form['second-select']
@@ -301,10 +316,10 @@ def insert_chart():
 
 
     if chart_topic2 == "simple":
-        col_charts.insert_one({"title":chart_tittle,"creation_date":chart_date,"description":chart_description,
+        col_charts.insert_one({"title":chart_tittle,"creation_date":chart_date,"comments":0,"description":chart_description,
                           "topic1":chart_topic1,"type":"simple","creator":session['user_logged'],'creator_id':session['id']})
     else:
-        col_charts.insert_one({"title":chart_tittle,"creation_date":chart_date,"description":chart_description,
+        col_charts.insert_one({"title":chart_tittle,"creation_date":chart_date,"comments":0,"description":chart_description,
                           "topic1":chart_topic1,"topic2":chart_topic2,"subtopic2":chart_subtopic2.lower(),"topic3":chart_topic3,"subtopic3":chart_subtopic3,"type":"complex","creator":session['user_logged'],'creator_id':session['id']})
     return redirect(f'/land/{chart_tittle}')
 
@@ -353,14 +368,22 @@ def mycharts():
     img_pic = aux_img
     session['name'] = aux_name
     session['id'] = str(aux_id)
+
+
+
+
+
     mychart = col_charts.find({"creator":session['user_logged']})
     titles = []
-    types = []
     for aux_charts in mychart:
-        print(aux_charts['title'])
         titles.append(aux_charts['title'])
-        types.append(aux_charts['type'])
-    return render_template("my_charts.html", chart_title = titles, user_name=session['user_logged'],profile_pic = img_pic)
+
+    if len(titles) == 0:
+        message = "Ops amigo, parece que voce não tem charts criadas! Crie uma clicando no botão 'Criar  charts' na página inical! "
+        return render_template("my_charts.html", message = message, user_name=session['user_logged'],profile_pic = img_pic)
+
+    else:
+        return render_template("my_charts.html", chart_title = titles, user_name=session['user_logged'],profile_pic = img_pic)
 
 @app.route('/adicionar-informações')
 def add_info():
@@ -378,7 +401,12 @@ def add_info():
 
 @app.route('/inserir-info',methods=['POST',])  
 def insert_info():
-        
+
+        question_1 = "Melhor apresentação"
+        question_1_awn=request.form['turma']
+        update_user_data(session['user_logged'],question_1.lower(),question_1_awn.lower().strip(" "))
+
+
         question_1 = "Animal Favorito"
         question_1_awn=request.form['animal']
         update_user_data(session['user_logged'],question_1.lower(),question_1_awn.lower().strip(" "))
@@ -473,6 +501,18 @@ def insert_info():
 # Define route for registration form submission
 @app.route('/registrar', methods=['POST',])
 def regis():
+    # Obtain the username typed
+    new_username = request.form['txtusuario']
+    
+    # Go through all users with the same username typed
+    existing_user = col_users.find_one({"user": new_username})
+    
+    # If it founds, returns to the index with the error box
+    if existing_user:
+        error_state = "visible"
+        error_message = "Usuário já existe! Coloque outro <3"
+        return redirect(f'/?error_state={error_state}&error_message={error_message}')
+
     # Create a new user object with form data
     new_user = user_obj(
         user = request.form['txtusuario'],
@@ -522,7 +562,6 @@ def regis():
                 session['user_logged'] = aux_user
                 session['name'] = aux_name
                 session['id'] = str(aux_id)
-                return redirect('/land')
             else:
                 # If the submitted password doesn't match, redirect to the index page (login page)
                 return redirect('/')
@@ -577,3 +616,4 @@ def logout():
    session['user_logged'] = None
    return redirect('/')
 
+app.run()  
