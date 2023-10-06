@@ -329,7 +329,6 @@ main{
 	width: auto;
 	height: calc(100vh - calc(8rem + 0.5rem));
 	display: flex;
-    overflow-x: hidden
 }
 
                                     /*   I N D E X   */
@@ -1617,6 +1616,9 @@ main{
         width:inherit;
         margin: 1rem 0 5rem 0;
     }
+    .add-info-div input{
+        width: auto;
+    }
 }
 @media screen and (max-width: 460px) {
     .inner-section-div{
@@ -1627,6 +1629,7 @@ main{
         align-self: normal;
         width: 100%;
     }
+    
 }
 
 /* EDIT PROFILE */
